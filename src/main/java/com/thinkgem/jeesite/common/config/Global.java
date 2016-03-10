@@ -13,6 +13,7 @@ import com.ckfinder.connector.ServletContextFactory;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.utils.PropertiesLoader;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.Servlets;
 
 /**
  * 全局配置类
@@ -141,11 +142,14 @@ public class Global {
 			} catch (Exception e) {
 				return "";
 			}
+		}else{
+			// 添加项目名
+			dir+=Servlets.getRequest().getContextPath()+"/";
 		}
 		if(!dir.endsWith("/")) {
 			dir += "/";
 		}
-//		System.out.println("userfiles.basedir: " + dir);
+		System.out.println("userfiles.basedir: " + dir);
 		return dir;
 	}
 	

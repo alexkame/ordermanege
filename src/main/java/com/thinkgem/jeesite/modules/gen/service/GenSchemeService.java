@@ -79,6 +79,13 @@ public class GenSchemeService extends BaseService {
 		
 		// 查询主表及字段列
 		GenTable genTable = genTableDao.get(genScheme.getGenTable().getId());
+		
+		//查询是否有主表
+		if(!genTable.getParentExists()){
+			  GenTable parent=genTableDao.findByparentTable(genTable);
+			  genTable.setParent(parent);
+		}
+		
 		genTable.setColumnList(genTableColumnDao.findList(new GenTableColumn(new GenTable(genTable.getId()))));
 		
 		// 获取所有代码模板

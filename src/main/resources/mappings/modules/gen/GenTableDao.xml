@@ -67,6 +67,14 @@
 		</choose>
 	</select>
 	
+	<select id="findByparentTable" resultType="GenTable">
+		SELECT 
+			<include refid="genTableColumns"/>
+		FROM gen_table a
+		<include refid="genTableJoins"/>
+		WHERE a.name=#{parentTable} and a.del_flag = #{DEL_FLAG_NORMAL}
+	</select>
+	
 	<insert id="insert">
 		INSERT INTO gen_table(
 			id, 

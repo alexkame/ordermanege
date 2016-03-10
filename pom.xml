@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>com.thinkgem.jeesite</groupId>
-	<artifactId>jeesite</artifactId>
-	<version>1.2.6</version>
+	<artifactId>ordermanage</artifactId>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 	
-	<name>JeeSite</name>
+	<name>OrderManage</name>
 	<url>http://thinkgem.github.com/jeesite</url>
-	<inceptionYear>2012-2014</inceptionYear>
+	<inceptionYear>2016-2016</inceptionYear>
 	
 	<!-- 项目属性 -->
 	<properties>
@@ -1023,9 +1023,9 @@
 	<!-- 开发者信息 -->
 	<developers>  
 		<developer>
-			<id>thinkgem</id>
-			<name>WangZhen</name>
-			<email>thinkgem at 163.com</email>
+			<id>Janson</id>
+			<name>Janson</name>
+			<email>605233702@qq.com</email>
 			<roles><role>Project lead</role></roles>
 			<timezone>+8</timezone>
 		</developer>
