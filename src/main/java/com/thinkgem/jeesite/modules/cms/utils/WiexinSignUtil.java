@@ -7,9 +7,6 @@ import java.util.Arrays;
 import org.apache.commons.lang3.StringUtils;
 
 public class WiexinSignUtil {
-
-	// 与接口配置信息中的Token要一致  
-    private static String token = "ecjeesitecom";  
   
     /** 
      * 验证签名 
@@ -19,7 +16,7 @@ public class WiexinSignUtil {
      * @param nonce 
      * @return 
      */  
-    public static boolean checkSignature(String signature, String timestamp, String nonce) {
+    public static boolean checkSignature(String token,String signature, String timestamp, String nonce) {
     	
     	if (StringUtils.isNotBlank(signature) && StringUtils.isNotBlank(timestamp) && StringUtils.isNotBlank(nonce)){
     		

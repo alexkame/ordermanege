@@ -102,6 +102,13 @@ public class Global {
 	}
 	
 	/**
+	 * 获取前端根路径
+	 */
+	public static String getWeixinUrl() {
+		return getConfig("weixinUrl");
+	}
+	
+	/**
 	 * 是否是演示模式，演示模式下不能修改用户、角色、密码、菜单、授权
 	 */
 	public static Boolean isDemoMode() {
