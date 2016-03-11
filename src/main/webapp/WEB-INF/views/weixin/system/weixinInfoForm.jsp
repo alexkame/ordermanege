@@ -54,6 +54,16 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
+		<shiro:hasPermission name="system:weixinInfo:adminedit">
+			<div class="control-group">
+				<label class="control-label">微信Url：</label>
+				<div class="controls">
+					<form:input path="url" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
+					<span class="help-inline"><font color="red">*</font> </span>
+				</div>
+			</div>
+		</shiro:hasPermission>
+	    <input name="url" type="hidden" value="${weixinInfo.url }"/>
 		<div class="control-group">
 			<label class="control-label">微信token：</label>
 			<div class="controls">

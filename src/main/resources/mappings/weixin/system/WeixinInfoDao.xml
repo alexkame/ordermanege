@@ -94,6 +94,7 @@
 			name,
 			weixinid,
 			nickname,
+			url,
 			token,
 			appid,
 			appsecret,
@@ -110,6 +111,7 @@
 			#{name},
 			#{weixinid},
 			#{nickname},
+			#{url},
 			#{token},
 			#{appid},
 			#{appsecret},
@@ -129,6 +131,7 @@
 			name = #{name},
 			weixinid = #{weixinid},
 			nickname = #{nickname},
+			url = #{url},
 			token = #{token},
 			appid = #{appid},
 			appsecret = #{appsecret},
@@ -141,8 +144,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE weixin_info SET 
-			del_flag = #{DEL_FLAG_DELETE}
+		Delete from weixin_info  
 		WHERE id = #{id}
 	</update>
 	

@@ -39,6 +39,7 @@
 		</ul>
 	</form:form>
 	<sys:message content="${message}"/>
+	<div>微信地址：微信url+"?token="+微信token'（例如：http://127.0.0.1/ordermanage/f/weixin?token=1234）</div>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
@@ -100,6 +101,7 @@
 		</c:forEach>
 		</tbody>
 	</table>
+
 	<div class="pagination">${page}</div>
 </body>
 </html>

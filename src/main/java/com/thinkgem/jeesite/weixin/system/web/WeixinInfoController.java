@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.weixin.system.entity.WeixinInfo;
 import com.thinkgem.jeesite.weixin.system.service.WeixinInfoService;
@@ -57,6 +58,10 @@ public class WeixinInfoController extends BaseController {
 	@RequiresPermissions("system:weixinInfo:view")
 	@RequestMapping(value = "form")
 	public String form(WeixinInfo weixinInfo, Model model) {
+		if(weixinInfo.getId()==null){
+			weixinInfo.setToken(IdGen.uuid());
+			weixinInfo.setUrl(Global.getWeixinUrl());
+		}
 		model.addAttribute("weixinInfo", weixinInfo);
 		return "weixin/system/weixinInfoForm";
 	}
