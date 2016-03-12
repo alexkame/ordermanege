@@ -43,11 +43,5 @@ public class WeixinInfoService extends CrudService<WeixinInfoDao, WeixinInfo> {
 	public void delete(WeixinInfo weixinInfo) {
 		super.delete(weixinInfo);
 	}
-
-	public static boolean updateToken() {
-		System.out.println("定时更新");
-		
-		return true;
-	}
 	
 }
