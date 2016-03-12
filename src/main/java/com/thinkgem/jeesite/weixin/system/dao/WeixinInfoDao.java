@@ -14,5 +14,11 @@ import com.thinkgem.jeesite.weixin.system.entity.WeixinInfo;
  */
 @MyBatisDao
 public interface WeixinInfoDao extends CrudDao<WeixinInfo> {
+
+	/**
+	 * 更新TokenAndTicket
+	 * @param weixininfo
+	 */
+	void updateTokenAndTicket(WeixinInfo weixininfo);
 	
 }

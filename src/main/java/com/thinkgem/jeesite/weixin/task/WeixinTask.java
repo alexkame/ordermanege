@@ -1,5 +1,11 @@
 package com.thinkgem.jeesite.weixin.task;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.impl.Log4jLoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -7,40 +13,49 @@ import org.springframework.stereotype.Service;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.weixin.pojo.AccessToken;
 import com.thinkgem.jeesite.weixin.pojo.JsapiTicket;
+import com.thinkgem.jeesite.weixin.system.entity.WeixinInfo;
+import com.thinkgem.jeesite.weixin.system.service.WeixinInfoService;
 import com.thinkgem.jeesite.weixin.util.WeixinUtil;
 
 @Service
 @Lazy(false)
-public class WeixinTask{
+public class WeixinTask {
 
 	/**
-	 * 核心处理流程[定时器] 每隔2小时执行执行
-	 * 更新Token
+	 * 日志对象
 	 */
-	@Scheduled(fixedRate = 1000*60*60)
-    public void updateToken(){  
-		AccessToken accessToken = null;
-		JsapiTicket jsapiTicket = null;
+	protected Logger log = LoggerFactory.getLogger(getClass());
+
+	@Autowired
+	private WeixinInfoService weixinInfoService;
+
+	/**
+	 * 核心处理流程[定时器] 每隔2小时执行执行 更新Token
+	 */
+	@Scheduled(fixedRate = 1000 * 60 * 60)
+	public void updateToken() {
 		
-		accessToken = WeixinUtil.getAccessToken(weixininfo.getAppid(),
-				weixininfo.getAppsecret());
-		jsapiTicket = WeixinUtil.getJsapiTicket(accessToken);
-		if (null != accessToken) {
-			log.info(weixininfo.getWeixinId()
-					+ " 获取access_token成功，有效时长{}秒 token:{}",
-					accessToken.getExpiresIn(), accessToken.getToken());
-			log.info(weixininfo.getWeixinId()
-					+ " 获取jsapiTicket成功，有效时长{}秒 Ticket:{}",
-					jsapiTicket.getExpiresIn(), jsapiTicket.getTicket());
-			weixininfo.setAccessToken(accessToken.getToken());
-			weixininfo.setJsapiTicket(jsapiTicket.getTicket());
-			weixininfoService.update(weixininfo);
-			// 休眠7000秒
-			Thread.sleep((accessToken.getExpiresIn() - 200) * 1000);
-		} else {
-			// 如果access_token为null，60秒后再获取
-			Thread.sleep(60 * 1000);
+		/**
+		 * 查询微信信息列表
+		 */
+		List<WeixinInfo> weixininfoList = weixinInfoService.findList(new WeixinInfo());
+
+		/**
+		 * 遍历
+		 */
+		for (WeixinInfo weixininfo : weixininfoList) {
+			AccessToken accessToken = WeixinUtil.getAccessToken(weixininfo.getAppid(), weixininfo.getAppsecret());
+			JsapiTicket jsapiTicket = WeixinUtil.getJsapiTicket(accessToken);
+			if (null != accessToken) {
+				log.info(weixininfo.getWeixinid() + " 获取access_token成功，有效时长{}秒 token:{}", accessToken.getExpiresIn(),
+						accessToken.getToken());
+				log.info(weixininfo.getWeixinid() + " 获取jsapiTicket成功，有效时长{}秒 Ticket:{}", jsapiTicket.getExpiresIn(),
+						jsapiTicket.getTicket());
+				weixininfo.setAccesstoken(accessToken.getToken());
+				weixininfo.setJsapiticket(jsapiTicket.getTicket());
+				weixinInfoService.updateTokenAndTicket(weixininfo);
+			}
 		}
-    }
-   
+	}
+
 }

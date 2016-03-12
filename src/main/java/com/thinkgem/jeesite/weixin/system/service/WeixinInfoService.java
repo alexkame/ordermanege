@@ -44,4 +44,9 @@ public class WeixinInfoService extends CrudService<WeixinInfoDao, WeixinInfo> {
 		super.delete(weixinInfo);
 	}
 	
+	@Transactional(readOnly = false)
+	public void updateTokenAndTicket(WeixinInfo weixininfo) {
+		dao.updateTokenAndTicket(weixininfo);
+	}
+	
 }

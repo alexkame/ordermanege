@@ -12,8 +12,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
-import org.activiti.engine.impl.util.json.JSONException;
-import org.activiti.engine.impl.util.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +20,9 @@ import com.thinkgem.jeesite.weixin.message.resp.NewsItemCount;
 import com.thinkgem.jeesite.weixin.pojo.AccessToken;
 import com.thinkgem.jeesite.weixin.pojo.JsapiTicket;
 import com.thinkgem.jeesite.weixin.pojo.MyX509TrustManager;
+
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 
 /**
  * 公众平台通用接口工具类

@@ -143,6 +143,13 @@
 		WHERE id = #{id}
 	</update>
 	
+	<update id="updateTokenAndTicket">
+		UPDATE weixin_info SET 	
+			accesstoken = #{accesstoken},
+			jsapiticket = #{jsapiticket}
+		WHERE id = #{id}
+	</update>
+	
 	<update id="delete">
 		Delete from weixin_info  
 		WHERE id = #{id}
