@@ -26,6 +26,13 @@
     <example>${fns:getFrontPath()}</example>
   </function>
   <function>
+    <description>获取微信前端路径</description>
+    <name>getWeixinPath</name>
+    <function-class>com.thinkgem.jeesite.common.config.Global</function-class>
+    <function-signature>java.lang.String getWeixinPath()</function-signature>
+    <example>${fns:getWeixinPath()}</example>
+  </function>
+  <function>
     <description>获取网站URL后缀</description>
     <name>getUrlSuffix</name>
     <function-class>com.thinkgem.jeesite.common.config.Global</function-class>

@@ -1,0 +1,19 @@
+<ion-modal-view>
+    <ion-header-bar class="positive-bg ">
+        <h2 class="title">发货确定</h2>
+        <button side="right" class="button button-clear" ng-click="closeDeliver()">关闭</button>
+    </ion-header-bar>
+    <ion-content>
+        <form name="myForm" ng-submit="addDeliver()">
+        <div class="list">
+            <label class="item item-input">
+                <span class="input-label">发货时间</span>
+                <input name="deliverDate" ng-model="deliver.deliverDate" ng-value="deliver.deliverDate" type="datetime-local" required >
+            </label>
+        </div>
+        <br>
+        <button class="button button-positive button-full " ng-disabled="myForm.$invalid" >发货</button>
+        </form>
+    </ion-content>
+
+</ion-modal-view>

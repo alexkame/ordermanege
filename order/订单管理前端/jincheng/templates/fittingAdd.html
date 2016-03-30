@@ -1,0 +1,29 @@
+<ion-modal-view>
+    <ion-header-bar class="positive-bg ">
+        <h2 class="title">新增配件</h2>
+        <button side="right" class="button button-clear" ng-click="closeFitting()">关闭</button>
+    </ion-header-bar>
+    <ion-content>
+        <form name="myForm" ng-submit="addFitting()">
+            <ion-list>
+                <ion-item class="item item-thumbnail-left item-icon-right " ng-click="">
+                    <img src="cover.jpg" >
+                    <p2></p2>
+                    <i class="icon ion-ios-arrow-right"></i>
+                </ion-item>
+                <ion-item class="item-input">
+                    <span class="input-label">配件名称</span>
+                    <input type="text"  ng-model="Fitting.name" required  placeholder="请输入配件名称">
+                </ion-item>
+                <ion-item class="item-input">
+                    <span class="input-label">规格</span>
+                    <input type="text" ng-model="Fitting.spec"  placeholder="请输入规格">
+                </ion-item>
+
+            </ion-list>
+        <br>
+        <button class="button button-positive button-full radius" ng-disabled="myForm.$invalid" >确定</button>
+        </form>
+    </ion-content>
+
+</ion-modal-view>

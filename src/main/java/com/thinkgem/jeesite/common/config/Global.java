@@ -95,6 +95,13 @@ public class Global {
 	}
 	
 	/**
+	 * 获取微信前端根路径
+	 */
+	public static String getWeixinPath() {
+		return getConfig("weixinPath");
+	}
+	
+	/**
 	 * 获取URL后缀
 	 */
 	public static String getUrlSuffix() {

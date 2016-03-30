@@ -1,0 +1,25 @@
+[
+  {
+    "id":1,
+    "name":"正脊瓦",
+    "num":"1",
+    "spec":"宽1050cm限长960cm",
+    "img":"img/a.jpg"
+  },
+  {
+    "id":2,
+    "name":"正脊瓦封头",
+    "num":"3",
+    "spec":"长300mm宽90mm高90cm",
+    "img":"img/b.jpg"
+  },
+  {
+    "id":3,
+    "name":"三通",
+    "num":"4",
+    "spec":"300*240*240mm",
+    "img":"img/c.jpg"
+  }
+
+
+]

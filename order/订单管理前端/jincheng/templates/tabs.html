@@ -1,0 +1,51 @@
+<!--
+Create tabs with an icon and label, using the tabs-positive style.
+Each tab's child <ion-nav-view> directive will have its own
+navigation history that also transitions its views in and out.
+-->
+
+<ion-view view-title="订单管理">
+    <ion-side-menus enable-menu-with-back-views="true">
+        <ion-side-menu-content>
+            <ion-nav-bar class="bar-positive" >
+                <ion-nav-buttons side="left">
+                    <button menu-toggle="left" class="button button-clear icon ion-navicon" ng-click="leftMenu()"></button>
+                </ion-nav-buttons>
+                <ion-nav-title class="title">订单管理</ion-nav-title>
+                <ion-nav-buttons side="right">
+                    <button class="button  button-clear icon ion-plus" ng-click="add()"></button>
+                </ion-nav-buttons>
+            </ion-nav-bar>
+            <ion-content  class="has-header" >
+                <ion-list>
+                    <ion-item class="item-remove-animate item-icon-right" ng-repeat="orderdata in data" type="item-text-wrap" href="#/orderDetail/{{orderdata.id}}">
+
+                        <h2>{{orderdata.date}}</h2>
+                        <p>{{orderdata.state}}</p>
+                        <i class="icon ion-chevron-right icon-accessory"></i>
+
+                        <ion-option-button class="button-assertive" ng-click="remove(order)">
+                            删除
+                        </ion-option-button>
+                    </ion-item>
+                </ion-list>
+            </ion-content>
+        </ion-side-menu-content>
+        <ion-side-menu side="left" class="stable-bg" width="200">
+            <ion-list>
+                <ion-item class=" item-icon-left " href="#/myInfo/1">
+                    <i class="icon ion-person"></i>
+                    我的信息
+                </ion-item>
+                <ion-item class="item-icon-left "  href="#/adminLogin">
+                    <i class="icon ion-android-lock"></i>
+                    管理员入口
+                </ion-item>
+            </ion-list>
+        </ion-side-menu>
+    </ion-side-menus>
+
+</ion-view>
+
+
+

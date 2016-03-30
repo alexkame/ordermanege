@@ -1,0 +1,27 @@
+<ion-modal-view>
+    <ion-header-bar class="positive-bg ">
+        <h2 class="title">新增员工</h2>
+        <button side="right" class="button button-clear" ng-click="closeEmploy()">关闭</button>
+    </ion-header-bar>
+    <ion-content>
+        <form name="myForm" ng-submit="addEmploy()">
+            <ion-list>
+                <ion-item class="item-input">
+                    <span class="input-label">账号</span>
+                    <input type="text"  ng-model="employ.userID" required  placeholder="请输入账号">
+                </ion-item>
+                <ion-item class="item-input">
+                    <span class="input-label">密码</span>
+                    <input type="text" ng-model="employ.password" required minlength="6" placeholder="密码必须大于6位数">
+                </ion-item>
+                <ion-item class="item-input">
+                    <span class="input-label">姓名</span>
+                    <input type="text"  ng-model="employ.name" ng-required="true"  placeholder="请输入姓名">
+                </ion-item>
+            </ion-list>
+        <br>
+        <button class="button button-positive button-full radius" ng-disabled="myForm.$invalid" >确定</button>
+        </form>
+    </ion-content>
+
+</ion-modal-view>

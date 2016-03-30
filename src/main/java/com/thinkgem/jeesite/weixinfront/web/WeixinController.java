@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.thinkgem.jeesite.modules.cms.web.front;
+package com.thinkgem.jeesite.weixinfront.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,7 +26,7 @@ import com.thinkgem.jeesite.weixin.service.WeixinService;
  * @version 2014-02-28
  */
 @Controller
-@RequestMapping(value = "${frontPath}/weixin")
+@RequestMapping(value = "${weixinPath}/weixin")
 public class WeixinController extends BaseController {
 
 	@Resource

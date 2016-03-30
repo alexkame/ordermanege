@@ -1,0 +1,34 @@
+[
+  {
+    "id":1,
+    "orderNo":"D201601030002",
+    "date":"2015-01-02 12:23",
+    "state":"发货中",
+    "customer":"林小凤",
+    "items":[
+      {"itemID":1,"itemPitch":6,"itemPlate":5,"itemColor":"a","itemTH":1},
+      {"itemID":2,"itemPitch":10,"itemPlate":9,"itemColor":"b","itemTH":1}
+    ],
+    "fits":[
+      {"id":1,"fitID":1,"name":"正脊瓦","num":"3","spec":"宽1050mm*限长960mm","imgUrl":"img/a.jpg"},
+      {"id":2,"fitID":1,"name":"正脊瓦封头","num":"1","spec":"长300mm宽90mm高220mm","imgUrl":"img/a.jpg"}
+    ]
+  },
+  {
+    "id":3,
+    "orderNo":"D201601030004",
+    "date":"2015-02-02 15:22",
+    "state":"发货中",
+    "customer":"钟军",
+    "phone":"1359999999",
+    "DeliverDate":"2015-02-05 21:11",
+    "items":[
+      {"itemID":1,"itemPitch":6,"itemPlate":5,"itemColor":"c","itemTH":2},
+      {"itemID":2,"itemPitch":10,"itemPlate":9,"itemColor":"d","itemTH":1}
+    ],
+    "fits":[
+      {"id":1,"fitID":1,"name":"正脊瓦","num":"3","spec":"宽1050mm*限长960mm","imgUrl":"img/a.jpg"},
+      {"id":2,"fitID":1,"name":"正脊瓦封头","num":"1","spec":"长300mm宽90mm高220mm","imgUrl":"img/a.jpg"}
+    ]
+  }
+]

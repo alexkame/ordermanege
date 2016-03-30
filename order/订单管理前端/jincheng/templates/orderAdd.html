@@ -1,0 +1,49 @@
+<ion-view view-title="新增订单">
+
+    <ion-nav-bar class="bar-positive" >
+        <ion-nav-back-button >
+            <i class="ion-arrow-left-c"></i> Back
+        </ion-nav-back-button>
+        <ion-nav-buttons side="left" >
+            <button class="button button-clear icon ion-chevron-left" ng-click="orderPage()"></button>
+        </ion-nav-buttons>
+
+    </ion-nav-bar>
+    <ion-content class="has-header">
+
+        <div class="button-bar">
+            <a class="button button-calm" ng-click="showItem()">新增瓦片</a>
+            <a class="button button-calm" ng-click="showFitting()">新增配件</a>
+        </div>
+        <p>感谢您订购金诚树脂瓦：</p>
+        <ion-list>
+            <ion-item class=" item-divider">瓦片</ion-item>
+        </ion-list>
+        <ion-list>
+            <ion-item class="item-avatar-left" ng-repeat="item in items" href="#">
+                <img src={{"img/"+item.nColor+".jpg"}} >
+                <h2>{{item.nPitch+"节"+item.nPlate+"片"}}
+                    <span class="item-note">{{(item.nPitch*0.219).toFixed(3)}}米</span>
+                </h2>
+                <p>  <span ng-if=item.nTH==1>2.5mm</span>
+                     <span ng-if=item.nTH==2>3.0mm</span>
+                    <span class="item-note">{{(item.nPitch*0.219*item.nPlate*1.05).toFixed(3)}}平方米</span>
+                </p>
+            </ion-item>
+        </ion-list>
+
+        <ion-list>
+            <ion-item class=" item-divider">配件</ion-item>
+        </ion-list>
+        <ion-list>
+            <ion-item class="item-avatar-left" ng-repeat="fit in fits" href="#">
+                <img src={{fit.myFit.img}} >
+                <h2>{{fit.myFit.name}}
+                    <span class="item-note">{{fit.nNum}}</span>
+                </h2>
+                <p class="">{{fit.myFit.spec}}</p>
+            </ion-item>
+        </ion-list>
+        <button class="button button-full button-positive" ng-click="addOrder()">提交订单</button>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,64 @@
+<ion-modal-view>
+    <ion-header-bar class="title positive-bg light">
+        <h2 class="title " style="color:white" >新增瓦片</h2>
+        <button side="right" class="button button-clear button-light" ng-click="closeItem()">关闭</button>
+    </ion-header-bar>
+    <ion-content>
+        <form name="myForm" ng-submit="addItem()">
+        <div class="list">
+
+            <div ng-attr-id="aaa" class="item item-divider">颜色 <span class="alert assertive" ng-show="myColor.show">请选择颜色！</span></div>
+
+                <ion-radio class=" text-right" ng-model="itemdata.nColor" ng-change="change('color')" ng-value="'a'" >
+                    <img src="img/a.jpg" height="50px" width="50px" align="left">
+                    <div >深灰</div>
+                </ion-radio>
+                <ion-radio class="text-right" ng-model="itemdata.nColor" ng-change="change('color')" ng-value="'b'" >
+                    <img src="img/b.jpg" height="50px" width="50px" align="left">
+                    <div >枣红</div>
+                </ion-radio>
+                <ion-radio class="text-right" ng-model="itemdata.nColor" ng-change="change('color')" ng-value="'c'" >
+                    <img src="img/c.jpg" height="50px" width="50px" align="left">
+                    <div >砖红</div>
+                </ion-radio>
+                <ion-radio class="text-right" ng-model="itemdata.nColor" ng-change="change('color')" ng-value="'d'" >
+                    <img src="img/d.jpg" height="50px" width="50px" align="left">
+                    <div >蓝色</div>
+                </ion-radio>
+
+            <label ng-attr-id="bbb" class="item item-divider">厚度<span class="alert assertive" ng-show="myFH.show">请选择厚度！</span></label>
+            <ion-list >
+                <ion-radio ng-model="itemdata.nTH" name="nTH" ng-change="change('fh')" ng-value="'1'" >
+                    <a align="left">2.5毫米</a>
+                </ion-radio>
+                <ion-radio ng-model="itemdata.nTH" name="nTH" ng-change="change('fh')" ng-value="'2'" >
+                    <a align="left">3.0毫米</a>
+                </ion-radio>
+
+            </ion-list>
+
+            <label class="item item-divider">数量</label>
+            <label class="item item-input">
+                <span class="input-label">节数</span>
+                <input ng-model="itemdata.nPitch" type="number" ng-required="true" ng-value="0" placeholder="请输入1－46节">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">片数</span>
+                <input ng-model="itemdata.nPlate" type="number" ng-required="true" ng-value="0" placeholder="请输入片数">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">每片长度（米）</span>
+                <input type="text"  value={{(itemdata.nPitch*0.219).toFixed(3)}} >
+            </label>
+            <label class="item item-input">
+                <span class="input-label">总平方数（平方）</span>
+                <input type="text"  value={{(itemdata.nPitch*itemdata.nPlate*0.219*1.05).toFixed(3)}}>
+            </label>
+        </div>
+        <br>
+
+        <button class="button button-positive button-full" ng-disabled="myForm.$invalid">确定</button>
+        </form>
+    </ion-content>
+
+</ion-modal-view>
