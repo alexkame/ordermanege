@@ -1,0 +1,20 @@
+<ion-modal-view>
+    <ion-header-bar class="positive-bg ">
+        <h2 class="title">作废确定</h2>
+        <button side="right" class="button button-clear" ng-click="closeCancel()">关闭</button>
+    </ion-header-bar>
+    <ion-content>
+        <form name="myForm" ng-submit="cancelOrder()">
+            <div class="assertive" >确定作废订单吗，订单作废后，会通过微信通知客户！</div>
+        <div class="list">
+            <label class="item item-input">
+                <span class="input-label">作废原因</span>
+                <input name="cancelReason" ng-model="cancelObj.cancelReason" ng-value="cancelObj.cancelReason" type="text" required >
+            </label>
+        </div>
+        <br>
+        <button class="button button-assertive button-full " ng-disabled="myForm.$invalid" >作废订单</button>
+        </form>
+    </ion-content>
+
+</ion-modal-view>

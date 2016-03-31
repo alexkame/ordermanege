@@ -1,0 +1,34 @@
+[
+  {
+    "id":1,
+    "userID":"admin",
+    "name":"管理员",
+    "phone":"13590038400",
+    "password":"2231232"
+  },
+  {
+    "id":2,
+    "userID":"lincx",
+    "name":"林成贤",
+    "phone":"13590000099",
+    "password":"2231232"
+  },
+
+  {
+    "id":3,
+    "userID":"linxp",
+    "name":"林小朋",
+    "phone":"13986472020",
+    "password":"2231232"
+  },
+
+  {
+    "id":4,
+    "userID":"chengsm",
+    "name":"陈思明",
+    "phone":"13590038400",
+    "password":"2231232"
+  }
+
+
+]

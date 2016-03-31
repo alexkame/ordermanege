@@ -1,0 +1,38 @@
+<ion-view view-title="客户信息">
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-back-button >
+            <div class="button button-clear ion-chevron-left"></div> 返回
+        </ion-nav-back-button>
+        <ion-nav-buttons side="right">
+            <button class="button button-clear " ng-click="save()">保存</button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content class="has-header">
+        <ion-list>
+            <ion-item class="item-input">
+                <span class="input-label">姓名</span>
+                <input type="text"  ng-model="myInfo.name" ng-required="true"  placeholder="请输入姓名">
+            </ion-item>
+            <!---这里为隐藏提示--->
+            <ion-item class="item-input" ng-show="myValid.name">
+                <span class="input-label"></span>
+                <div class="error assertive" ng-show="myValid.name">姓名不能为空</div>
+            </ion-item>
+
+            <ion-item class="item-input">
+                <span class="input-label">电话</span>
+                <input type="text" ng-model="myInfo.phone" ng-required="true" placeholder="请输入电话">
+            </ion-item>
+            <!---这里为隐藏提示--->
+            <ion-item class="item-input" ng-show="myValid.phone">
+                <span class="input-label"></span>
+                <div class="error assertive" ng-show="myValid.phone">电话不能为空</div>
+            </ion-item>
+
+            <ion-item class="item-input">
+                <span class="input-label">地址</span>
+                <input type="text" ng-model="myInfo.addr" placeholder="请输入地址">
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

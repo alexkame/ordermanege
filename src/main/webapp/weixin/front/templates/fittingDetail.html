@@ -1,0 +1,29 @@
+<ion-view view-title="员工信息">
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-back-button >
+            <div class="button button-clear ion-chevron-left"></div> 返回
+        </ion-nav-back-button>
+        <ion-nav-buttons side="right">
+            <button class="button button-clear " ng-click="saveFitting()">保存</button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content class="has-header">
+        <ion-list>
+            <ion-item class="item item-thumbnail-left item-icon-right " ng-click="">
+                <img src="cover.jpg" >
+                <span class="input-label">图片</span>
+                <i class="icon ion-ios-arrow-right"></i>
+
+            </ion-item>
+            <ion-item class="item-input">
+                <span class="input-label">配件名称</span>
+                <input type="text"  ng-model="Fitting.name" required  placeholder="请输入配件名称">
+            </ion-item>
+            <ion-item class="item-input">
+                <span class="input-label">规格</span>
+                <input type="text" ng-model="Fitting.spec"  placeholder="请输入规格">
+            </ion-item>
+
+        </ion-list>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,58 @@
+<ion-view view-title="订单明细">
+
+    <ion-nav-bar class="bar-positive" >
+        <ion-nav-back-button >
+            <div class="button button-clear ion-chevron-left"></div> 返回
+        </ion-nav-back-button>
+
+
+    </ion-nav-bar>
+    <ion-content class="content has-header">
+
+        <ul>
+            <li ng-repeat="detailData in detail | filter:{id:3}">
+                <ion-item class="item item-input">
+                    <span class="input-label">订单号</span>
+                    <input  type="text" ng-value="0" readonly="readonly" value= {{detailData.orderNo}}>
+                </ion-item>
+                <ion-item class="item item-input">
+                    <span class="input-label">订单日期</span>
+                    <input  type="text" ng-value="0" readonly="readonly" value= {{detailData.date}}>
+                </ion-item>
+                <ion-item class="item item-input">
+                    <span class="input-label">下单人</span>
+                    <input  type="text" ng-value="0" readonly="readonly" value= {{detailData.customer}}>
+                </ion-item>
+                <ion-item class="item item-input">
+                    <span class="input-label">当前状态</span>
+                    <input  type="text" ng-value="0" readonly="readonly" value= {{detailData.state}}>
+                </ion-item>
+                <ion-item class="item item-divider">瓦片</ion-item>
+                <ion-item class="item item-avatar-left" ng-repeat=" item in detailData.items">
+                    <img src={{"img/"+item.itemColor+".jpg"}} >
+                    <h2>{{item.itemPitch+"节"+item.itemPlate+"片"}}
+                        <span class="item-note">{{(item.itemPitch*0.219).toFixed(3)}}米</span>
+                    </h2>
+                    <p>  <span ng-if=item.nTH==1>2.5mm</span>
+                        <span ng-if=item.nTH==2>3.0mm</span>
+                        <span class="item-note">{{(item.itemPitch*0.219*item.itemPlate*1.05).toFixed(3)}}平方米</span>
+                    </p>
+                    {{ item.itemPitch}}
+                </ion-item>
+                <ion-item class=" item-divider">配件</ion-item>
+                <ion-item class="item-avatar-left" ng-repeat="fit in detailData.fits" href="#">
+                    <img src={{fit.imgUrl}} >
+                    <h2>{{fit.name}}
+                        <span class="item-note">{{fit.num}}</span>
+                    </h2>
+                    <p class="">{{fit.spec}}</p>
+                </ion-item>
+            </li>
+        </ul>
+        <br>
+        <div class="button-bar">
+            <button class="button button-positive " ng-click="showDeliver()">发货</button>
+            <button class="button button-assertive "  ng-click="-showCancel()">作废</button>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,78 @@
+<ion-view view-title="已完成订单">
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-back-button >
+            <div class="button button-clear ion-chevron-left"></div> 返回
+        </ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-content class="has-header">
+        <div class="button-bar ">
+            <button class="button button-stable {{button1Color_bg}}"  ng-click="showDetail(true)">订单明细</button>
+            <button class="button button-stable {{button2Color_bg}}"  ng-click="showDetail(false)">订单汇总</button>
+        </div>
+        <!------list1区域------>
+        <ion-list name="list1" ng-show="showList.list1">
+            <div class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" ng-model="search" placeholder="搜索姓名或手机号">
+            </div>
+
+            <ion-item class="item-remove-animate item-icon-right" ng-repeat="orderdata in doneOrderD | filter:search | orderBy:customer" type="item-text-wrap" href="#/orderDetail/{{orderdata.id}}">
+
+                {{orderdata.customer}}
+                <span class="item-note">{{orderdata.date}}</span>
+                <div ng-hide="true">{{orderdata.phone}}</div>
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </ion-item>
+        </ion-list>
+        <!------list2区域------>
+        <ion-list name="list2" ng-show="showList.list2">
+            <div class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" ng-model="search2" placeholder="搜索">
+            </div>
+            <div class="button-bar ">
+                <button class="button button-stable {{select1Color_bg}}"  ng-click="selectResult(1)">今天</button>
+                <button class="button button-stable {{select2Color_bg}}"  ng-click="selectResult(2)">本周</button>
+                <button class="button button-stable {{select3Color_bg}}"  ng-click="selectResult(3)">本月</button>
+                <button class="button button-stable {{select4Color_bg}}"  ng-click="selectDate()">自定义</button>
+            </div>
+
+
+            <p ng-show="showDate.tipShow"> 查询范围：{{selectDate.bDate | date:"yyyy年MM月dd"}}  到  {{selectDate.eDate | date:"yyyy年MM月dd"}}</p>
+            <div class="list" ng-show="showDate.selectShow">
+                <ion-item class="item item-input">
+                    <label class="input-label">开始日期 </label>
+                    <input ng-model="selectDate.bDate" ng-value="selectDate.bDate" type="date" placeholder="开始日期">
+                </ion-item>
+                <ion-item class="item item-input">
+                    <label class="input-label">结束日期 </label>
+                    <input ng-model="selectDate.eDate" ng-value="selectDate.eDate" type="date" >
+                </ion-item>
+            </div>
+            <button class="button  button-full" ng-show="showDate.selectShow" ng-click="selectResult(4)">确定</button>
+
+            <!------内容区域------>
+            <ion-item class="item item-divider">瓦片</ion-item>
+            <ion-item class="item-avatar-left" ng-repeat="item in doneOrderItemTotal | filter:search2 " type="item-text-wrap" href="#">
+                <img src={{"img/"+item.itemColor+".jpg"}} >
+                <h2>{{item.itemPitch+"节"+item.itemPlate+"片"}}
+                    <span class="item-note">{{(item.itemPitch*0.219).toFixed(3)}}米</span>
+                </h2>
+                <p>  <span ng-if=item.itemTH==1>2.5mm</span>
+                    <span ng-if=item.itemTH==2>3.0mm</span>
+                    <span class="item-note">{{(item.itemPitch*0.219*item.itemPlate*1.05).toFixed(3)}}平方米</span>
+                </p>
+            </ion-item>
+
+            <ion-item class="item item-divider">配件</ion-item>
+            <ion-item class="item-avatar-left" ng-repeat="fit in doneOrderFitTotal | filter:search2" type="item-text-wrap" href="#">
+                <img src={{fit.imgUrl}} >
+                <h2>{{fit.name}}
+                    <span class="item-note">{{fit.num}}</span>
+                </h2>
+                <p class="">{{fit.spec}}</p>
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+</ion-view>

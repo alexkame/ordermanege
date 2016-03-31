@@ -1,0 +1,25 @@
+<ion-view view-title="管理员入口">
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-buttons side="left">
+            <button class="button button-clear icon ion-chevron-left" ng-click="home()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content class="has-header">
+        <form name="myForm" ng-submit="login()">
+        <ion-list>
+            <ion-item class="item-input">
+                <span class="input-label">姓名</span>
+                <input type="text" ng-model="mylogin.name" ng-required="true"  placeholder="请输入姓名">
+            </ion-item>
+
+            <ion-item class="item-input">
+                <span class="input-label">密码</span>
+                <input type="text" name="password" ng-model="mylogin.password" required ng-minlength="6"  placeholder="请输入密码">
+            </ion-item>
+            <div class="error" ng-show="myForm.password.$error.minlength">密码不能小于6位</div>
+        </ion-list>
+        <br>
+        <button class="button button-positive button-full" ng-disabled="myForm.$invalid">登录</button>
+        </form>
+    </ion-content>
+</ion-view>
