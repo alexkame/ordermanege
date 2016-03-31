@@ -55,6 +55,12 @@ public abstract class BaseController {
 	protected String frontPath;
 	
 	/**
+	 * 微信前端基础路径
+	 */
+	@Value("${weixinPath}")
+	protected String weixinPath;
+	
+	/**
 	 * 前端URL后缀
 	 */
 	@Value("${urlSuffix}")

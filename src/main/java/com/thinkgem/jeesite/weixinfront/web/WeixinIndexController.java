@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.weixinfront.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.ProcessBuilder.Redirect;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +37,7 @@ public class WeixinIndexController extends BaseController {
 	@RequestMapping(value = "index")
 	public String index(HttpServletRequest request) {
 		
-
-		return "weixin/front/index";
+		return "redirect:/weixin/front/index.html";
 	}
 
 
