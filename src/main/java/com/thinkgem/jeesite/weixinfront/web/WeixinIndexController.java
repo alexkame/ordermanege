@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.cms.utils.WiexinSignUtil;
 import com.thinkgem.jeesite.weixin.service.WeixinService;
@@ -31,13 +32,20 @@ public class WeixinIndexController extends BaseController {
 
 	/**
 	 * 微信首页
-	 * @param request
-	 * @return
 	 */
 	@RequestMapping(value = "index")
 	public String index(HttpServletRequest request) {
 		
 		return "redirect:/weixin/front/index.html";
+	}
+	
+	/**
+	 * 微信授权
+	 */
+	@RequestMapping(value = "oAuth")
+	public String oAuth(HttpServletRequest request) {
+		
+		return "redirect:/"+Global.getWeixinPath()+"/weixinIndex/index";
 	}
 
 

@@ -10,13 +10,15 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thinkgem.jeesite.common.service.BaseService;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.common.utils.UserAgentUtils;
+import com.thinkgem.jeesite.common.utils.SpringContextHolder;
+import com.thinkgem.jeesite.weixin.system.entity.WeixinInfo;
+import com.thinkgem.jeesite.weixin.system.service.WeixinInfoService;
+import com.thinkgem.jeesite.weixinfront.entity.WeixinUserInfo;
 
 /**
- * 手机端视图拦截器
- * @author ThinkGem
- * @version 2014-9-1
+ * 微信拦截器
+ * @author yaominginfo
+ *
  */
 public class WeixinInterceptor extends BaseService implements HandlerInterceptor {
 	
@@ -32,12 +34,22 @@ public class WeixinInterceptor extends BaseService implements HandlerInterceptor
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, 
 			ModelAndView modelAndView) throws Exception {
 		
-//		if (modelAndView != null){
-//			// 如果是手机或平板访问的话，则跳转到手机视图页面。
-//			if(UserAgentUtils.isMobileOrTablet(request) && !StringUtils.startsWithIgnoreCase(modelAndView.getViewName(), "redirect:")){
-//				modelAndView.setViewName("mobile/" + modelAndView.getViewName());
-//			}
-//		}
+		System.out.println("微信地址拦截modelAndView");
+		
+		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
+		if(weixinUserInfo==null){
+			
+			WeixinInfoService weixinInfoService= SpringContextHolder.getBean(WeixinInfoService.class);
+			WeixinInfo weixinInfo= weixinInfoService.findList(new WeixinInfo()).get(0);
+			String urlbegin = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
+					+ weixinInfo.getAppid()
+					+ "&redirect_uri="
+					+ "http://120.24.179.160/ordermanage";
+			String urlend = "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+			
+			
+			modelAndView.setViewName("redirect:http://www.baidu.com");
+		}
 	}
 
 	@Override
