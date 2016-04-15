@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.SpringContextHolder;
 import com.thinkgem.jeesite.weixin.system.entity.WeixinInfo;
@@ -25,7 +26,6 @@ public class WeixinInterceptor extends BaseService implements HandlerInterceptor
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, 
 			Object handler) throws Exception {
-		System.out.println("微信地址拦截");
 		
 		return true;
 	}
@@ -44,11 +44,11 @@ public class WeixinInterceptor extends BaseService implements HandlerInterceptor
 			String urlbegin = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
 					+ weixinInfo.getAppid()
 					+ "&redirect_uri="
-					+ "http://120.24.179.160/ordermanage";
+					+ Global.getSystemUrl();
+			String urlcontent=Global.getWeixinPath()+"/weixinIndex/oAuth";
 			String urlend = "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-			
-			
-			modelAndView.setViewName("redirect:http://www.baidu.com");
+			System.out.println(urlbegin+urlcontent+urlend);
+			modelAndView.setViewName("redirect:"+urlbegin+urlcontent+urlend);
 		}
 	}
 

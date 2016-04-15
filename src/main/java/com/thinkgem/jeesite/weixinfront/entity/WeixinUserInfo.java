@@ -1,9 +1,11 @@
 package com.thinkgem.jeesite.weixinfront.entity;
 
+import java.io.Serializable;
+
 /**
  * 微信用户的基本信息
  */
-public class WeixinUserInfo {
+public class WeixinUserInfo implements Serializable{
 	// 用户的标识
 	private String openId;
 	// 关注状态（1是关注，0是未关注），未关注时获取不到其余信息

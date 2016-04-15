@@ -16,12 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.thinkgem.jeesite.weixin.menu.pojo.Menu;
-import com.thinkgem.jeesite.weixin.message.resp.NewsItemCount;
-import com.thinkgem.jeesite.weixin.pojo.AccessToken;
-import com.thinkgem.jeesite.weixin.pojo.JsapiTicket;
 import com.thinkgem.jeesite.weixin.pojo.MyX509TrustManager;
 
-import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 /**
@@ -34,7 +30,6 @@ public class WeixinUtil {
 
 	private static Logger log = LoggerFactory.getLogger(WeixinUtil.class);
 
-
 	/**
 	 * 发起https请求并获取结果
 	 * 
@@ -46,8 +41,7 @@ public class WeixinUtil {
 	 *            提交的数据
 	 * @return JSONObject(通过JSONObject.get(key)的方式获取json对象的属性值)
 	 */
-	public static JSONObject httpRequest(String requestUrl,
-			String requestMethod, String outputStr) {
+	public static JSONObject httpRequest(String requestUrl, String requestMethod, String outputStr) {
 		JSONObject jsonObject = null;
 		StringBuffer buffer = new StringBuffer();
 		try {
@@ -59,8 +53,7 @@ public class WeixinUtil {
 			SSLSocketFactory ssf = sslContext.getSocketFactory();
 
 			URL url = new URL(requestUrl);
-			HttpsURLConnection httpUrlConn = (HttpsURLConnection) url
-					.openConnection();
+			HttpsURLConnection httpUrlConn = (HttpsURLConnection) url.openConnection();
 			httpUrlConn.setSSLSocketFactory(ssf);
 
 			httpUrlConn.setDoOutput(true);
@@ -82,10 +75,8 @@ public class WeixinUtil {
 
 			// 将返回的输入流转换成字符串
 			InputStream inputStream = httpUrlConn.getInputStream();
-			InputStreamReader inputStreamReader = new InputStreamReader(
-					inputStream, "utf-8");
-			BufferedReader bufferedReader = new BufferedReader(
-					inputStreamReader);
+			InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
 			String str = null;
 			while ((str = bufferedReader.readLine()) != null) {
@@ -106,85 +97,23 @@ public class WeixinUtil {
 		return jsonObject;
 	}
 
-	// 获取access_token的接口地址（GET） 限200（次/天）
-	public final static String access_token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+	// 菜單列表
+	public static String menu_create_url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
 
 	/**
-	 * 获取access_token
+	 * 创建菜单
 	 * 
-	 * @param appid
-	 *            凭证
-	 * @param appsecret
-	 *            密钥
-	 * @return
-	 */
-	public static AccessToken getAccessToken(String appid, String appsecret) {
-		AccessToken accessToken = null;
-
-		String requestUrl = access_token_url.replace("APPID", appid).replace(
-				"APPSECRET", appsecret);
-		JSONObject jsonObject = httpRequest(requestUrl, "GET", null);
-		// 如果请求成功
-		if (null != jsonObject) {
-			try {
-				accessToken = new AccessToken();
-				accessToken.setToken(jsonObject.getString("access_token"));
-				accessToken.setExpiresIn(jsonObject.getInt("expires_in"));
-			} catch (JSONException e) {
-				accessToken = null;
-				// 获取token失败
-				log.error("获取token失败 errcode:{} errmsg:{}",
-						jsonObject.getInt("errcode"),
-						jsonObject.getString("errmsg"));
-			}
-		}
-		return accessToken;
-	}
-
-	// 获取jsapi_ticket的接口地址（GET） 限200（次/天）
-	public final static String jsapi_ticket_url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
-
-	/**
-	 * 获取jsapi_ticket
+	 * @param menu
 	 * @param accessToken
 	 * @return
 	 */
-	public static JsapiTicket getJsapiTicket(AccessToken accessToken) {
-		JsapiTicket jsapiTicket=null;
-		String requestUrl = jsapi_ticket_url.replace("ACCESS_TOKEN", accessToken.getToken());
-		JSONObject jsonObject = httpRequest(requestUrl, "GET", null);
-		// 如果请求成功
-		if (null != jsonObject) {
-			try {
-				jsapiTicket = new JsapiTicket();
-				jsapiTicket.setTicket(jsonObject.getString("ticket"));
-				jsapiTicket.setExpiresIn(jsonObject.getInt("expires_in"));
-			} catch (JSONException e) {
-				jsapiTicket = null;
-				// 获取token失败
-				log.error("获取jsapiTicket失败 errcode:{} errmsg:{}",
-						jsonObject.getInt("errcode"),
-						jsonObject.getString("errmsg"));
-			}
-		}
-		return jsapiTicket;
-	}
-
-	//菜單列表
-	public static String menu_create_url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
-/**
- * 创建菜单
- * @param menu
- * @param accessToken
- * @return
- */
 	public static int createMenu(Menu menu, String accessToken) {
 		int result = 0;
 
 		String url = menu_create_url.replace("ACCESS_TOKEN", accessToken);
 		String jsonMenu = JSONObject.fromObject(menu).toString();
 		JSONObject jsonObject = httpRequest(url, "POST", jsonMenu);
-		
+
 		System.out.println(jsonMenu);
 
 		if (null != jsonObject) {
@@ -196,35 +125,5 @@ public class WeixinUtil {
 
 		return result;
 	}
-	
-	// 获取素材数量的接口地址（GET） 
-	public final static String material_count_url = "https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token=ACCESS_TOKEN";
 
-	/**
-	 * 
-	 * @param accessToken
-	 * @return
-	 */
-	public static NewsItemCount getMaterialCount(String accessToken) {
-		NewsItemCount itemCount=null;
-		String requestUrl = material_count_url.replace("ACCESS_TOKEN", accessToken);
-		JSONObject jsonObject = httpRequest(requestUrl, "GET", null);
-		// 如果请求成功
-		if (null != jsonObject) {
-			try {
-				itemCount = new NewsItemCount();
-				itemCount.setImage_count(Integer.parseInt(jsonObject.getString("image_count")));
-				itemCount.setNews_count(Integer.parseInt(jsonObject.getString("news_count")));
-				itemCount.setVideo_count(Integer.parseInt(jsonObject.getString("video_count")));
-				itemCount.setVoice_count(Integer.parseInt(jsonObject.getString("voice_count")));
-			} catch (JSONException e) {
-				itemCount = null;
-				// 获取token失败
-						log.error("获取jsapiTicket失败 errcode:{} errmsg:{}",
-						jsonObject.getInt("errcode"),
-						jsonObject.getString("errmsg"));
-			}
-		}
-		return itemCount;
-	}
 }

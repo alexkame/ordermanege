@@ -4,18 +4,16 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.impl.Log4jLoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.weixin.pojo.AccessToken;
 import com.thinkgem.jeesite.weixin.pojo.JsapiTicket;
 import com.thinkgem.jeesite.weixin.system.entity.WeixinInfo;
 import com.thinkgem.jeesite.weixin.system.service.WeixinInfoService;
-import com.thinkgem.jeesite.weixin.util.WeixinUtil;
+import com.thinkgem.jeesite.weixin.util.AdvancedUtil;
 
 @Service
 @Lazy(false)
@@ -44,8 +42,8 @@ public class WeixinTask {
 		 * 遍历
 		 */
 		for (WeixinInfo weixininfo : weixininfoList) {
-			AccessToken accessToken = WeixinUtil.getAccessToken(weixininfo.getAppid(), weixininfo.getAppsecret());
-			JsapiTicket jsapiTicket = WeixinUtil.getJsapiTicket(accessToken);
+			AccessToken accessToken = AdvancedUtil.getAccessToken(weixininfo.getAppid(), weixininfo.getAppsecret());
+			JsapiTicket jsapiTicket = AdvancedUtil.getJsapiTicket(accessToken);
 			if (null != accessToken) {
 				log.info(weixininfo.getWeixinid() + " 获取access_token成功，有效时长{}秒 token:{}", accessToken.getExpiresIn(),
 						accessToken.getToken());

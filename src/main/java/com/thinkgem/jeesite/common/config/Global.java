@@ -102,6 +102,13 @@ public class Global {
 	}
 	
 	/**
+	 * 获取系统根路径
+	 */
+	public static String getSystemUrl() {
+		return getConfig("systemUrl");
+	}
+	
+	/**
 	 * 获取URL后缀
 	 */
 	public static String getUrlSuffix() {
