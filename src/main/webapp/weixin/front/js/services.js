@@ -1,5 +1,15 @@
 angular.module('myApp.services', ['ngResource'])
-
+.service('webService',['$http',function($http){
+    this.do = function(url,params){
+       console.log("url:"+url);
+       return $http({
+                 method : 'post',
+                 url : url,
+                 timeout : 7000,
+                 params : {params:params}
+       });
+    }
+}])
 .factory('Order', function($rootScope,$resource,$http) {
 
   //获取客户订单列表数据

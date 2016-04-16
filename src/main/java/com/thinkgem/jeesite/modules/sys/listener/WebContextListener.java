@@ -5,7 +5,6 @@ import javax.servlet.ServletContext;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
-import com.thinkgem.jeesite.weixin.system.service.WeixinInfoService;
 
 public class WebContextListener extends org.springframework.web.context.ContextLoaderListener {
 	

@@ -5,15 +5,13 @@ package com.thinkgem.jeesite.weixinfront.web;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.weixin.config.WeixinGlobal;
 import com.thinkgem.jeesite.weixin.pojo.WeixinOauth2Token;
-import com.thinkgem.jeesite.weixin.system.entity.WeixinInfo;
-import com.thinkgem.jeesite.weixin.system.service.WeixinInfoService;
 import com.thinkgem.jeesite.weixin.util.AdvancedUtil;
 import com.thinkgem.jeesite.weixinfront.entity.WeixinUserInfo;
 
@@ -26,9 +24,6 @@ import com.thinkgem.jeesite.weixinfront.entity.WeixinUserInfo;
 @Controller
 @RequestMapping(value = "${weixinPath}/weixinIndex")
 public class WeixinIndexController extends BaseController {
-
-	@Autowired
-	WeixinInfoService weixinInfoService;
 
 	/**
 	 * 微信首页
@@ -46,16 +41,13 @@ public class WeixinIndexController extends BaseController {
 	public String oAuth(HttpServletRequest request, String code) {
 
 		try {
-			logger.error("WeixinIndexController oAuth code-->", code);
+			logger.info("WeixinIndexController oAuth code-->{}", code);
 			// 用户同意授权
 			if (!"authdeny".equals(code)) {
 
-				// 获取微信信息
-				WeixinInfo weixininfo = weixinInfoService.findList(new WeixinInfo()).get(0);
-
 				// 获取网页授权access_token
-				WeixinOauth2Token weixinOauth2Token = AdvancedUtil.getOauth2AccessToken(weixininfo.getAppid(),
-						weixininfo.getAppsecret(), code);
+				WeixinOauth2Token weixinOauth2Token = AdvancedUtil.getOauth2AccessToken(WeixinGlobal.getAppid(),
+						WeixinGlobal.getAppsecret(), code);
 				// 网页授权接口访问凭证
 				String accessToken = weixinOauth2Token.getAccessToken();
 				// 用户标识
@@ -67,10 +59,10 @@ public class WeixinIndexController extends BaseController {
 				// 添加session
 				request.getSession().setAttribute("weixinUserInfo", weixinUserinfo);
 
-				logger.error("WeixinIndexController oAuth openId-->", openId);
+				logger.error("WeixinIndexController oAuth openId-->{}", openId);
 			}
 		} catch (Exception e) {
-			logger.error("WeixinIndexController oAuth-->", e.getMessage());
+			logger.error("WeixinIndexController oAuth error-->{}", e.getMessage());
 		}
 		return "redirect:" + Global.getWeixinPath() + "/weixinIndex/index";
 	}

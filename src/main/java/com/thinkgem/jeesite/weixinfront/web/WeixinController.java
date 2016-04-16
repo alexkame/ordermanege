@@ -46,7 +46,7 @@ public class WeixinController extends BaseController {
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	@ResponseBody
-	public String get(String token,String signature, String timestamp, String nonce, String echostr, HttpServletRequest request) {
+	public String get(String signature, String timestamp, String nonce, String echostr, HttpServletRequest request) {
 
 		System.out.println("=============================================== get start");
 		for (Object o : request.getParameterMap().keySet()) {
@@ -55,7 +55,7 @@ public class WeixinController extends BaseController {
 		System.out.println("=============================================== get end");
 
 		// 通过检验signature对请求进行校验，若校验成功则原样返回echostr，表示接入成功，否则接入失败
-		if (WiexinSignUtil.checkSignature(token,signature, timestamp, nonce)) {
+		if (WiexinSignUtil.checkSignature(signature, timestamp, nonce)) {
 			return echostr;
 		}
 

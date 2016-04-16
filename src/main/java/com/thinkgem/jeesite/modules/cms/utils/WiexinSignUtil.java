@@ -6,6 +6,8 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.thinkgem.jeesite.weixin.config.WeixinGlobal;
+
 public class WiexinSignUtil {
   
     /** 
@@ -16,11 +18,11 @@ public class WiexinSignUtil {
      * @param nonce 
      * @return 
      */  
-    public static boolean checkSignature(String token,String signature, String timestamp, String nonce) {
+    public static boolean checkSignature(String signature, String timestamp, String nonce) {
     	
     	if (StringUtils.isNotBlank(signature) && StringUtils.isNotBlank(timestamp) && StringUtils.isNotBlank(nonce)){
     		
-	        String[] arr = new String[] { token, timestamp, nonce };  
+	        String[] arr = new String[] { WeixinGlobal.getToken(), timestamp, nonce };  
 	        // 将token、timestamp、nonce三个参数进行字典序排序  
 	        Arrays.sort(arr);  
 	        StringBuilder content = new StringBuilder();  

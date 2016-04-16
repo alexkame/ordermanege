@@ -1,7 +1,10 @@
 angular.module('myApp.controllers', ['ngResource'])
     //订单
   .controller('orderController',['$scope','Order','$location','$ionicSideMenuDelegate', function($scope,Order,$location,$ionicSideMenuDelegate) {
-      //获取订单数据
+   
+	  
+	  
+	  //获取订单数据
       $scope.data=Order.getCusOrderList();
       //获取所有未完成订单数据
       $scope.undoneOrderD=Order.getUndoneOrderDList();
