@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.weixin.config.WeixinGlobal;
-import com.thinkgem.jeesite.weixinfront.entity.WeixinUserInfo;
+import com.thinkgem.jeesite.weixin.system.entity.WeixinUserInfo;
 
 /**
  * 微信拦截器

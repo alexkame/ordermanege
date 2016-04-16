@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.weixinfront.web;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -12,8 +13,9 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.weixin.config.WeixinGlobal;
 import com.thinkgem.jeesite.weixin.pojo.WeixinOauth2Token;
+import com.thinkgem.jeesite.weixin.system.entity.WeixinUserInfo;
+import com.thinkgem.jeesite.weixin.system.service.WeixinUserInfoService;
 import com.thinkgem.jeesite.weixin.util.AdvancedUtil;
-import com.thinkgem.jeesite.weixinfront.entity.WeixinUserInfo;
 
 /**
  * 微信首页
@@ -24,12 +26,21 @@ import com.thinkgem.jeesite.weixinfront.entity.WeixinUserInfo;
 @Controller
 @RequestMapping(value = "${weixinPath}/weixinIndex")
 public class WeixinIndexController extends BaseController {
+	
+	@Autowired
+	private WeixinUserInfoService weixinUserInfoService;
 
 	/**
 	 * 微信首页
 	 */
 	@RequestMapping(value = "index")
 	public String index(HttpServletRequest request) {
+		
+		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
+		
+		WeixinUserInfo oldWeixinUserInfo=weixinUserInfoService.findByOpenid(weixinUserInfo.getOpenid());
+		
+		
 
 		return "redirect:/weixin/front/index.html";
 	}

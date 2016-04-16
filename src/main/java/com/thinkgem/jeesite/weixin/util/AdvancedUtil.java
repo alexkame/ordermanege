@@ -1,12 +1,14 @@
 package com.thinkgem.jeesite.weixin.util;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.thinkgem.jeesite.weixin.pojo.AccessToken;
 import com.thinkgem.jeesite.weixin.pojo.JsapiTicket;
 import com.thinkgem.jeesite.weixin.pojo.WeixinOauth2Token;
-import com.thinkgem.jeesite.weixinfront.entity.WeixinUserInfo;
+import com.thinkgem.jeesite.weixin.system.entity.WeixinUserInfo;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -170,11 +172,11 @@ public class AdvancedUtil {
 			try {
 				weixinUserinfo = new WeixinUserInfo();
 				// 用户的标识
-				weixinUserinfo.setOpenId(jsonObject.getString("openid"));
+				weixinUserinfo.setOpenid(jsonObject.getString("openid"));
 				// 昵称
 				weixinUserinfo.setNickname(jsonObject.getString("nickname"));
 				// 性别（1是男性，2是女性，0是未知）
-				weixinUserinfo.setSex(jsonObject.getInt("sex"));
+				weixinUserinfo.setSex(jsonObject.getLong("sex"));
 				// 用户所在国家
 				weixinUserinfo.setCountry(jsonObject.getString("country"));
 				// 用户所在省份
@@ -182,7 +184,7 @@ public class AdvancedUtil {
 				// 用户所在城市
 				weixinUserinfo.setCity(jsonObject.getString("city"));
 				// 用户头像
-				weixinUserinfo.setHeadImgUrl(jsonObject.getString("headimgurl"));
+				weixinUserinfo.setHeadimgurl(jsonObject.getString("headimgurl"));
 
 			} catch (Exception e) {
 				weixinUserinfo = null;
@@ -215,15 +217,15 @@ public class AdvancedUtil {
 			try {
 				weixinUserInfo = new WeixinUserInfo();
 				// 用户的标识
-				weixinUserInfo.setOpenId(jsonObject.getString("openid"));
+				weixinUserInfo.setOpenid(jsonObject.getString("openid"));
 				// 关注状态（1是关注，0是未关注），未关注时获取不到其余信息
-				weixinUserInfo.setSubscribe(jsonObject.getInt("subscribe"));
+				weixinUserInfo.setSubscribe(jsonObject.getLong("subscribe"));
 				// 用户关注时间
-				weixinUserInfo.setSubscribeTime(jsonObject.getString("subscribe_time"));
+				weixinUserInfo.setSubscribetime(new Date(jsonObject.getLong("subscribe_time")*1000));
 				// 昵称
 				weixinUserInfo.setNickname(jsonObject.getString("nickname"));
 				// 用户的性别（1是男性，2是女性，0是未知）
-				weixinUserInfo.setSex(jsonObject.getInt("sex"));
+				weixinUserInfo.setSex(jsonObject.getLong("sex"));
 				// 用户所在国家
 				weixinUserInfo.setCountry(jsonObject.getString("country"));
 				// 用户所在省份
@@ -233,10 +235,10 @@ public class AdvancedUtil {
 				// 用户的语言，简体中文为zh_CN
 				weixinUserInfo.setLanguage(jsonObject.getString("language"));
 				// 用户头像
-				weixinUserInfo.setHeadImgUrl(jsonObject.getString("headimgurl"));
+				weixinUserInfo.setHeadimgurl(jsonObject.getString("headimgurl"));
 			} catch (Exception e) {
 				if (0 == weixinUserInfo.getSubscribe()) {
-					log.error("用户{}已取消关注", weixinUserInfo.getOpenId());
+					log.error("用户{}已取消关注", weixinUserInfo.getOpenid());
 				} else {
 					int errorCode = jsonObject.getInt("errcode");
 					String errorMsg = jsonObject.getString("errmsg");
