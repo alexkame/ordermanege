@@ -1,7 +1,6 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.thinkgem.jeesite.weixinfront.web;
+
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,13 +34,21 @@ public class WeixinIndexController extends BaseController {
 	 */
 	@RequestMapping(value = "index")
 	public String index(HttpServletRequest request) {
+		System.out.println("WeixinIndexController.index()");
 		
 		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
-		
-		WeixinUserInfo oldWeixinUserInfo=weixinUserInfoService.findByOpenid(weixinUserInfo.getOpenid());
-		
-		
-
+		if(weixinUserInfo!=null){
+			WeixinUserInfo oldWeixinUserInfo=weixinUserInfoService.findByOpenid(weixinUserInfo.getOpenid());
+			Date now=new Date();
+			if(oldWeixinUserInfo==null){
+				weixinUserInfo.setLastLoginTime(now);
+				weixinUserInfo.setIsNewRecord(true);
+				weixinUserInfoService.save(weixinUserInfo);
+			}else{
+				oldWeixinUserInfo.setLastLoginTime(now);
+				weixinUserInfoService.save(oldWeixinUserInfo);
+			}
+		}
 		return "redirect:/weixin/front/index.html";
 	}
 
