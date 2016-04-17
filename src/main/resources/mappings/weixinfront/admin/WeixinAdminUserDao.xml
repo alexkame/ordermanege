@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.weixinfront.admin.dao.WeixinAdminUserDao">
+    
+	<sql id="weixinAdminUserColumns">
+		a.id AS "id",
+		a.weisin_user_info_id AS "weisinUserInfo.id",
+		a.user_name AS "userName",
+		a.password AS "password",
+		a.name AS "name",
+		a.tel AS "tel",
+		a.last_login_time AS "lastLoginTime",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="weixinAdminUserJoins">
+		LEFT JOIN weixin_user_info b ON b.id = a.weisin_user_info_id
+	</sql>
+    
+	<select id="get" resultType="WeixinAdminUser">
+		SELECT 
+			<include refid="weixinAdminUserColumns"/>
+		FROM weixin_admin_user a
+		<include refid="weixinAdminUserJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="WeixinAdminUser">
+		SELECT 
+			<include refid="weixinAdminUserColumns"/>
+		FROM weixin_admin_user a
+		<include refid="weixinAdminUserJoins"/>
+		<where>
+			
+			<if test="weisinUserInfo != null and weisinUserInfo.id != null and weisinUserInfo.id != ''">
+				AND a.weisin_user_info_id LIKE 
+					<if test="dbName == 'oracle'">'%'||#{weisinUserInfo.id}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{weisinUserInfo.id}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{weisinUserInfo.id},'%')</if>
+			</if>
+			<if test="userName != null and userName != ''">
+				AND a.user_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{userName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{userName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{userName},'%')</if>
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="tel != null and tel != ''">
+				AND a.tel LIKE 
+					<if test="dbName == 'oracle'">'%'||#{tel}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{tel}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{tel},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="WeixinAdminUser">
+		SELECT 
+			<include refid="weixinAdminUserColumns"/>
+		FROM weixin_admin_user a
+		<include refid="weixinAdminUserJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO weixin_admin_user(
+			id,
+			weisin_user_info_id,
+			user_name,
+			password,
+			name,
+			tel,
+			last_login_time,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{weisinUserInfo.id},
+			#{userName},
+			#{password},
+			#{name},
+			#{tel},
+			#{lastLoginTime},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE weixin_admin_user SET 	
+			weisin_user_info_id = #{weisinUserInfo.id},
+			user_name = #{userName},
+			password = #{password},
+			name = #{name},
+			tel = #{tel},
+			last_login_time = #{lastLoginTime},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM weixin_admin_user
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE weisin_user_info_id = #{weisinUserInfo.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>
