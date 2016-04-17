@@ -3,10 +3,10 @@ angular.module('myApp.services', ['ngResource'])
     this.do = function(url,params){
        console.log("url:"+url);
        return $http({
-                 method : 'post',
-                 url : url,
-                 timeout : 7000,
-                 params : {params:params}
+            method : 'post',
+            url : url,
+            timeout : 7000,
+            params : {params:params}
        });
     }
 }])

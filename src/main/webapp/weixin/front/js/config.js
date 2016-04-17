@@ -1,5 +1,5 @@
-var host = 'http://Data.linkbba.com:8080/';
-var rootPath = 'EnnuovaApp/';
+var host = 'http://127.0.0.1:8080/';
+var rootPath = 'ordermanage/';
 
-//官网首页||关于我们
-var websiteUrl=host+rootPath+'pubStore.do?method=queryPubstore';
+//管理员登陆
+var adminLoginUrl=host+rootPath+'weixinadmin/adminUser/login';

@@ -258,7 +258,8 @@ angular.module('myApp.controllers', ['ngResource'])
         }
     })
     //管理员模块
-    .controller('adminController',function($scope,$location,$ionicPopup){
+    .controller('adminController',['$scope','$location','$ionicPopup', 'webService'
+        ,function($scope,$location,$ionicPopup,webService){
         //跳转到主页
         $scope.home=function(){
             $location.path('/tab');
@@ -267,6 +268,19 @@ angular.module('myApp.controllers', ['ngResource'])
         $scope.mylogin={};
         $scope.myValid=true;
         $scope.login=function(){
+            var userName=$scope.mylogin.name;
+            var password=$scope.mylogin.password;
+            webService.do(adminLoginUrl, {
+                userName:userName,
+                password:password
+            }).success(function (data) {
+                //账号密码验证失败，则提示用户名或者密码错误
+                console.log(data);
+
+            }).error(function (data, status) {
+
+            });
+
             console.log('写入登录验证'+$scope.mylogin);
             if($scope.myValid){
                 console.log("登录成功");
@@ -280,7 +294,7 @@ angular.module('myApp.controllers', ['ngResource'])
             }
         }
 
-    })
+    }])
     .controller('cusController',function($scope,$location,Order){
         //跳转到主页
         $scope.home=function(){
