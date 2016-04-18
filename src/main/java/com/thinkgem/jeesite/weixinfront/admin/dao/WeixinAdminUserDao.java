@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.weixinfront.admin.dao;
 
+import java.util.List;
+
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.weixinfront.admin.entity.WeixinAdminUser;
@@ -14,5 +16,7 @@ import com.thinkgem.jeesite.weixinfront.admin.entity.WeixinAdminUser;
  */
 @MyBatisDao
 public interface WeixinAdminUserDao extends CrudDao<WeixinAdminUser> {
+
+	List<WeixinAdminUser> findUserNameAndPassword(WeixinAdminUser weixinAdminUser);
 	
 }

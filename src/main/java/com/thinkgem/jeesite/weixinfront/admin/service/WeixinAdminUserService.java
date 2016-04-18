@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.weixinfront.admin.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,8 @@ public class WeixinAdminUserService extends CrudService<WeixinAdminUserDao, Weix
 	public void delete(WeixinAdminUser weixinAdminUser) {
 		super.delete(weixinAdminUser);
 	}
-
+	
+	@Transactional(readOnly = false)
 	public Map<String, Object> weixinLogin(String userName, String password, HttpServletRequest request) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
@@ -64,17 +66,21 @@ public class WeixinAdminUserService extends CrudService<WeixinAdminUserDao, Weix
 				WeixinAdminUser weixinAdminUser = new WeixinAdminUser();
 				weixinAdminUser.setUserName(userName);
 				weixinAdminUser.setPassword(password);
-				List<WeixinAdminUser> adminUsers = super.findList(weixinAdminUser);
+				List<WeixinAdminUser> adminUsers = dao.findUserNameAndPassword(weixinAdminUser);
 				if (adminUsers.size() > 0) {
+					WeixinAdminUser adminUser=adminUsers.get(0);
+					adminUser.setLastLoginTime(new Date());
+					dao.update(adminUser);
+					request.getSession().setAttribute("weixinAdminUser", adminUser);
 					result.put("code", 1);
 					result.put("message", "登陆成功！");
-					request.getSession().setAttribute("weixinAdminUser", adminUsers.get(0));
 				} else {
 					result.put("code", 0);
 					result.put("message", "用户名或账号不存在！");
 				}
 			}
 		} catch (Exception e) {
+			logger.error("WeixinAdminUserService weixinLogin error: {}", e.getMessage());
 			result.put("code", 900);
 			result.put("message", "系统出错！");
 		}

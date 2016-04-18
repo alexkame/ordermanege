@@ -1,11 +1,15 @@
 angular.module('myApp.controllers', ['ngResource'])
     //订单
-  .controller('orderController',['$scope','Order','$location','$ionicSideMenuDelegate', function($scope,Order,$location,$ionicSideMenuDelegate) {
-   
-	  
-	  
-	  //获取订单数据
-      $scope.data=Order.getCusOrderList();
+  .controller('orderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService',
+      function($scope,Order,$location,$ionicSideMenuDelegate,webService) {
+
+      webService.do(orderTableUrl, {})
+          .success(function (data) {
+              $scope.data=data;
+          }).error(function (data, status) {
+          return null;
+      });
+
       //获取所有未完成订单数据
       $scope.undoneOrderD=Order.getUndoneOrderDList();
       //获取所有完成订单数据
@@ -112,6 +116,9 @@ angular.module('myApp.controllers', ['ngResource'])
  }])
     //订单明细
     .controller('orderDetailController', function($scope,$location, $stateParams,$ionicModal, Order) {
+
+        var orderID=$stateParams.orderID;
+        console.log(orderID);
         //获取订单明细数据
         $scope.detail=Order.getDetail();
         //跳转到订单页面
@@ -260,13 +267,12 @@ angular.module('myApp.controllers', ['ngResource'])
     //管理员模块
     .controller('adminController',['$scope','$location','$ionicPopup', 'webService'
         ,function($scope,$location,$ionicPopup,webService){
+
         //跳转到主页
         $scope.home=function(){
             $location.path('/tab');
         };
         //登录及验证
-        $scope.mylogin={};
-        $scope.myValid=true;
         $scope.login=function(){
             var userName=$scope.mylogin.name;
             var password=$scope.mylogin.password;
@@ -276,24 +282,23 @@ angular.module('myApp.controllers', ['ngResource'])
             }).success(function (data) {
                 //账号密码验证失败，则提示用户名或者密码错误
                 console.log(data);
-
+                if(data.code==1){
+                    console.log("登录成功");
+                    $location.path('/adminList');
+                } else{
+                    var message=data.message;
+                    var alertPopup = $ionicPopup.alert({
+                        title: '验证失败',
+                        template: message
+                    });
+                }
             }).error(function (data, status) {
-
-            });
-
-            console.log('写入登录验证'+$scope.mylogin);
-            if($scope.myValid){
-                console.log("登录成功");
-                $location.path('/adminList');
-            }
-            else{
                 var alertPopup = $ionicPopup.alert({
-                    title: '验证失败',
-                    template: '您的账号或密码不正确，请重新输入！'
+                    title: '系统出错',
+                    template: '系统出错'
                 });
-            }
+            });
         }
-
     }])
     .controller('cusController',function($scope,$location,Order){
         //跳转到主页

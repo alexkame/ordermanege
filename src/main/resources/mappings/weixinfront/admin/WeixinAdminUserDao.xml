@@ -145,4 +145,12 @@
 		</choose>
 	</update>
 	
+	<select id="findUserNameAndPassword" resultType="WeixinAdminUser">
+		SELECT 
+			<include refid="weixinAdminUserColumns"/>
+		FROM weixin_admin_user a
+		<include refid="weixinAdminUserJoins"/>
+		WHERE a.user_name = #{userName} and password = #{password}
+	</select>
+	
 </mapper>

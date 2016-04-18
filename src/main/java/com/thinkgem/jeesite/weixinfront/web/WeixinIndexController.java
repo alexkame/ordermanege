@@ -44,9 +44,11 @@ public class WeixinIndexController extends BaseController {
 				weixinUserInfo.setLastLoginTime(now);
 				weixinUserInfo.setIsNewRecord(true);
 				weixinUserInfoService.save(weixinUserInfo);
+				request.getSession().setAttribute("weixinUserInfo", weixinUserInfo);
 			}else{
 				oldWeixinUserInfo.setLastLoginTime(now);
 				weixinUserInfoService.save(oldWeixinUserInfo);
+				request.getSession().setAttribute("weixinUserInfo", oldWeixinUserInfo);
 			}
 		}
 		return "redirect:/weixin/front/index.html";

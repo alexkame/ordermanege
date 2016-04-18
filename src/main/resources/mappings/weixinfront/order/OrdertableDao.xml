@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.weixinfront.order.dao.OrdertableDao">
+    
+	<sql id="ordertableColumns">
+		a.id AS "id",
+		a.weixin_user_info_id AS "weixinUserInfoId.id",
+		a.order_num AS "orderNum",
+		a.create_time AS "createTime",
+		a.status AS "status",
+		a.total_square AS "totalSquare",
+		a.delivery_time AS "deliveryTime",
+		b.nickname AS "weixinUserInfoId.nickname",
+		b.user_name AS "weixinUserInfoId.userName"
+	</sql>
+	
+	<sql id="ordertableJoins">
+		LEFT JOIN weixin_user_info b ON b.id = a.weixin_user_info_id
+	</sql>
+    
+	<select id="get" resultType="Ordertable">
+		SELECT 
+			<include refid="ordertableColumns"/>
+		FROM ordertable a
+		<include refid="ordertableJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Ordertable">
+		SELECT 
+			<include refid="ordertableColumns"/>
+		FROM ordertable a
+		<include refid="ordertableJoins"/>
+		<where>
+			
+			<if test="weixinUserInfoId != null and weixinUserInfoId.id != null and weixinUserInfoId.id != ''">
+				AND a.weixin_user_info_id LIKE 
+					<if test="dbName == 'oracle'">'%'||#{weixinUserInfoId.id}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{weixinUserInfoId.id}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{weixinUserInfoId.id},'%')</if>
+			</if>
+			<if test="orderNum != null and orderNum != ''">
+				AND a.order_num LIKE 
+					<if test="dbName == 'oracle'">'%'||#{orderNum}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{orderNum}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{orderNum},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Ordertable">
+		SELECT 
+			<include refid="ordertableColumns"/>
+		FROM ordertable a
+		<include refid="ordertableJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ordertable(
+			id,
+			weixin_user_info_id,
+			order_num,
+			create_time,
+			status,
+			total_square,
+			delivery_time
+		) VALUES (
+			#{id},
+			#{weixinUserInfoId.id},
+			#{orderNum},
+			#{createTime},
+			#{status},
+			#{totalSquare},
+			#{deliveryTime}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ordertable SET 	
+			weixin_user_info_id = #{weixinUserInfoId.id},
+			order_num = #{orderNum},
+			create_time = #{createTime},
+			status = #{status},
+			total_square = #{totalSquare},
+			delivery_time = #{deliveryTime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ordertable
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE weixin_user_info_id = #{weixinUserInfoId.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+	<select id="findALlByUser" resultType="Ordertable">
+		SELECT 
+			<include refid="ordertableColumns"/>
+		FROM ordertable a
+		<include refid="ordertableJoins"/>
+		<where>
+		   <if test="weixinUserInfoId!=null and weixinUserInfoId.id!=null">
+		      where a.weixin_user_info_id = #{weixinUserInfoId.id},
+		   </if>
+		</where>		
+	</select>
+	
+	
+</mapper>

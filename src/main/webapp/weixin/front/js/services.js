@@ -10,7 +10,7 @@ angular.module('myApp.services', ['ngResource'])
        });
     }
 }])
-.factory('Order', function($rootScope,$resource,$http) {
+.factory('Order', function($rootScope,$resource,$http,webService) {
 
   //获取客户订单列表数据
   var cusOrderObj=$resource('resource/order.json');
@@ -39,7 +39,14 @@ angular.module('myApp.services', ['ngResource'])
   return {
     //返回客户订单列表数据
     getCusOrderList:function(){
-      return cusOrderObj.query();
+      webService.do(orderTableUrl, {})
+          .success(function (data) {
+            console.log(data);
+            return data;
+          }).error(function (data, status) {
+            return null;
+          });
+
     },
     //返回所有未完成订单列表数据
     getUndoneOrderDList:function(){

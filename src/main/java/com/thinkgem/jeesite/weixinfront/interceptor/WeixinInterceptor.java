@@ -34,7 +34,7 @@ public class WeixinInterceptor extends BaseService implements HandlerInterceptor
 		
 		System.out.println("微信地址拦截modelAndView");
 		
-		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
+		/*WeixinUserInfo weixinUserInfo=(WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
 		if(weixinUserInfo==null){
 			
 			String urlbegin = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
@@ -45,7 +45,7 @@ public class WeixinInterceptor extends BaseService implements HandlerInterceptor
 			String urlend = "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 			System.out.println(urlbegin+urlcontent+urlend);
 			modelAndView.setViewName("redirect:"+urlbegin+urlcontent+urlend);
-		}
+		}*/
 	}
 
 	@Override
