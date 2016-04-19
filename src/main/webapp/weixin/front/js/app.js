@@ -72,20 +72,20 @@ angular.module('myApp', ['ionic','myApp.controllers','myApp.services'])
             })
             //未完成订单列表
             .state('undoneOrder', {
-                url: '/undoneOrder',
-                templateUrl: 'templates/undoneOrder.html',
-                controller: 'orderController'
+                url: '/admin/undoneOrder',
+                templateUrl: 'templates/admin/undoneOrder.html',
+                controller: 'AdminOrderController'
+            })
+            //已完成订单列表
+            .state('doneOrder', {
+                url: '/admin/doneOrder',
+                templateUrl: 'templates/admin/doneOrder.html',
+                controller: 'AdminOrderController'
             })
             .state('orderProcess', {
                 url: '/orderProcess/:orderID',
                 templateUrl: 'templates/orderProcess.html',
                 controller: 'orderDetailController'
-            })
-            //已完成订单列表
-            .state('doneOrder', {
-                url: '/doneOrder',
-                templateUrl: 'templates/doneOrder.html',
-                controller: 'orderController'
             })
 
             //客户信息管理

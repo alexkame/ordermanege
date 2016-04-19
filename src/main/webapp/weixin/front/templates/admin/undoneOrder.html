@@ -7,9 +7,8 @@
     <ion-content class="has-header">
         <ion-list>
             <ion-item class="item-remove-animate item-icon-right" ng-repeat="orderdata in undoneOrderD" type="item-text-wrap" href="#/orderProcess/{{orderdata.id}}">
-
-                <h2>{{orderdata.date}}</h2>
-                <p>{{orderdata.state}}</p>
+                <h2>{{orderdata.createTime}}</h2>
+                <p>{{orderdata.statusStr}}</p>
                 <i class="icon ion-chevron-right icon-accessory"></i>
 
                 <ion-option-button class="button-assertive" ng-click="remove(order)">

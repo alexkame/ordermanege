@@ -21,7 +21,7 @@ navigation history that also transitions its views in and out.
                     <ion-item class="item-remove-animate item-icon-right" ng-repeat="orderdata in data" type="item-text-wrap" href="#/orderDetail/{{orderdata.id}}">
 
                         <h2>{{orderdata.createTime}}</h2>
-                        <p>{{orderdata.status}}</p>
+                        <p>{{orderdata.statusStr}}</p>
                         <i class="icon ion-chevron-right icon-accessory"></i>
 
                         <ion-option-button class="button-assertive" ng-click="remove(order)">
@@ -37,7 +37,7 @@ navigation history that also transitions its views in and out.
                     <i class="icon ion-person"></i>
                     我的信息
                 </ion-item>
-                <ion-item class="item-icon-left "  href="#/adminLogin">
+                <ion-item class="item-icon-left "  ng-click="isAdminLogin()">
                     <i class="icon ion-android-lock"></i>
                     管理员入口
                 </ion-item>

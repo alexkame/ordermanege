@@ -25,6 +25,7 @@ public class Ordertable extends DataEntity<Ordertable> {
 	private String orderNum;		// 订单号
 	private Date createTime;		// 下单时间
 	private Long status;		// 状态(1:待发货,2:已发货,3:作废)
+	private String statusStr;		// 状态(1:待发货,2:已发货,3:作废)
 	private String totalSquare;		// 总平方
 	private Date deliveryTime;		// 发货时间
 	
@@ -92,6 +93,14 @@ public class Ordertable extends DataEntity<Ordertable> {
 
 	public void setDeliveryTime(Date deliveryTime) {
 		this.deliveryTime = deliveryTime;
+	}
+
+	public String getStatusStr() {
+		return statusStr;
+	}
+
+	public void setStatusStr(String statusStr) {
+		this.statusStr = statusStr;
 	}
 	
 }

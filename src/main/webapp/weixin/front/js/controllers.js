@@ -1,4 +1,23 @@
 angular.module('myApp.controllers', ['ngResource'])
+
+    //订单
+.controller('AdminOrderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService',
+    function($scope,Order,$location,$ionicSideMenuDelegate,webService) {
+
+        //获取所有未完成订单数据
+        webService.do(undoneOrderUrl, {})
+            .success(function (data) {
+                $scope.undoneOrderD=data;
+            }).error(function (data, status) {
+                return null;
+            });
+
+        //获取所有完成订单数据
+        $scope.doneOrderD=Order.getDoneOrderDList();
+
+  }])
+
+
     //订单
   .controller('orderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService',
       function($scope,Order,$location,$ionicSideMenuDelegate,webService) {
@@ -10,10 +29,8 @@ angular.module('myApp.controllers', ['ngResource'])
           return null;
       });
 
-      //获取所有未完成订单数据
-      $scope.undoneOrderD=Order.getUndoneOrderDList();
-      //获取所有完成订单数据
-      $scope.doneOrderD=Order.getDoneOrderDList();
+
+
 
       //切换完成订单的统计及明细显示
       $scope.showList={
@@ -113,6 +130,21 @@ angular.module('myApp.controllers', ['ngResource'])
       $scope.leftMenu=function(){
           $ionicSideMenuDelegate.toggleLeft();
       };
+
+      //判断管理员是否登录
+      $scope.isAdminLogin=function(){
+          webService.do(isAdminLoginUrl, {})
+              .success(function (data) {
+                  if(data.code==0){
+                      $location.path('/adminLogin');
+                  }else{
+                      $location.path('/adminList');
+                  }
+              }).error(function (data, status) {
+                  $location.path('/tab');
+              });
+      };
+
  }])
     //订单明细
     .controller('orderDetailController', function($scope,$location, $stateParams,$ionicModal, Order) {
@@ -273,9 +305,9 @@ angular.module('myApp.controllers', ['ngResource'])
             $location.path('/tab');
         };
         //登录及验证
-        $scope.login=function(){
-            var userName=$scope.mylogin.name;
-            var password=$scope.mylogin.password;
+        $scope.adminlogin=function(){
+            var userName=$scope.adminlogin.userName;
+            var password=$scope.adminlogin.password;
             webService.do(adminLoginUrl, {
                 userName:userName,
                 password:password

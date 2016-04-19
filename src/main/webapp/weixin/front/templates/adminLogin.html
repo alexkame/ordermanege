@@ -5,16 +5,16 @@
         </ion-nav-buttons>
     </ion-nav-bar>
     <ion-content class="has-header">
-        <form name="myForm" ng-submit="login()">
+        <form name="myForm" ng-submit="adminlogin()">
         <ion-list>
             <ion-item class="item-input">
                 <span class="input-label">姓名</span>
-                <input type="text" ng-model="mylogin.name" ng-required="true"  placeholder="请输入姓名">
+                <input type="text" name="userName" ng-model="adminlogin.userName" ng-required="true"  placeholder="请输入姓名">
             </ion-item>
 
             <ion-item class="item-input">
                 <span class="input-label">密码</span>
-                <input type="text" name="password" ng-model="mylogin.password" required ng-minlength="6"  placeholder="请输入密码">
+                <input type="text" name="password" ng-model="adminlogin.password" required ng-minlength="6"  placeholder="请输入密码">
             </ion-item>
             <div class="error" ng-show="myForm.password.$error.minlength">密码不能小于6位</div>
         </ion-list>

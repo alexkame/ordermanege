@@ -18,5 +18,7 @@ import com.thinkgem.jeesite.weixinfront.order.entity.Ordertable;
 public interface OrdertableDao extends CrudDao<Ordertable> {
 
 	List<Ordertable> findALlByUser(Ordertable ordertable);
+
+	List<Ordertable> findAdminUndoneOrder();
 	
 }

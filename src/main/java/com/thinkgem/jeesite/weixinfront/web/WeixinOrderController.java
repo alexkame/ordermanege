@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.weixinfront.order.entity.Ordertable;
 import com.thinkgem.jeesite.weixinfront.order.service.OrdertableService;
@@ -32,5 +33,15 @@ public class WeixinOrderController extends BaseController {
 	public List<Ordertable> findALlByUser(HttpServletRequest request,HttpServletResponse response){
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		return ordertableService.findALlByUser(request);
+	}
+	
+	/**
+	 * 管理员未完成订单
+	 */
+	@RequestMapping(value = "admin/undoneOrder",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public List<Ordertable> undoneOrder(HttpServletResponse response){
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		return ordertableService.findAdminUndoneOrder();
 	}
 }

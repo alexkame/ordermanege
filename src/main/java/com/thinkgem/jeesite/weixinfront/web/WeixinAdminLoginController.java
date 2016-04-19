@@ -19,7 +19,7 @@ import com.thinkgem.jeesite.weixinfront.admin.service.WeixinAdminUserService;
 import net.sf.json.JSONObject;
 
 @Controller
-@RequestMapping(value = "/weixinadmin/adminUser")
+@RequestMapping(value = "${weixinPath}/adminUser")
 public class WeixinAdminLoginController {
 	
 	@Autowired
@@ -33,6 +33,26 @@ public class WeixinAdminLoginController {
 		try {
 			WeixinAdminUser weixinAdminUser=(WeixinAdminUser) JsonMapper.fromJsonString(params, WeixinAdminUser.class);
 			result.putAll(weixinAdminUserService.weixinLogin(weixinAdminUser.getUserName(),weixinAdminUser.getPassword(),request));
+		} catch (Exception e) {
+			result.put("code", 900);
+			result.put("message", "系统出错！");
+		}
+		return result;
+	}
+	@RequestMapping(value = "islogin",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Map<String,Object> islogin(String params,HttpServletRequest request,HttpServletResponse response){
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		Map<String,Object> result=new HashMap<String, Object>();
+		try {
+			WeixinAdminUser weixinAdminUser=(WeixinAdminUser) request.getSession().getAttribute("weixinAdminUser");
+			if(weixinAdminUser==null){
+				result.put("code", 0);
+				result.put("message", "还未登录！");
+			}else{
+				result.put("code", 1);
+				result.put("message", "已经登录！");
+			}
 		} catch (Exception e) {
 			result.put("code", 900);
 			result.put("message", "系统出错！");

@@ -53,5 +53,9 @@ public class OrdertableService extends CrudService<OrdertableDao, Ordertable> {
 		ordertable.setWeixinUserInfoId(weixinUserInfo);
 		return dao.findALlByUser(ordertable);
 	}
+
+	public List<Ordertable> findAdminUndoneOrder() {
+		return dao.findAdminUndoneOrder();
+	}
 	
 }

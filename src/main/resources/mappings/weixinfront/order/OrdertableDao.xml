@@ -8,6 +8,11 @@
 		a.order_num AS "orderNum",
 		a.create_time AS "createTime",
 		a.status AS "status",
+		case
+			when a.status='1' then '待发货'
+			when a.status='2' then '已发货'
+			when a.status='3' then '作废'
+		end as "statusStr",
 		a.total_square AS "totalSquare",
 		a.delivery_time AS "deliveryTime",
 		b.nickname AS "weixinUserInfoId.nickname",
@@ -125,6 +130,14 @@
 		      where a.weixin_user_info_id = #{weixinUserInfoId.id},
 		   </if>
 		</where>		
+	</select>
+	
+	<select id="findAdminUndoneOrder" resultType="Ordertable">
+		SELECT 
+			<include refid="ordertableColumns"/>
+		FROM ordertable a
+		<include refid="ordertableJoins"/>
+		where a.status=1
 	</select>
 	
 	
