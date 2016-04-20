@@ -39,13 +39,7 @@ angular.module('myApp.services', ['ngResource'])
   return {
     //返回客户订单列表数据
     getCusOrderList:function(){
-      webService.do(orderTableUrl, {})
-          .success(function (data) {
-            console.log(data);
-            return data;
-          }).error(function (data, status) {
-            return null;
-          });
+        return cusOrderObj.query();
 
     },
     //返回所有未完成订单列表数据

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.weixinfront.admin.entity.WeixinAdminUser;
 import com.thinkgem.jeesite.weixinfront.admin.service.WeixinAdminUserService;
 
@@ -20,7 +21,7 @@ import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping(value = "${weixinPath}/adminUser")
-public class WeixinAdminLoginController {
+public class WeixinAdminLoginController extends BaseController{
 	
 	@Autowired
 	WeixinAdminUserService weixinAdminUserService;

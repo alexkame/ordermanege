@@ -14,7 +14,7 @@
 		a.city AS "city",
 		a.language AS "language",
 		a.headimgurl AS "headimgurl",
-		a.user_name AS "userName",
+		a.user_name AS "username",
 		a.tel AS "tel",
 		a.address AS "address",
 		a.create_by AS "createBy.id",
@@ -49,11 +49,11 @@
 					<if test="dbName == 'mssql'">'%'+#{nickname}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{nickname},'%')</if>
 			</if>
-			<if test="userName != null and userName != ''">
+			<if test="username != null and username != ''">
 				AND a.user_name LIKE 
-					<if test="dbName == 'oracle'">'%'||#{userName}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{userName}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{userName},'%')</if>
+					<if test="dbName == 'oracle'">'%'||#{username}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{username}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{username},'%')</if>
 			</if>
 			<if test="tel != null and tel != ''">
 				AND a.tel LIKE 
@@ -130,7 +130,7 @@
 			#{city},
 			#{language},
 			#{headimgurl},
-			#{userName},
+			#{username},
 			#{tel},
 			#{address},
 			#{createBy.id},
@@ -154,7 +154,7 @@
 			city = #{city},
 			language = #{language},
 			headimgurl = #{headimgurl},
-			user_name = #{userName},
+			user_name = #{username},
 			tel = #{tel},
 			address = #{address},
 			last_login_time = #{lastLoginTime},

@@ -20,5 +20,7 @@ public interface OrdertableDao extends CrudDao<Ordertable> {
 	List<Ordertable> findALlByUser(Ordertable ordertable);
 
 	List<Ordertable> findAdminUndoneOrder();
+
+	List<Ordertable> findAdmindoneOrder();
 	
 }

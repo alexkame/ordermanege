@@ -27,7 +27,7 @@ public class WeixinUserInfo extends DataEntity<WeixinUserInfo> {
 	private String city;		// 城市
 	private String language;		// 语言
 	private String headimgurl;		// 头像
-	private String userName;		// 姓名
+	private String username;		// 姓名
 	private String tel;		// 联系方式
 	private String address;		// 地址
 	private Date lastLoginTime;		// 最后登录时间
@@ -129,19 +129,20 @@ public class WeixinUserInfo extends DataEntity<WeixinUserInfo> {
 	}
 	
 	@Length(min=0, max=50, message="姓名长度必须介于 0 和 50 之间")
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
+
 	
 	@Length(min=0, max=50, message="联系方式长度必须介于 0 和 50 之间")
 	public String getTel() {
 		return tel;
 	}
-
+	
 	public void setTel(String tel) {
 		this.tel = tel;
 	}

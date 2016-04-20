@@ -60,14 +60,14 @@ angular.module('myApp', ['ionic','myApp.controllers','myApp.services'])
             })
             //管理员登录
             .state('adminLogin', {
-                url: '/adminLogin',
-                templateUrl: 'templates/adminLogin.html',
+                url: '/admin/adminLogin',
+                templateUrl: 'templates/admin/adminLogin.html',
                 controller: 'adminController'
             })
             //管理列表
             .state('adminList', {
-                url: '/adminList',
-                templateUrl: 'templates/adminList.html',
+                url: '/admin/adminList',
+                templateUrl: 'templates/admin/adminList.html',
                 controller: 'adminController'
             })
             //未完成订单列表

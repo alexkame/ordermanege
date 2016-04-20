@@ -57,5 +57,9 @@ public class OrdertableService extends CrudService<OrdertableDao, Ordertable> {
 	public List<Ordertable> findAdminUndoneOrder() {
 		return dao.findAdminUndoneOrder();
 	}
+
+	public List<Ordertable> findAdmindoneOrder() {
+		return dao.findAdmindoneOrder();
+	}
 	
 }

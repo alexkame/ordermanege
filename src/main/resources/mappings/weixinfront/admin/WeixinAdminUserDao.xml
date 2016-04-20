@@ -145,7 +145,7 @@
 		</choose>
 	</update>
 	
-	<select id="findUserNameAndPassword" resultType="WeixinAdminUser">
+	<select id="finduserNameAndPassword" resultType="WeixinAdminUser">
 		SELECT 
 			<include refid="weixinAdminUserColumns"/>
 		FROM weixin_admin_user a

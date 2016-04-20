@@ -16,7 +16,8 @@
 		a.total_square AS "totalSquare",
 		a.delivery_time AS "deliveryTime",
 		b.nickname AS "weixinUserInfoId.nickname",
-		b.user_name AS "weixinUserInfoId.userName"
+		b.user_name AS "weixinUserInfoId.username",
+		b.tel AS "weixinUserInfoId.tel"
 	</sql>
 	
 	<sql id="ordertableJoins">
@@ -138,6 +139,14 @@
 		FROM ordertable a
 		<include refid="ordertableJoins"/>
 		where a.status=1
+	</select>
+	
+	<select id="findAdmindoneOrder" resultType="Ordertable">
+		SELECT 
+			<include refid="ordertableColumns"/>
+		FROM ordertable a
+		<include refid="ordertableJoins"/>
+		where a.status>1
 	</select>
 	
 	

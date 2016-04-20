@@ -32,6 +32,7 @@ public class WeixinOrderController extends BaseController {
 	@ResponseBody
 	public List<Ordertable> findALlByUser(HttpServletRequest request,HttpServletResponse response){
 		response.setHeader("Access-Control-Allow-Origin", "*");
+		//System.out.println(JsonMapper.toJsonString(ordertableService.findALlByUser(request)));
 		return ordertableService.findALlByUser(request);
 	}
 	
@@ -43,5 +44,14 @@ public class WeixinOrderController extends BaseController {
 	public List<Ordertable> undoneOrder(HttpServletResponse response){
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		return ordertableService.findAdminUndoneOrder();
+	}
+	/**
+	 * 管理员完成订单
+	 */
+	@RequestMapping(value = "admin/doneOrder",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public List<Ordertable> doneOrder(HttpServletResponse response){
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		return ordertableService.findAdmindoneOrder();
 	}
 }

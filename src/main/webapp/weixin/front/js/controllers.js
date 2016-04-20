@@ -13,9 +13,105 @@ angular.module('myApp.controllers', ['ngResource'])
             });
 
         //获取所有完成订单数据
-        $scope.doneOrderD=Order.getDoneOrderDList();
 
-  }])
+        //获取所有未完成订单数据
+        webService.do(doneOrderUrl, {})
+            .success(function (data) {
+                $scope.doneOrderD=data;
+            }).error(function (data, status) {
+            return null;
+        });
+
+        //切换完成订单的统计及明细显示
+        $scope.showList={
+            list1:true,
+            list2:false
+        };
+        $scope.button1Color_bg=" button-outline"
+        $scope.showDetail=function(state){
+            if(state){
+                $scope.showList.list1=true;
+                $scope.showList.list2=false;
+                $scope.button1Color_bg=" button-outline"
+                $scope.button2Color_bg=""
+            }else{
+                $scope.showList.list1=false;
+                $scope.showList.list2=true;
+                $scope.button1Color_bg=""
+                $scope.button2Color_bg="button-outline";
+                $scope.selectDate.bDate=new Date();
+                $scope.selectDate.eDate=new Date();
+            }
+        };
+        //改变选择框的颜色
+        $scope.select1Color_bg="button-outline";
+        $scope.showDate={
+            selectShow:false,
+            tipShow:true
+        }
+        $scope.selectDate={
+            bDate:new Date(),
+            eDate:new Date()
+        };
+        //获取所有订单瓦片统计
+        $scope.doneOrderItemTotal=Order.getDoneOrderTotalItems($scope.selectDate.bDate,$scope.selectDate.eDate);
+        //获取所有订单配件统计
+        $scope.doneOrderFitTotal=Order.getDoneOrderTotalFits($scope.selectDate.bDate,$scope.selectDate.eDate);
+        $scope.selectResult=function(inum){
+            //初始化隐藏日期选择框
+            $scope.showDate.tipShow=true;
+            $scope.showDate.selectShow=false;
+            //选择今天
+            if(inum==1){
+                $scope.select1Color_bg="button-outline";
+                $scope.select2Color_bg="";
+                $scope.select3Color_bg="";
+                $scope.select4Color_bg="";
+                $scope.selectDate.bDate=new Date();
+                $scope.selectDate.eDate=new Date();
+            }
+            //选择周
+            else if(inum==2){
+                $scope.select1Color_bg="";
+                $scope.select2Color_bg="button-outline";
+                $scope.select3Color_bg="";
+                $scope.select4Color_bg="";
+                $scope.selectDate.bDate=new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()-7);
+                $scope.selectDate.eDate=new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
+            }
+            //选择月
+            else if(inum==3){
+                $scope.select1Color_bg="";
+                $scope.select2Color_bg="";
+                $scope.select3Color_bg="button-outline";
+                $scope.select4Color_bg="";
+                $scope.selectDate.bDate=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+                $scope.selectDate.eDate=new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
+            }
+            else if(inum==4){
+                $scope.select1Color_bg="";
+                $scope.select2Color_bg="";
+                $scope.select3Color_bg="";
+                $scope.select4Color_bg="button-outline";
+                $scope.showDate.selectShow=false;
+                console.log($scope.selectDate.eDate)
+            }
+            //获取所有订单瓦片统计
+            $scope.doneOrderItemTotal=Order.getDoneOrderTotalItems($scope.selectDate.bDate,$scope.selectDate.eDate);
+            //获取所有订单配件统计
+            $scope.doneOrderFitTotal=Order.getDoneOrderTotalFits($scope.selectDate.bDate,$scope.selectDate.eDate);
+        };
+        //显示自定义选择界面
+        $scope.selectDate=function(){
+            $scope.showDate.tipShow=false;
+            $scope.showDate.selectShow=true;
+        };
+
+
+
+
+
+    }])
 
 
     //订单
@@ -28,95 +124,6 @@ angular.module('myApp.controllers', ['ngResource'])
           }).error(function (data, status) {
           return null;
       });
-
-
-
-
-      //切换完成订单的统计及明细显示
-      $scope.showList={
-          list1:true,
-          list2:false
-      };
-      $scope.button1Color_bg=" button-outline"
-      $scope.showDetail=function(state){
-          if(state){
-              $scope.showList.list1=true;
-              $scope.showList.list2=false;
-              $scope.button1Color_bg=" button-outline"
-              $scope.button2Color_bg=""
-          }else{
-              $scope.showList.list1=false;
-              $scope.showList.list2=true;
-              $scope.button1Color_bg=""
-              $scope.button2Color_bg="button-outline";
-              $scope.selectDate.bDate=new Date();
-              $scope.selectDate.eDate=new Date();
-          }
-      };
-      //改变选择框的颜色
-      $scope.select1Color_bg="button-outline";
-      $scope.showDate={
-          selectShow:false,
-          tipShow:true
-      }
-      $scope.selectDate={
-          bDate:new Date(),
-          eDate:new Date()
-      };
-      //获取所有订单瓦片统计
-      $scope.doneOrderItemTotal=Order.getDoneOrderTotalItems($scope.selectDate.bDate,$scope.selectDate.eDate);
-      //获取所有订单配件统计
-      $scope.doneOrderFitTotal=Order.getDoneOrderTotalFits($scope.selectDate.bDate,$scope.selectDate.eDate);
-      $scope.selectResult=function(inum){
-          //初始化隐藏日期选择框
-          $scope.showDate.tipShow=true;
-          $scope.showDate.selectShow=false;
-          //选择今天
-          if(inum==1){
-              $scope.select1Color_bg="button-outline";
-              $scope.select2Color_bg="";
-              $scope.select3Color_bg="";
-              $scope.select4Color_bg="";
-              $scope.selectDate.bDate=new Date();
-              $scope.selectDate.eDate=new Date();
-          }
-          //选择周
-          else if(inum==2){
-              $scope.select1Color_bg="";
-              $scope.select2Color_bg="button-outline";
-              $scope.select3Color_bg="";
-              $scope.select4Color_bg="";
-              $scope.selectDate.bDate=new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()-7);
-              $scope.selectDate.eDate=new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
-          }
-          //选择月
-          else if(inum==3){
-              $scope.select1Color_bg="";
-              $scope.select2Color_bg="";
-              $scope.select3Color_bg="button-outline";
-              $scope.select4Color_bg="";
-              $scope.selectDate.bDate=new Date(new Date().getFullYear(),new Date().getMonth(),1);
-              $scope.selectDate.eDate=new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
-          }
-          else if(inum==4){
-              $scope.select1Color_bg="";
-              $scope.select2Color_bg="";
-              $scope.select3Color_bg="";
-              $scope.select4Color_bg="button-outline";
-              $scope.showDate.selectShow=false;
-              console.log($scope.selectDate.eDate)
-          }
-          //获取所有订单瓦片统计
-          $scope.doneOrderItemTotal=Order.getDoneOrderTotalItems($scope.selectDate.bDate,$scope.selectDate.eDate);
-          //获取所有订单配件统计
-          $scope.doneOrderFitTotal=Order.getDoneOrderTotalFits($scope.selectDate.bDate,$scope.selectDate.eDate);
-      };
-      //显示自定义选择界面
-      $scope.selectDate=function(){
-          $scope.showDate.tipShow=false;
-          $scope.showDate.selectShow=true;
-      };
-
 
 
       //删除订单
@@ -136,9 +143,9 @@ angular.module('myApp.controllers', ['ngResource'])
           webService.do(isAdminLoginUrl, {})
               .success(function (data) {
                   if(data.code==0){
-                      $location.path('/adminLogin');
+                      $location.path('/admin/adminLogin');
                   }else{
-                      $location.path('/adminList');
+                      $location.path('/admin/adminList');
                   }
               }).error(function (data, status) {
                   $location.path('/tab');
@@ -316,7 +323,7 @@ angular.module('myApp.controllers', ['ngResource'])
                 console.log(data);
                 if(data.code==1){
                     console.log("登录成功");
-                    $location.path('/adminList');
+                    $location.path('/admin/adminList');
                 } else{
                     var message=data.message;
                     var alertPopup = $ionicPopup.alert({
@@ -332,13 +339,20 @@ angular.module('myApp.controllers', ['ngResource'])
             });
         }
     }])
-    .controller('cusController',function($scope,$location,Order){
+    .controller('cusController',function($scope,$location,Order, webService){
         //跳转到主页
         $scope.home=function(){
             $location.path('/tab');
         };
         //获取客户列表信息
-        $scope.customerList=Order.getCustmer();
+        //$scope.customerList=Order.getCustmer();getCustmerUrl
+        webService.do(getCustmerUrl, {})
+            .success(function (data) {
+                $scope.customerList=data;
+            }).error(function (data, status) {
+            return null;
+        });
+
 
         //保存及校检修改客户信息
         $scope.myInfo={};
