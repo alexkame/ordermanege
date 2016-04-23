@@ -16,7 +16,9 @@ import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.weixinfront.admin.entity.WeixinAdminUser;
 import com.thinkgem.jeesite.weixinfront.admin.service.WeixinAdminUserService;
+import com.thinkgem.jeesite.weixinfront.util.Util;
 
+import groovyjarjarasm.asm.commons.Method;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -26,13 +28,14 @@ public class WeixinAdminLoginController extends BaseController{
 	@Autowired
 	WeixinAdminUserService weixinAdminUserService;
 	
-	@RequestMapping(value = "login",produces="application/json;charset=utf-8")
+	@RequestMapping(value = "login")
 	@ResponseBody
 	public Map<String,Object> login(String params,HttpServletRequest request,HttpServletResponse response){
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		Map<String,Object> result=new HashMap<String, Object>();
 		try {
-			WeixinAdminUser weixinAdminUser=(WeixinAdminUser) JsonMapper.fromJsonString(params, WeixinAdminUser.class);
+			String params_log = Util.aesDecrypt(params);
+			WeixinAdminUser weixinAdminUser=(WeixinAdminUser) JsonMapper.fromJsonString(params_log, WeixinAdminUser.class);
 			result.putAll(weixinAdminUserService.weixinLogin(weixinAdminUser.getUserName(),weixinAdminUser.getPassword(),request));
 		} catch (Exception e) {
 			result.put("code", 900);
@@ -40,12 +43,13 @@ public class WeixinAdminLoginController extends BaseController{
 		}
 		return result;
 	}
-	@RequestMapping(value = "islogin",produces="application/json;charset=utf-8")
+	@RequestMapping(value = "islogin")
 	@ResponseBody
 	public Map<String,Object> islogin(String params,HttpServletRequest request,HttpServletResponse response){
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		Map<String,Object> result=new HashMap<String, Object>();
 		try {
+			String params_log = Util.aesDecrypt(params);
 			WeixinAdminUser weixinAdminUser=(WeixinAdminUser) request.getSession().getAttribute("weixinAdminUser");
 			if(weixinAdminUser==null){
 				result.put("code", 0);

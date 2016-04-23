@@ -12,9 +12,9 @@
 
         <ion-list>
             <ion-item class="item-remove-animate item-icon-right" ng-repeat="customer in customerList | filter:search" type="item-text-wrap" href="#/customerDetail/{{customer.id}}">
-                <p>{{customer.username}}</p>
-                <p>{{customer.nickname}}</p>
-                <span class="item-note">{{customer.tel}}</span>
+                <p>姓名:{{customer.username}}</p>
+                <p>昵称:{{customer.nickname}}</p>
+                <!--<span class="item-note">联系方式:{{customer.tel}}</span>-->
                 <i class="icon ion-chevron-right icon-accessory"></i>
                 <ion-option-button class="button-assertive" ng-click="remove(customer)">
                     删除

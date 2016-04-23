@@ -31,12 +31,10 @@ public class WeixinInterceptor extends BaseService implements HandlerInterceptor
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, 
 			ModelAndView modelAndView) throws Exception {
-		
 		System.out.println("微信地址拦截modelAndView");
 		
-		/*WeixinUserInfo weixinUserInfo=(WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
+	/*	WeixinUserInfo weixinUserInfo=(WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
 		if(weixinUserInfo==null){
-			
 			String urlbegin = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
 					+ WeixinGlobal.getAppid()
 					+ "&redirect_uri="

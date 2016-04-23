@@ -251,7 +251,7 @@ angular.module('myApp.controllers', ['ngResource'])
             if(value=='fh'){
                 $scope.myFH=!false
             }
-        }
+        };
         $scope.addItem=function(){
             console.log(angular.isString($scope.itemdata.nColor))
             if(!angular.isString($scope.itemdata.nColor)){
@@ -311,6 +311,7 @@ angular.module('myApp.controllers', ['ngResource'])
         $scope.home=function(){
             $location.path('/tab');
         };
+
         //登录及验证
         $scope.adminlogin=function(){
             var userName=$scope.adminlogin.userName;
@@ -339,7 +340,7 @@ angular.module('myApp.controllers', ['ngResource'])
             });
         }
     }])
-    .controller('cusController',function($scope,$location,Order, webService){
+    .controller('cusController',function($scope,$location,$stateParams,Order, webService){
         //跳转到主页
         $scope.home=function(){
             $location.path('/tab');
@@ -353,9 +354,24 @@ angular.module('myApp.controllers', ['ngResource'])
             return null;
         });
 
-
         //保存及校检修改客户信息
         $scope.myInfo={};
+
+        //根据ID获取客户信息
+        var customerID=$stateParams.customerID;
+        //获取客户列表信息
+        webService.do(getCustmerByIdUrl, {id:customerID})
+            .success(function (data) {
+                console.log(data);
+                $scope.myInfo.name=data.username;
+                $scope.myInfo.phone=data.tel;
+                $scope.myInfo.addr=data.address;
+
+            }).error(function (data, status) {
+
+            return null;
+        });
+
         $scope.myValid={
             name:false,
             phone:false

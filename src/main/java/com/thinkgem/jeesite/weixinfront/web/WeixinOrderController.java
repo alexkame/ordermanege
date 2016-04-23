@@ -28,7 +28,7 @@ public class WeixinOrderController extends BaseController {
 	/**
 	 * 微信首页订单
 	 */
-	@RequestMapping(value = "findALlByUser",produces="application/json;charset=utf-8")
+	@RequestMapping(value = "findALlByUser")
 	@ResponseBody
 	public List<Ordertable> findALlByUser(HttpServletRequest request,HttpServletResponse response){
 		response.setHeader("Access-Control-Allow-Origin", "*");
@@ -39,7 +39,7 @@ public class WeixinOrderController extends BaseController {
 	/**
 	 * 管理员未完成订单
 	 */
-	@RequestMapping(value = "admin/undoneOrder",produces="application/json;charset=utf-8")
+	@RequestMapping(value = "admin/undoneOrder")
 	@ResponseBody
 	public List<Ordertable> undoneOrder(HttpServletResponse response){
 		response.setHeader("Access-Control-Allow-Origin", "*");
@@ -48,7 +48,7 @@ public class WeixinOrderController extends BaseController {
 	/**
 	 * 管理员完成订单
 	 */
-	@RequestMapping(value = "admin/doneOrder",produces="application/json;charset=utf-8")
+	@RequestMapping(value = "admin/doneOrder")
 	@ResponseBody
 	public List<Ordertable> doneOrder(HttpServletResponse response){
 		response.setHeader("Access-Control-Allow-Origin", "*");

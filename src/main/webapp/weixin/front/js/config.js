@@ -15,6 +15,12 @@ var doneOrderUrl=host+rootPath+'weixin/weixinOrder/admin/doneOrder';
 //获取客户信息
 var getCustmerUrl=host+rootPath+'weixin/weixinCustomer/admin/findALl';
 
+//根据ID获取客户信息
+var getCustmerByIdUrl=host+rootPath+'weixin/weixinCustomer/admin/findById';
+//根据ID获取客户信息
+var saveCustmerByAdminUrl=host+rootPath+'weixin/weixinCustomer/admin/save';
+
+
 function getWebRootPath() {
     var webroot = document.location.href;
     webroot = webroot.substring(webroot.indexOf('//') + 2, webroot.length);

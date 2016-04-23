@@ -1,15 +1,33 @@
 angular.module('myApp.services', ['ngResource'])
-.service('webService',['$http',function($http){
-    this.do = function(url,params){
-       console.log("url:"+url);
-       return $http({
-            method : 'post',
-            url : url,
-            timeout : 7000,
-            params : {params:params}
-       });
-    }
-}])
+    .service('webService',['$http',function($http){
+
+      this.do = function(url,params){
+        console.log("url:"+url);
+        console.log(params);
+        params = params == null ? '' : aesEncrypt(JSON.stringify(params));
+
+        return $http({
+          method : 'post',
+          url : url,
+          timeout : 7000,
+          params : {params:params}
+        });
+      }
+    }])
+    .service('webServiceLong',['$http',function($http){
+
+      this.do = function(url,params){
+        console.log("url:"+url);
+        params = params == null ? '' : aesEncrypt(JSON.stringify(params));
+
+        return $http({
+          method : 'post',
+          url : url,
+          timeout : 20000,
+          params : {params:params}
+        });
+      }
+    }])
 .factory('Order', function($rootScope,$resource,$http,webService) {
 
   //获取客户订单列表数据
