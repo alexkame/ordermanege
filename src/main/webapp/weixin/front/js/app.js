@@ -89,9 +89,9 @@ angular.module('myApp', ['ionic','myApp.controllers','myApp.services'])
             })
 
             //客户信息管理
-            .state('customer', {
-            url: '/customer',
-            templateUrl: 'templates/customer.html',
+            .state('admin/customer', {
+            url: '/admin/customer',
+            templateUrl: 'templates/admin/customer.html',
             controller: 'cusController'
             })
             .state('myInfo', {
@@ -99,22 +99,25 @@ angular.module('myApp', ['ionic','myApp.controllers','myApp.services'])
                 templateUrl: 'templates/myInfo.html',
                 controller: 'cusController'
             })
-            .state('customerDetail', {
-                url: '/customerDetail/:customerID',
-                templateUrl: 'templates/customerDetail.html',
+            .state('admin/customerDetail', {
+                url: '/admin/customerDetail/:customerID',
+                templateUrl: 'templates/admin/customerDetail.html',
                 controller: 'cusController'
             })
+
             //员工信息管理
-            .state('employ', {
-                url: '/employ',
-                templateUrl: 'templates/employ.html',
+            .state('admin/employ', {
+                url: '/admin/employ',
+                templateUrl: 'templates/admin/employ.html',
                 controller: 'employController'
             })
-            .state('employDetail', {
-                url: '/employDetail/:employID',
-                templateUrl: 'templates/employDetail.html',
-                controller: 'employController'
+            //员工信息详情
+            .state('admin/employDetail', {
+                url: '/admin/employDetail/:employID',
+                templateUrl: 'templates/admin/employDetail.html',
+                controller: 'employDetailController'
             })
+
             //配件管理
             .state('fitting', {
                 url: '/fitting',

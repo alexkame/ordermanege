@@ -1,6 +1,8 @@
 package com.thinkgem.jeesite.weixinfront.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.weixin.system.entity.WeixinUserInfo;
 import com.thinkgem.jeesite.weixinfront.order.entity.Ordertable;
 import com.thinkgem.jeesite.weixinfront.order.service.OrdertableService;
+import com.thinkgem.jeesite.weixinfront.util.Util;
 
 /**
  * 微信订单表
@@ -53,5 +57,28 @@ public class WeixinOrderController extends BaseController {
 	public List<Ordertable> doneOrder(HttpServletResponse response){
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		return ordertableService.findAdmindoneOrder();
+	}
+	
+	
+	/**
+	 * 微信获取客户信息根据ID
+	 */
+	@RequestMapping(value = "admin/delete")
+	@ResponseBody
+	public Map<String, Object> delete(String params, HttpServletRequest request, HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		Map<String, Object> result=new HashMap<String, Object>();
+		try {
+			String params_log = Util.aesDecrypt(params);
+			Ordertable ordertable = (Ordertable) JsonMapper.fromJsonString(params_log,
+					Ordertable.class);
+			ordertableService.delete(ordertable);
+			result.put("code", true);
+		} catch (Exception e) {
+			logger.error("weixinOrder delete error : {}",e.getMessage());
+			result.put("code", false);
+			result.put("message", "系统出错");
+		}
+		return result;
 	}
 }

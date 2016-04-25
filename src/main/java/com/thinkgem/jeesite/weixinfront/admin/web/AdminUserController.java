@@ -29,7 +29,7 @@ import com.thinkgem.jeesite.weixinfront.admin.service.WeixinAdminUserService;
  */
 @Controller
 @RequestMapping(value = "${adminPath}/admin/weixinAdminUser")
-public class WeixinAdminUserController extends BaseController {
+public class AdminUserController extends BaseController {
 
 	@Autowired
 	private WeixinAdminUserService weixinAdminUserService;

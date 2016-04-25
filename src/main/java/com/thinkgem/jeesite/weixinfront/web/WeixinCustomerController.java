@@ -55,7 +55,7 @@ public class WeixinCustomerController extends BaseController {
 	}
 
 	/**
-	 * 微信获取客户信息根据ID
+	 * 保存客户信息
 	 */
 	@RequestMapping(value = "admin/save")
 	@ResponseBody
@@ -75,6 +75,28 @@ public class WeixinCustomerController extends BaseController {
 			result.put("code", true);
 		} catch (Exception e) {
 			logger.error("weixinCustomer save error : {}",e.getMessage());
+			result.put("code", false);
+			result.put("message", "系统出错");
+		}
+		return result;
+	}
+	
+	/**
+	 * 删除客户信息
+	 */
+	@RequestMapping(value = "admin/delete")
+	@ResponseBody
+	public Map<String, Object> delete(String params, HttpServletRequest request, HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		Map<String, Object> result=new HashMap<String, Object>();
+		try {
+			String params_log = Util.aesDecrypt(params);
+			WeixinUserInfo weixinUserInfo = (WeixinUserInfo) JsonMapper.fromJsonString(params_log,
+					WeixinUserInfo.class);
+			weixinUserInfoService.delete(weixinUserInfo);
+			result.put("code", true);
+		} catch (Exception e) {
+			logger.error("weixinCustomer delete error : {}",e.getMessage());
 			result.put("code", false);
 			result.put("message", "系统出错");
 		}

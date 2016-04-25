@@ -25,14 +25,6 @@ public class WeixinInterceptor extends BaseService implements HandlerInterceptor
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, 
 			Object handler) throws Exception {
 		
-		return true;
-	}
-
-	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, 
-			ModelAndView modelAndView) throws Exception {
-		System.out.println("微信地址拦截modelAndView");
-		
 	/*	WeixinUserInfo weixinUserInfo=(WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
 		if(weixinUserInfo==null){
 			String urlbegin = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
@@ -42,8 +34,16 @@ public class WeixinInterceptor extends BaseService implements HandlerInterceptor
 			String urlcontent=Global.getWeixinPath()+"/weixinIndex/oAuth";
 			String urlend = "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 			System.out.println(urlbegin+urlcontent+urlend);
-			modelAndView.setViewName("redirect:"+urlbegin+urlcontent+urlend);
+			response.sendRedirect(urlbegin + urlcontent + urlend);
+			return false;
 		}*/
+		return true;
+	}
+
+	@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, 
+			ModelAndView modelAndView) throws Exception {
+		System.out.println("微信地址拦截modelAndView");
 	}
 
 	@Override

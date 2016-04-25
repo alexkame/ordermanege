@@ -29,7 +29,7 @@
 				<form:input path="nickname" htmlEscape="false" maxlength="50" class="input-medium"/>
 			</li>
 			<li><label>姓名：</label>
-				<form:input path="userName" htmlEscape="false" maxlength="50" class="input-medium"/>
+				<form:input path="username" htmlEscape="false" maxlength="50" class="input-medium"/>
 			</li>
 			<li><label>联系方式：</label>
 				<form:input path="tel" htmlEscape="false" maxlength="50" class="input-medium"/>
@@ -47,7 +47,7 @@
 			<tr>
 				<th>微信号标识</th>
 				<th>昵称</th>
-				<th>性别（1是男性，2是女性，0是未知）</th>
+				<th>性别</th>
 				<th>国家</th>
 				<th>省份</th>
 				<th>城市</th>
@@ -71,7 +71,7 @@
 					${weixinUserInfo.nickname}
 				</td>
 				<td>
-					${weixinUserInfo.sex}
+					${weixinUserInfo.sex==1?'男':'女'}
 				</td>
 				<td>
 					${weixinUserInfo.country}
@@ -83,10 +83,10 @@
 					${weixinUserInfo.city}
 				</td>
 				<td>
-					${weixinUserInfo.headimgurl}
+				    <img src="${weixinUserInfo.headimgurl}" width="150px" height="150px"/>
 				</td>
 				<td>
-					${weixinUserInfo.userName}
+					${weixinUserInfo.username}
 				</td>
 				<td>
 					${weixinUserInfo.tel}

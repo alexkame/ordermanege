@@ -1,8 +1,8 @@
 angular.module('myApp.controllers', ['ngResource'])
 
     //订单
-.controller('AdminOrderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService',
-    function($scope,Order,$location,$ionicSideMenuDelegate,webService) {
+.controller('AdminOrderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService','$ionicPopup',
+    function($scope,Order,$location,$ionicSideMenuDelegate,webService,$ionicPopup) {
 
         //获取所有未完成订单数据
         webService.do(undoneOrderUrl, {})
@@ -12,8 +12,6 @@ angular.module('myApp.controllers', ['ngResource'])
                 return null;
             });
 
-        //获取所有完成订单数据
-
         //获取所有未完成订单数据
         webService.do(doneOrderUrl, {})
             .success(function (data) {
@@ -21,6 +19,37 @@ angular.module('myApp.controllers', ['ngResource'])
             }).error(function (data, status) {
             return null;
         });
+
+
+        //删除订单
+        $scope.remove = function(order) {
+
+            console.log(order);
+            var alertPopup;
+            webService.do(deleteOrderByIdUrl, {
+                id:order.id
+            }) .success(function (data) {
+                console.log(data);
+                if(data.code){
+                    alertPopup = $ionicPopup.alert({
+                        title: '删除成功',
+                        template: '您的信息删除成功！'
+                    });
+                    $scope.undoneOrderD.splice($scope.undoneOrderD.indexOf(order), 1);
+                }else{
+                    alertPopup = $ionicPopup.alert({
+                        title: '删除失败',
+                        template: data.msg
+                    });
+                }
+            }).error(function (data, status) {
+                alertPopup = $ionicPopup.alert({
+                    title: '删除失败',
+                    template: '数据连接错误！'
+                });
+            });
+
+        };
 
         //切换完成订单的统计及明细显示
         $scope.showList={
@@ -128,7 +157,31 @@ angular.module('myApp.controllers', ['ngResource'])
 
       //删除订单
       $scope.remove = function(order) {
-        Order.remove(order);
+
+         var alertPopup;
+          webService.do(deleteOrderByIdUrl, {
+             id:order.id
+          }) .success(function (data) {
+              console.log(data);
+              if(data.code){
+                  alertPopup = $ionicPopup.alert({
+                      title: '删除成功',
+                      template: '您的信息删除成功！'
+                  });
+                  $scope.undoneOrderD.splice($scope.undoneOrderD.indexOf(order), 1);
+              }else{
+                  alertPopup = $ionicPopup.alert({
+                      title: '删除失败',
+                      template: data.msg
+                  });
+              }
+          }).error(function (data, status) {
+              alertPopup = $ionicPopup.alert({
+                  title: '删除失败',
+                  template: '数据连接错误！'
+              });
+          });
+
       };
       //跳转到订单新增界面
       $scope.add=function(){
@@ -340,7 +393,7 @@ angular.module('myApp.controllers', ['ngResource'])
             });
         }
     }])
-    .controller('cusController',function($scope,$location,$stateParams,Order, webService){
+    .controller('cusController',function($scope,$location,$stateParams,$state,$ionicPopup,Order, webService){
         //跳转到主页
         $scope.home=function(){
             $location.path('/tab');
@@ -374,33 +427,126 @@ angular.module('myApp.controllers', ['ngResource'])
 
         $scope.myValid={
             name:false,
-            phone:false
+            phone:false,
+            addr:false
         };
         $scope.save=function(){
             $scope.myValid.name=!angular.isString($scope.myInfo.name);
             $scope.myValid.phone=!angular.isString($scope.myInfo.phone);
-            if(angular.isString($scope.myInfo.name)&&angular.isString($scope.myInfo.phone)){
-                var alertPopup = $ionicPopup.alert({
-                    title: '保存成功',
-                    template: '您的信息保存成功！'
-                });
-                alertPopup.then(function(res) {
-                    console.log('写入保存内容'+$scope.myInfo);
-                });
+            $scope.myValid.addr=!angular.isString($scope.myInfo.addr);
+            if(angular.isString($scope.myInfo.name)&&angular.isString($scope.myInfo.phone)&&angular.isString($scope.myInfo.addr)){
+
+                var alertPopup ;
+                //保存
+                webService.do(saveCustmerByAdminUrl, {
+                    username:$scope.myInfo.name,
+                    tel:$scope.myInfo.phone,
+                    address:$scope.myInfo.addr
+                }) .success(function (data) {
+                        console.log(data);
+                        if(data.code){
+                            alertPopup = $ionicPopup.alert({
+                                title: '保存成功',
+                                template: '您的信息保存成功！'
+                            });
+                            $state.go('admin/customer');
+                        }else{
+                            alertPopup = $ionicPopup.alert({
+                                title: '保存失败',
+                                template: data.msg
+                            });
+                        }
+                    }).error(function (data, status) {
+                        alertPopup = $ionicPopup.alert({
+                            title: '保存失败',
+                            template: '数据连接错误！'
+                        });
+                   });
             }
         }
         //删除配件信息
         $scope.remove=function(obj){
-            console.log("这里执行删除操作")
-            $scope.customerList.splice($scope.customerList.indexOf(obj), 1);
+            console.log("这里执行删除操作");
+            var alertPopup;
+            //获取客户列表信息
+            webService.do(deleteCustmerByIdUrl, {id:obj.id})
+                .success(function (data) {
+                    if(data.code){
+                        alertPopup = $ionicPopup.alert({
+                            title: '删除成功',
+                            template: '您的信息删除成功！'
+                        });
+                        $scope.customerList.splice($scope.customerList.indexOf(obj), 1);
+                    }else{
+                        alertPopup = $ionicPopup.alert({
+                            title: '删除失败',
+                            template: data.msg
+                        });
+                    }
+                }).error(function (data, status) {
+                    alertPopup = $ionicPopup.alert({
+                        title: '删除失败',
+                        template: '数据连接失败'
+                    });
+                });
         }
     })
-    .controller('employController',function($scope,$location,$ionicModal,$ionicPopup,Order){
+
+    //员工信息详情
+    .controller('employDetailController',function($scope,$location,$ionicModal,$state,$ionicPopup,Order,webService,$stateParams) {
+
+        //保存及校检修改员工信息
+        $scope.employ={};
+
+        //获取员工信息ID
+        var employID=$stateParams.employID;
+
+        //获取员工信息
+        webService.do(getCustmerByIdUrl, {id:employID})
+            .success(function (data) {
+                console.log(data);
+                $scope.employ.userName=data.userName;
+                $scope.employ.password=data.password;
+                $scope.employ.name=data.name;
+                $scope.employ.tel=data.tel;
+            }).error(function (data, status) {
+                return null;
+        });
+
+        //保存修改员工信息
+        $scope.saveEmploy=function(){
+            var alertPopup = $ionicPopup.alert({
+                title: '保存成功',
+                template: '您的信息保存成功！'
+            });
+            alertPopup.then(function(res) {
+                console.log('写入保存内容'+$scope.employ);
+            });
+        }
+
+
+    })
+
+    .controller('employController',function($scope,$location,$ionicModal,$state,$ionicPopup,Order,webService){
+
+        //弹出框
+        var alertPopup;
 
         //获取客户列表信息
-        $scope.employList=Order.getEmploy();
+        webService.do(getEmployListUrl, {})
+            .success(function (data) {
+                console.log(data);
+                //获取客户列表信息
+                $scope.employList=data;
+            }).error(function (data, status) {
+                alertPopup = $ionicPopup.alert({
+                    title: '数据连接失败',
+                    template: '数据连接失败'
+                });
+            });
+
         //新增客户，调用对话框
-        $ionicModal.fromTemplateUrl("templates/employAdd.html",{
+        $ionicModal.fromTemplateUrl("templates/admin/employAdd.html",{
             scope:$scope,
             animation:"slide-in-up"
         }).then(function(modal){
@@ -415,26 +561,83 @@ angular.module('myApp.controllers', ['ngResource'])
         $scope.closeEmploy=function(){
             $scope.modal.hide();
         };
+
+        //添加框隐藏
+        $scope.$on('modal.hidden', function() {
+            //刷新客户信息
+            //获取客户列表信息
+            webService.do(getEmployListUrl, {})
+                .success(function (data) {
+                    console.log(data);
+                    //获取客户列表信息
+                    $scope.employList=data;
+                }).error(function (data, status) {
+                alertPopup = $ionicPopup.alert({
+                    title: '数据连接失败',
+                    template: '数据连接失败'
+                });
+            });
+        });
+
         //新增员工
         $scope.addEmploy=function(){
             //这里执行添加
-            console.log("执行添加")
-            $scope.modal.hide();
+            console.log("执行添加");
+
+            var userName=$scope.employ.userName;
+            var password=$scope.employ.password;
+            var name=$scope.employ.name;
+            var tel=$scope.employ.tel;
+            //保存
+            webService.do(saveAdminUserUrl, {
+                userName:userName,
+                password:password,
+                name:name,
+                tel:tel
+            }) .success(function (data) {
+                console.log(data);
+                if(data.code){
+                    alertPopup = $ionicPopup.alert({
+                        title: '保存成功',
+                        template: '您的信息保存成功！'
+                    });
+                    $scope.modal.hide();
+                }else{
+                    alertPopup = $ionicPopup.alert({
+                        title: '保存失败',
+                        template: data.msg
+                    });
+                }
+            }).error(function (data, status) {
+                alertPopup = $ionicPopup.alert({
+                    title: '保存失败',
+                    template: '数据连接错误！'
+                });
+            });
         };
-        //保存修改员工信息
-        $scope.saveEmploy=function(){
-            var alertPopup = $ionicPopup.alert({
-                title: '保存成功',
-                template: '您的信息保存成功！'
-            });
-            alertPopup.then(function(res) {
-                console.log('写入保存内容'+$scope.employ);
-            });
-        }
         //删除员工信息
         $scope.remove=function(obj){
             console.log("这里执行删除操作")
-            $scope.employList.splice($scope.employList.indexOf(obj), 1);
+            webService.do(deleteAdminUserUrl, {id:obj.id})
+                .success(function (data) {
+                    if(data.code){
+                        alertPopup = $ionicPopup.alert({
+                            title: '删除成功',
+                            template: '您的信息删除成功！'
+                        });
+                        $scope.employList.splice($scope.employList.indexOf(obj), 1);
+                    }else{
+                        alertPopup = $ionicPopup.alert({
+                            title: '删除失败',
+                            template: data.msg
+                        });
+                    }
+                }).error(function (data, status) {
+                alertPopup = $ionicPopup.alert({
+                    title: '删除失败',
+                    template: '数据连接失败'
+                });
+            });
         }
     })
     .controller('fittingController',function($scope,$location,$ionicModal,$ionicPopup,Order){

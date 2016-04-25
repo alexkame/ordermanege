@@ -1,8 +1,11 @@
-<ion-view view-title="客户管理">
+<ion-view view-title="员工管理">
     <ion-nav-bar class="bar-positive">
         <ion-nav-back-button >
             <div class="button button-clear ion-chevron-left"></div> 返回
         </ion-nav-back-button>
+        <ion-nav-buttons side="right">
+            <button class="button button-clear" ng-click="showEmploy()">添加</button>
+        </ion-nav-buttons>
     </ion-nav-bar>
     <ion-content class="has-header">
         <div class="item item-input">
@@ -11,12 +14,12 @@
         </div>
 
         <ion-list>
-            <ion-item class="item-remove-animate item-icon-right" ng-repeat="customer in customerList | filter:search" type="item-text-wrap" href="#/customerDetail/{{customer.id}}">
-                <p>姓名:{{customer.username}}</p>
-                <p>昵称:{{customer.nickname}}</p>
-                <!--<span class="item-note">联系方式:{{customer.tel}}</span>-->
+            <ion-item class="item-remove-animate item-icon-right" ng-repeat="employ in employList | filter:search" type="item-text-wrap" href="#/admin/employDetail/{{employ.id}}">
+                {{employ.name}}
+                <span class="item-note">{{employ.userName}}</span>
                 <i class="icon ion-chevron-right icon-accessory"></i>
-                <ion-option-button class="button-assertive" ng-click="remove(customer)">
+
+                <ion-option-button class="button-assertive" ng-click="remove(employ)">
                     删除
                 </ion-option-button>
             </ion-item>

@@ -99,7 +99,7 @@
 		<div class="control-group">
 			<label class="control-label">姓名：</label>
 			<div class="controls">
-				<form:input path="userName" htmlEscape="false" maxlength="50" class="input-xlarge "/>
+				<form:input path="username" htmlEscape="false" maxlength="50" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">

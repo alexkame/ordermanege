@@ -11,6 +11,8 @@ var orderTableUrl=host+rootPath+'weixin/weixinOrder/findALlByUser';
 var undoneOrderUrl=host+rootPath+'weixin/weixinOrder/admin/undoneOrder';
 //获取已完成订单
 var doneOrderUrl=host+rootPath+'weixin/weixinOrder/admin/doneOrder';
+//根据ID删除订单
+var deleteOrderByIdUrl=host+rootPath+'weixin/weixinOrder/admin/delete';
 
 //获取客户信息
 var getCustmerUrl=host+rootPath+'weixin/weixinCustomer/admin/findALl';
@@ -19,7 +21,17 @@ var getCustmerUrl=host+rootPath+'weixin/weixinCustomer/admin/findALl';
 var getCustmerByIdUrl=host+rootPath+'weixin/weixinCustomer/admin/findById';
 //根据ID获取客户信息
 var saveCustmerByAdminUrl=host+rootPath+'weixin/weixinCustomer/admin/save';
+//根据ID删除客户信息
+var deleteCustmerByIdUrl=host+rootPath+'weixin/weixinCustomer/admin/delete';
 
+//获取员工信息
+var getEmployListUrl=host+rootPath+'weixin/adminUser/findALl';
+//保存员工信息
+var saveAdminUserUrl=host+rootPath+'weixin/adminUser/save';
+//删除员工信息
+var deleteAdminUserUrl=host+rootPath+'weixin/adminUser/delete';
+//根据ID获取客户信息
+var getEmployByIdUrl=host+rootPath+'weixin/adminUser/findById';
 
 function getWebRootPath() {
     var webroot = document.location.href;
