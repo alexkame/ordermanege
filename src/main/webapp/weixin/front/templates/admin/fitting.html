@@ -14,10 +14,10 @@
         </div>
 
         <ion-list>
-            <ion-item class="item item-avatar-left item-icon-right" ng-repeat="fitting in fittingList | filter:search"  href="#/fittingDetail/{{fitting.id}}">
+            <ion-item class="item item-avatar-left item-icon-right" ng-repeat="fitting in fittingList | filter:search"  href="#/admin/fittingDetail/{{fitting.id}}">
                 <img src={{fitting.img}}>
                 <h2>{{fitting.name}}</h2>
-                <p>{{fitting.spec}}.</p>
+                <p>{{fitting.spec}}</p>
                 <i class="icon ion-chevron-right icon-accessory"></i>
 
                 <ion-option-button class="button-assertive" ng-click="remove(fitting)">

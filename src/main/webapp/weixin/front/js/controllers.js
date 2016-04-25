@@ -9,7 +9,7 @@ angular.module('myApp.controllers', ['ngResource'])
             .success(function (data) {
                 $scope.undoneOrderD=data;
             }).error(function (data, status) {
-                return null;
+               alert("获取数据失败!");
             });
 
         //获取所有未完成订单数据
@@ -17,8 +17,8 @@ angular.module('myApp.controllers', ['ngResource'])
             .success(function (data) {
                 $scope.doneOrderD=data;
             }).error(function (data, status) {
-            return null;
-        });
+                alert("获取数据失败!");
+           });
 
 
         //删除订单
@@ -151,8 +151,8 @@ angular.module('myApp.controllers', ['ngResource'])
           .success(function (data) {
               $scope.data=data;
           }).error(function (data, status) {
-          return null;
-      });
+              alert("获取数据失败!");
+         });
 
 
       //删除订单
@@ -404,8 +404,8 @@ angular.module('myApp.controllers', ['ngResource'])
             .success(function (data) {
                 $scope.customerList=data;
             }).error(function (data, status) {
-            return null;
-        });
+                alert("获取数据失败!");
+           });
 
         //保存及校检修改客户信息
         $scope.myInfo={};
@@ -416,14 +416,14 @@ angular.module('myApp.controllers', ['ngResource'])
         webService.do(getCustmerByIdUrl, {id:customerID})
             .success(function (data) {
                 console.log(data);
+                $scope.myInfo.id=data.id;
                 $scope.myInfo.name=data.username;
                 $scope.myInfo.phone=data.tel;
                 $scope.myInfo.addr=data.address;
 
             }).error(function (data, status) {
-
-            return null;
-        });
+                alert("获取数据失败!");
+           });
 
         $scope.myValid={
             name:false,
@@ -439,6 +439,7 @@ angular.module('myApp.controllers', ['ngResource'])
                 var alertPopup ;
                 //保存
                 webService.do(saveCustmerByAdminUrl, {
+                    id: $scope.myInfo.id,
                     username:$scope.myInfo.name,
                     tel:$scope.myInfo.phone,
                     address:$scope.myInfo.addr
@@ -495,6 +496,7 @@ angular.module('myApp.controllers', ['ngResource'])
     //员工信息详情
     .controller('employDetailController',function($scope,$location,$ionicModal,$state,$ionicPopup,Order,webService,$stateParams) {
 
+        var alertPopup;
         //保存及校检修改员工信息
         $scope.employ={};
 
@@ -502,26 +504,50 @@ angular.module('myApp.controllers', ['ngResource'])
         var employID=$stateParams.employID;
 
         //获取员工信息
-        webService.do(getCustmerByIdUrl, {id:employID})
+        webService.do(getEmployByIdUrl, {id:employID})
             .success(function (data) {
+                console.log(1);
                 console.log(data);
+                $scope.employ.id=data.id;
                 $scope.employ.userName=data.userName;
                 $scope.employ.password=data.password;
                 $scope.employ.name=data.name;
                 $scope.employ.tel=data.tel;
             }).error(function (data, status) {
                 return null;
-        });
+          });
 
         //保存修改员工信息
         $scope.saveEmploy=function(){
-            var alertPopup = $ionicPopup.alert({
-                title: '保存成功',
-                template: '您的信息保存成功！'
-            });
-            alertPopup.then(function(res) {
-                console.log('写入保存内容'+$scope.employ);
-            });
+
+            webService.do(updateEmployUrl, {
+                id: $scope.employ.id,
+                userName: $scope.employ.userName,
+                password: $scope.employ.password,
+                name: $scope.employ.name,
+                tel: $scope.employ.tel
+            }) .success(function (data) {
+                    if(data.code) {
+                        alertPopup = $ionicPopup.alert({
+                            title: '保存成功',
+                            template: '您的信息保存成功！'
+                        });
+                        alertPopup.then(function (res) {
+                            console.log('写入保存内容' + $scope.employ);
+                        });
+                        $state.go('admin/employ');
+                    }else{
+                        alertPopup = $ionicPopup.alert({
+                            title: '保存失败',
+                            template: '保存失败！'
+                        });
+                    }
+                }).error(function (data, status) {
+                       alertPopup = $ionicPopup.alert({
+                        title: '保存失败',
+                        template: '保存失败！'
+                    });
+                });
         }
 
 
@@ -640,46 +666,167 @@ angular.module('myApp.controllers', ['ngResource'])
             });
         }
     })
-    .controller('fittingController',function($scope,$location,$ionicModal,$ionicPopup,Order){
+    .controller('fittingDetailController',function($scope,$location,$ionicModal,$ionicPopup,$stateParams,$state,Order,webService) {
+        var alertPopup;
+        //保存及校检修改配件信息
+        $scope.Fitting={};
 
+        //获取配件信息ID
+        var fittingID=$stateParams.fittingID;
+
+        //获取员工信息
+        webService.do(getPartsInfoByIdUrl, {id:fittingID})
+            .success(function (data) {
+                console.log(data);
+                $scope.Fitting.id=data.id;
+                $scope.Fitting.name=data.name;
+                $scope.Fitting.spec=data.spec;
+            }).error(function (data, status) {
+                return null;
+            });
+
+
+        //保存修改配件信息
+        $scope.saveFitting=function(){
+
+            webService.do(updatePartsInfoUrl, {
+                id: $scope.Fitting.id,
+                name:$scope.Fitting.name,
+                spec:$scope.Fitting.spec
+            }) .success(function (data) {
+                if(data.code) {
+                    alertPopup = $ionicPopup.alert({
+                        title: '保存成功',
+                        template: '您的信息保存成功！'
+                    });
+                    alertPopup.then(function (res) {
+                        console.log('写入保存内容' + $scope.employ);
+                    });
+                    $state.go('admin/fitting');
+                }else{
+                    alertPopup = $ionicPopup.alert({
+                        title: '保存失败',
+                        template: '保存失败！'
+                    });
+                }
+            }).error(function (data, status) {
+                alertPopup = $ionicPopup.alert({
+                    title: '保存失败',
+                    template: '保存失败！'
+                });
+            });
+        }
+
+    })
+    .controller('fittingController',function($scope,$location,$ionicModal,$ionicPopup,Order,webService){
+        //保存及校检修改配件
+        $scope.Fitting={};
+
+        var alertPopup;
         //获取配件列表信息
-        $scope.fittingList=Order.getFitting();
+        webService.do(getPartsInfoListUrl, {})
+            .success(function (data) {
+                console.log(data);
+                //获取配件列表信息
+                $scope.fittingList=data;
+            }).error(function (data, status) {
+                alertPopup = $ionicPopup.alert({
+                    title: '数据连接失败',
+                    template: '数据连接失败'
+                });
+            });
+
+        //添加框隐藏
+        $scope.$on('modal.hidden', function() {
+            //刷新客户信息
+            //获取配件列表信息
+            webService.do(getPartsInfoListUrl, {})
+                .success(function (data) {
+                    console.log(data);
+                    //获取配件列表信息
+                    $scope.fittingList=data;
+                }).error(function (data, status) {
+                    alertPopup = $ionicPopup.alert({
+                        title: '数据连接失败',
+                        template: '数据连接失败'
+                    });
+                });
+        });
+
         //新增配件，调用对话框
-        $ionicModal.fromTemplateUrl("templates/fittingAdd.html",{
+        $ionicModal.fromTemplateUrl("templates/admin/fittingAdd.html",{
             scope:$scope,
             animation:"slide-in-up"
         }).then(function(modal){
             $scope.modal=modal;
         });
+
         //显示新增界面
         $scope.showFitting=function(){
             $scope.modal.show();
             $scope.fitting={};
         };
+
         //关闭新增界面
         $scope.closeFitting=function(){
             $scope.modal.hide();
         };
+
         //新增配件
         $scope.addFitting=function(){
             //这里执行添加
             console.log("执行添加")
-            $scope.modal.hide();
+            var name=$scope.Fitting.name;
+            var spec=$scope.Fitting.spec;
+            //保存配件信息
+            webService.do(savePartsInfoUrl, {
+                name:name,
+                spec:spec
+            }) .success(function (data) {
+                console.log(data);
+                if(data.code){
+                    alertPopup = $ionicPopup.alert({
+                        title: '保存成功',
+                        template: '您的信息保存成功！'
+                    });
+                    $scope.modal.hide();
+                }else{
+                    alertPopup = $ionicPopup.alert({
+                        title: '保存失败',
+                        template: data.msg
+                    });
+                }
+            }).error(function (data, status) {
+                alertPopup = $ionicPopup.alert({
+                    title: '保存失败',
+                    template: '数据连接错误！'
+                });
+            });
         };
-        //保存修改配件信息
-        $scope.saveFitting=function(){
-            var alertPopup = $ionicPopup.alert({
-                title: '保存成功',
-                template: '您的信息保存成功！'
-            });
-            alertPopup.then(function(res) {
-                console.log('写入保存内容'+$scope.fitting);
-            });
-        }
+
         //删除配件信息
         $scope.remove=function(obj){
             console.log("这里执行删除操作")
-            $scope.fittingList.splice($scope.fittingList.indexOf(obj), 1);
+            webService.do(deletePartsInfoUrl, {id:obj.id})
+                .success(function (data) {
+                    if(data.code){
+                        alertPopup = $ionicPopup.alert({
+                            title: '删除成功',
+                            template: '您的信息删除成功！'
+                        });
+                        $scope.fittingList.splice($scope.fittingList.indexOf(obj), 1);
+                    }else{
+                        alertPopup = $ionicPopup.alert({
+                            title: '删除失败',
+                            template: data.msg
+                        });
+                    }
+                }).error(function (data, status) {
+                    alertPopup = $ionicPopup.alert({
+                        title: '删除失败',
+                        template: '数据连接失败'
+                    });
+                });
         }
     })
 

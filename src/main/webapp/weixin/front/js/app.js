@@ -119,15 +119,15 @@ angular.module('myApp', ['ionic','myApp.controllers','myApp.services'])
             })
 
             //配件管理
-            .state('fitting', {
-                url: '/fitting',
-                templateUrl: 'templates/fitting.html',
+            .state('admin/fitting', {
+                url: '/admin/fitting',
+                templateUrl: 'templates/admin/fitting.html',
                 controller: 'fittingController'
             })
-            .state('fittingDetail', {
-                url: '/fittingDetail/:fittingID',
-                templateUrl: 'templates/fittingDetail.html',
-                controller: 'fittingController'
+            .state('admin/fittingDetail', {
+                url: '/admin/fittingDetail/:fittingID',
+                templateUrl: 'templates/admin/fittingDetail.html',
+                controller: 'fittingDetailController'
             })
 
 

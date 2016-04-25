@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.weixinfront.parts.dao.PartsInfoDao">
+    
+	<sql id="partsInfoColumns">
+		a.id AS "id",
+		a.picture AS "picture",
+		a.name AS "name",
+		a.spec AS "spec",
+		a.purpose AS "purpose"
+	</sql>
+	
+	<sql id="partsInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="PartsInfo">
+		SELECT 
+			<include refid="partsInfoColumns"/>
+		FROM parts_info a
+		<include refid="partsInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PartsInfo">
+		SELECT 
+			<include refid="partsInfoColumns"/>
+		FROM parts_info a
+		<include refid="partsInfoJoins"/>
+		<where>
+			
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PartsInfo">
+		SELECT 
+			<include refid="partsInfoColumns"/>
+		FROM parts_info a
+		<include refid="partsInfoJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO parts_info(
+			id,
+			picture,
+			name,
+			spec,
+			purpose
+		) VALUES (
+			#{id},
+			#{picture},
+			#{name},
+			#{spec},
+			#{purpose}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE parts_info SET 	
+			picture = #{picture},
+			name = #{name},
+			spec = #{spec},
+			purpose = #{purpose}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM parts_info
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

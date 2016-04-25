@@ -8,16 +8,18 @@
 		a.order_num AS "orderNum",
 		a.create_time AS "createTime",
 		a.status AS "status",
-		case
-			when a.status='1' then '待发货'
-			when a.status='2' then '已发货'
-			when a.status='3' then '作废'
-		end as "statusStr",
+		case a.status
+		when '1' then '待发货'
+		when '2' then '已发货'
+		when '3' then '作废'
+		end
+		AS "statusStr",
 		a.total_square AS "totalSquare",
 		a.delivery_time AS "deliveryTime",
 		b.nickname AS "weixinUserInfoId.nickname",
 		b.user_name AS "weixinUserInfoId.username",
-		b.tel AS "weixinUserInfoId.tel"
+		b.tel AS "weixinUserInfoId.tel",
+		b.address AS "weixinUserInfoId.address"
 	</sql>
 	
 	<sql id="ordertableJoins">
@@ -121,33 +123,30 @@
 		</choose>
 	</update>
 	
-	<select id="findALlByUser" resultType="Ordertable">
-		SELECT 
-			<include refid="ordertableColumns"/>
-		FROM ordertable a
-		<include refid="ordertableJoins"/>
-		<where>
-		   <if test="weixinUserInfoId!=null and weixinUserInfoId.id!=null">
-		      where a.weixin_user_info_id = #{weixinUserInfoId.id},
-		   </if>
-		</where>		
-	</select>
-	
 	<select id="findAdminUndoneOrder" resultType="Ordertable">
 		SELECT 
 			<include refid="ordertableColumns"/>
 		FROM ordertable a
 		<include refid="ordertableJoins"/>
-		where a.status=1
+		WHERE a.status=1
 	</select>
-	
 	<select id="findAdmindoneOrder" resultType="Ordertable">
 		SELECT 
 			<include refid="ordertableColumns"/>
 		FROM ordertable a
 		<include refid="ordertableJoins"/>
-		where a.status>1
+		WHERE a.status>1
 	</select>
-	
+	<select id="findALlByUser" resultType="Ordertable">
+		SELECT 
+			<include refid="ordertableColumns"/>
+		FROM ordertable a
+		<include refid="ordertableJoins"/>
+		WHERE  1=1
+		<if test="id!=null">
+		    and a.weixin_user_info_id=#{id}
+		</if>
+		
+	</select>
 	
 </mapper>

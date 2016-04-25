@@ -7,19 +7,20 @@ import java.util.List;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
+import com.thinkgem.jeesite.weixin.system.entity.WeixinUserInfo;
 import com.thinkgem.jeesite.weixinfront.order.entity.Ordertable;
 
 /**
  * 订单表DAO接口
  * @author janson
- * @version 2016-04-18
+ * @version 2016-04-25
  */
 @MyBatisDao
 public interface OrdertableDao extends CrudDao<Ordertable> {
 
-	List<Ordertable> findALlByUser(Ordertable ordertable);
-
 	List<Ordertable> findAdminUndoneOrder();
+
+	List<Ordertable> findALlByUser(WeixinUserInfo weixinUserInfo);
 
 	List<Ordertable> findAdmindoneOrder();
 	

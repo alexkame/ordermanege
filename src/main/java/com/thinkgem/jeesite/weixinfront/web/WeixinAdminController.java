@@ -9,11 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.weixin.system.entity.WeixinUserInfo;
 import com.thinkgem.jeesite.weixinfront.admin.entity.WeixinAdminUser;
@@ -29,6 +32,18 @@ public class WeixinAdminController extends BaseController{
 	
 	@Autowired
 	WeixinAdminUserService weixinAdminUserService;
+	
+	@ModelAttribute
+	public WeixinAdminUser get(@RequestParam(required=false) String id) {
+		WeixinAdminUser entity = null;
+		if (StringUtils.isNotBlank(id)){
+			entity = weixinAdminUserService.get(id);
+		}
+		if (entity == null){
+			entity = new WeixinAdminUser();
+		}
+		return entity;
+	}
 	
 	@RequestMapping(value = "login")
 	@ResponseBody
@@ -131,7 +146,33 @@ public class WeixinAdminController extends BaseController{
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		String params_log = Util.aesDecrypt(params);
 		WeixinAdminUser weixinAdminUser = (WeixinAdminUser) JsonMapper.fromJsonString(params_log, WeixinAdminUser.class);
-		return weixinAdminUserService.findList(weixinAdminUser).get(0);
+		return get(weixinAdminUser.getId());
+	}
+	
+	/**
+	 * 微信获取员工信息根据ID
+	 */
+	@RequestMapping(value = "update")
+	@ResponseBody
+	public Map<String, Object> update(String params, HttpServletRequest request, HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		Map<String, Object> result=new HashMap<String, Object>();
+		try {
+			String params_log = Util.aesDecrypt(params);
+			WeixinAdminUser weixinAdminUser = (WeixinAdminUser) JsonMapper.fromJsonString(params_log, WeixinAdminUser.class);
+			WeixinAdminUser oldWeixinAdminUser=get(weixinAdminUser.getId());
+			oldWeixinAdminUser.setUserName(weixinAdminUser.getUserName());
+			oldWeixinAdminUser.setPassword(weixinAdminUser.getPassword());
+			oldWeixinAdminUser.setName(weixinAdminUser.getName());
+			oldWeixinAdminUser.setTel(weixinAdminUser.getTel());
+			weixinAdminUserService.save(oldWeixinAdminUser);
+			result.put("code", true);
+		} catch (Exception e) {
+			logger.error("adminUser update error : {}",e.getMessage());
+			result.put("code", false);
+			result.put("message", "系统出错");
+		}
+		return result;
 	}
 
 	

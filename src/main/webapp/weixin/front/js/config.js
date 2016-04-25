@@ -30,8 +30,21 @@ var getEmployListUrl=host+rootPath+'weixin/adminUser/findALl';
 var saveAdminUserUrl=host+rootPath+'weixin/adminUser/save';
 //删除员工信息
 var deleteAdminUserUrl=host+rootPath+'weixin/adminUser/delete';
-//根据ID获取客户信息
+//根据ID获取员工信息
 var getEmployByIdUrl=host+rootPath+'weixin/adminUser/findById';
+//更新员工信息
+var updateEmployUrl=host+rootPath+'weixin/adminUser/update';
+
+//获取配件信息
+var getPartsInfoListUrl=host+rootPath+'weixin/parts/partsInfo/list';
+//保存配件信息
+var savePartsInfoUrl=host+rootPath+'weixin/parts/partsInfo/save';
+//删除配件信息
+var deletePartsInfoUrl=host+rootPath+'weixin/parts/partsInfo/delete';
+//根据ID获取配件信息
+var getPartsInfoByIdUrl=host+rootPath+'weixin/parts/partsInfo/findById';
+//更新配件信息
+var updatePartsInfoUrl=host+rootPath+'weixin/parts/partsInfo/update';
 
 function getWebRootPath() {
     var webroot = document.location.href;

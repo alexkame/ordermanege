@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.weixinfront.order.dao.OrderDetailDao">
+    
+	<sql id="orderDetailColumns">
+		a.id AS "id",
+		a.order_id AS "orderId.id",
+		a.parts_info_id AS "partsInfoId.id",
+		a.num AS "num",
+		a.type AS "type",
+		a.node_num AS "nodeNum",
+		a.table_num AS "tableNum",
+		a.color AS "color",
+		a.thickness AS "thickness",
+		a.piece_length AS "pieceLength",
+		a.total_square AS "totalSquare",
+		b.name AS "orderId.name"
+	</sql>
+	
+	<sql id="orderDetailJoins">
+		LEFT JOIN ordertable b ON b.id = a.order_id
+	</sql>
+    
+	<select id="get" resultType="OrderDetail">
+		SELECT 
+			<include refid="orderDetailColumns"/>
+		FROM order_detail a
+		<include refid="orderDetailJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OrderDetail">
+		SELECT 
+			<include refid="orderDetailColumns"/>
+		FROM order_detail a
+		<include refid="orderDetailJoins"/>
+		<where>
+			
+			<if test="orderId != null and orderId.id != null and orderId.id != ''">
+				AND a.order_id = #{orderId.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OrderDetail">
+		SELECT 
+			<include refid="orderDetailColumns"/>
+		FROM order_detail a
+		<include refid="orderDetailJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO order_detail(
+			id,
+			order_id,
+			parts_info_id,
+			num,
+			type,
+			node_num,
+			table_num,
+			color,
+			thickness,
+			piece_length,
+			total_square
+		) VALUES (
+			#{id},
+			#{orderId.id},
+			#{partsInfoId.id},
+			#{num},
+			#{type},
+			#{nodeNum},
+			#{tableNum},
+			#{color},
+			#{thickness},
+			#{pieceLength},
+			#{totalSquare}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE order_detail SET 	
+			order_id = #{orderId.id},
+			parts_info_id = #{partsInfoId.id},
+			num = #{num},
+			type = #{type},
+			node_num = #{nodeNum},
+			table_num = #{tableNum},
+			color = #{color},
+			thickness = #{thickness},
+			piece_length = #{pieceLength},
+			total_square = #{totalSquare}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM order_detail
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE order_id = #{orderId.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>

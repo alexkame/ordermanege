@@ -19,7 +19,7 @@ import com.thinkgem.jeesite.weixinfront.order.entity.Ordertable;
 /**
  * 订单表Service
  * @author janson
- * @version 2016-04-18
+ * @version 2016-04-25
  */
 @Service
 @Transactional(readOnly = true)
@@ -47,15 +47,13 @@ public class OrdertableService extends CrudService<OrdertableDao, Ordertable> {
 		super.delete(ordertable);
 	}
 
-	public List<Ordertable> findALlByUser(HttpServletRequest request) {
-		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
-		Ordertable ordertable=new Ordertable();
-		ordertable.setWeixinUserInfoId(weixinUserInfo);
-		return dao.findALlByUser(ordertable);
-	}
-
 	public List<Ordertable> findAdminUndoneOrder() {
 		return dao.findAdminUndoneOrder();
+	}
+
+	public List<Ordertable> findALlByUser(HttpServletRequest request) {
+		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
+		return dao.findALlByUser(weixinUserInfo);
 	}
 
 	public List<Ordertable> findAdmindoneOrder() {

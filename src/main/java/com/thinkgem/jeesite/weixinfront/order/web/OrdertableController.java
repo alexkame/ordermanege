@@ -25,7 +25,7 @@ import com.thinkgem.jeesite.weixinfront.order.service.OrdertableService;
 /**
  * 订单表Controller
  * @author janson
- * @version 2016-04-18
+ * @version 2016-04-25
  */
 @Controller
 @RequestMapping(value = "${adminPath}/order/ordertable")
