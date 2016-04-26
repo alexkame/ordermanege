@@ -19,8 +19,9 @@ import com.thinkgem.jeesite.weixin.system.service.WeixinUserInfoService;
 import com.thinkgem.jeesite.weixinfront.order.dao.OrdertableDao;
 import com.thinkgem.jeesite.weixinfront.order.entity.OrderDetail;
 import com.thinkgem.jeesite.weixinfront.order.entity.OrderDetailSimple;
+import com.thinkgem.jeesite.weixinfront.order.entity.OrderTableDetail;
 import com.thinkgem.jeesite.weixinfront.order.entity.Ordertable;
-import com.thinkgem.jeesite.weixinfront.order.entity.orderDetailSave;
+import com.thinkgem.jeesite.weixinfront.order.entity.OrderDetailSave;
 
 /**
  * 订单表Service
@@ -73,7 +74,7 @@ public class OrdertableService extends CrudService<OrdertableDao, Ordertable> {
 	}
 	
 	@Transactional(readOnly = false)
-	public void saveOrder(orderDetailSave orderDetailSave, HttpServletRequest request) {
+	public void saveOrder(OrderDetailSave orderDetailSave, HttpServletRequest request) {
 
 		double totalSquare = 0;
 		for (OrderDetailSimple detailSimple : orderDetailSave.getItems()) {
@@ -116,5 +117,9 @@ public class OrdertableService extends CrudService<OrdertableDao, Ordertable> {
 			orderDetail.setNum(detailSimple.getNum());
 			orderDetailService.save(orderDetail);
 		}
+	}
+
+	public OrderTableDetail findOrderTableDetailById(String id) {
+		return dao.findOrderTableDetailById(id);
 	}
 }

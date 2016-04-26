@@ -202,15 +202,29 @@ angular.module('myApp.controllers', ['ngResource'])
 
  }])
     //订单明细
-    .controller('orderDetailController', function($scope,$location, $stateParams,$ionicModal, Order) {
+    .controller('orderDetailController', function($scope,$location, $stateParams,$ionicModal,$state, Order,webService) {
 
         var orderID=$stateParams.orderID;
         console.log(orderID);
+
         //获取订单明细数据
         $scope.detail=Order.getDetail();
+
+        console.log(Order.getDetail());
+        //判断管理员是否登录
+
+        webService.do(getorderTableByIdUrl,
+            {id:orderID})
+            .success(function (data) {
+                console.log(data)
+                $scope.detailData=data;
+            }).error(function (data, status) {
+                alert("数据连接失败");
+            });
+
         //跳转到订单页面
         $scope.orderPage=function(){
-            $location.path('/tab');
+            $state.go('tab');
         };
         //调用发货对话框
         $ionicModal.fromTemplateUrl("templates/orderProcess_deliver.html",{
@@ -234,6 +248,8 @@ angular.module('myApp.controllers', ['ngResource'])
         //修改发货时间及状态
         $scope.addDeliver=function(){
             console.log("发货成功"+$scope.deliver.deliverDate);
+            console.log($scope.detailData.id);
+
             $scope.modal.hide();
         }
 
@@ -255,7 +271,10 @@ angular.module('myApp.controllers', ['ngResource'])
         };
         //订单作废，修改订单状态
         $scope.cancelOrder=function(){
+
             console.log("作废成功"+$scope.cancelObj.cancelReason);
+
+            console.log($scope.detailData.id);
             $scope.modal2.hide();
         }
     })

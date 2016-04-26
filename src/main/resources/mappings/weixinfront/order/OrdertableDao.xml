@@ -2,6 +2,88 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.weixinfront.order.dao.OrdertableDao">
     
+  <resultMap type="OrderTableDetail" id="OrderTableDetailResult">
+        <result column="id" property="id" />
+        <result column="orderNum" property="orderNum" />
+        <result column="createTime" property="createTime" />
+        <result column="status" property="status" />
+        <result column="statusStr" property="statusStr" />
+        <result column="totalSquare" property="totalSquare" />
+        <result column="delivery_time" property="deliveryTime" />
+        <result column="weixinUserInfoId.id" property="weixinUserInfoId.id" />
+        <result column="weixinUserInfoId.nickname" property="weixinUserInfoId.nickname" />
+        <result column="weixinUserInfoId.username" property="weixinUserInfoId.username" />
+        <result column="weixinUserInfoId.tel" property="weixinUserInfoId.tel" />
+        <result column="weixinUserInfoId.address" property="weixinUserInfoId.address" />
+        <collection property="items" resultMap="OrderDetailItemsResult" />
+        <collection property="fits" resultMap="OrderDetailFitsResult" />
+    </resultMap>
+    
+    <resultMap type="com.thinkgem.jeesite.weixinfront.order.entity.OrderDetail" id="OrderDetailItemsResult">
+        <result column="items_id" property="id" />
+        <result column="items_node_num" property="nodeNum" />
+        <result column="items_table_num" property="tableNum" />
+        <result column="items_color" property="color" />
+        <result column="items_thickness" property="thickness" />
+        <result column="items_piece_length" property="pieceLength" />
+        <result column="items_total_square" property="totalSquare" />
+    </resultMap>
+    
+    <resultMap type="com.thinkgem.jeesite.weixinfront.order.entity.OrderDetail" id="OrderDetailFitsResult">
+        <result column="fits_id" property="id" />
+        <result column="fits_num" property="num" />
+        <result column="fits_partsInfoId.id" property="partsInfoId.id" />
+        <result column="fits_partsInfoId.picture" property="partsInfoId.picture" />
+        <result column="fits_partsInfoId.name" property="partsInfoId.name" />
+        <result column="fits_partsInfoId.spec" property="partsInfoId.spec" />
+    </resultMap>
+    
+    <sql id="ordertabledetailColumns">
+		a.id AS "id",
+		a.weixin_user_info_id AS "weixinUserInfoId.id",
+		a.order_num AS "orderNum",
+		a.create_time AS "createTime",
+		a.status AS "status",
+		case a.status
+		when '1' then '待发货'
+		when '2' then '已发货'
+		when '3' then '作废'
+		end
+		AS "statusStr",
+		a.total_square AS "totalSquare",
+		a.delivery_time AS "deliveryTime",
+		b.nickname AS "weixinUserInfoId.nickname",
+		b.user_name AS "weixinUserInfoId.username",
+		b.tel AS "weixinUserInfoId.tel",
+		b.address AS "weixinUserInfoId.address",
+		case when d.type =2 then d.id 
+		end as "items_id",
+		case when d.type =2 then d.node_num
+		end  as "items_node_num",
+		case when d.type =2 then d.table_num
+		end  as "items_table_num",
+		case when d.type =2 then d.color
+		end  as "items_color",
+		case when d.type =2 then d.thickness
+		end  as "items_thickness",
+		case when d.type =2 then d.piece_length
+		end  as "items_piece_length",
+		case when d.type =2 then d.total_square
+		end  as "items_total_square",
+		case when d.type =1 then d.id 
+		end as  "fits_id",
+		case when d.type =1 then d.num
+		end  as "fits_num",
+		case when d.type =1 then p.id
+		end  as "fits_partsInfoId.id",
+		case when d.type =1 then p.picture
+		end  as "fits_partsInfoId.picture",
+		case when d.type =1 then p.name
+		end  as "fits_partsInfoId.name",
+		case when d.type =1 then p.spec
+		end  as "fits_partsInfoId.spec"
+	</sql>
+    
 	<sql id="ordertableColumns">
 		a.id AS "id",
 		a.weixin_user_info_id AS "weixinUserInfoId.id",
@@ -22,8 +104,14 @@
 		b.address AS "weixinUserInfoId.address"
 	</sql>
 	
+	
+	
 	<sql id="ordertableJoins">
 		LEFT JOIN weixin_user_info b ON b.id = a.weixin_user_info_id
+	</sql>
+	<sql id="ordertabledetailJoins">
+		LEFT JOIN order_detail d ON d.order_id = a.id
+		LEFT JOIN parts_info p ON p.id = d.parts_info_id
 	</sql>
     
 	<select id="get" resultType="Ordertable">
@@ -147,6 +235,15 @@
 		    and a.weixin_user_info_id=#{id}
 		</if>
 		
+	</select>
+	
+	<select id="findOrderTableDetailById" resultMap="OrderTableDetailResult" >
+		SELECT 
+			<include refid="ordertabledetailColumns"/>
+		FROM ordertable a
+		<include refid="ordertableJoins"/>
+		<include refid="ordertabledetailJoins"/>
+		WHERE a.id=#{id}
 	</select>
 	
 </mapper>

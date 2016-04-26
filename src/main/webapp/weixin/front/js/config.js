@@ -17,6 +17,8 @@ var deleteOrderByIdUrl=host+rootPath+'weixin/weixinOrder/admin/delete';
 
 //保存订单信息
 var saveOrderUrl=host+rootPath+'weixin/weixinOrder/save';
+//获取订单
+var getorderTableByIdUrl=host+rootPath+'weixin/weixinOrder/findById';
 
 //获取客户信息
 var getCustmerUrl=host+rootPath+'weixin/weixinCustomer/admin/findALl';

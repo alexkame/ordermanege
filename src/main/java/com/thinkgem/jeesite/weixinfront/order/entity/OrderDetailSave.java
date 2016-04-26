@@ -3,7 +3,7 @@ package com.thinkgem.jeesite.weixinfront.order.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class orderDetailSave {
+public class OrderDetailSave {
 	List<OrderDetailSimple> items=new ArrayList<OrderDetailSimple>();
 	
 	List<OrderDetailSimple> fits=new ArrayList<OrderDetailSimple>();

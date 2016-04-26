@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.weixinfront.order.entity.Ordertable;
-import com.thinkgem.jeesite.weixinfront.order.entity.orderDetailSave;
+import com.thinkgem.jeesite.weixinfront.order.entity.OrderDetailSave;
+import com.thinkgem.jeesite.weixinfront.order.entity.OrderTableDetail;
 import com.thinkgem.jeesite.weixinfront.order.service.OrdertableService;
 import com.thinkgem.jeesite.weixinfront.util.Util;
 
@@ -92,8 +93,8 @@ public class WeixinOrderController extends BaseController {
 		Map<String, Object> result=new HashMap<String, Object>();
 		try {
 			String params_log = Util.aesDecrypt(params);
-			orderDetailSave orderDetailSave=(orderDetailSave) JsonMapper.fromJsonString(params_log,
-					orderDetailSave.class);
+			OrderDetailSave orderDetailSave=(OrderDetailSave) JsonMapper.fromJsonString(params_log,
+					OrderDetailSave.class);
 			//System.out.println(JsonMapper.toJsonString(orderDetailSave));
 			ordertableService.saveOrder(orderDetailSave,request);
 			result.put("code", true);
@@ -103,5 +104,20 @@ public class WeixinOrderController extends BaseController {
 			result.put("message", "系统出错");
 		}
 		return result;
+	}
+	
+	
+	/**
+	 * 根据ID查询订单
+	 */
+	@RequestMapping(value = "findById")
+	@ResponseBody
+	public OrderTableDetail findById(String params,HttpServletResponse response){
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		String params_log = Util.aesDecrypt(params);
+		OrderTableDetail orderTableDetail=(OrderTableDetail) JsonMapper.fromJsonString(params_log,
+				OrderTableDetail.class);
+		System.out.println(JsonMapper.toJsonString(ordertableService.findOrderTableDetailById(orderTableDetail.getId())));
+		return ordertableService.findOrderTableDetailById(orderTableDetail.getId());
 	}
 }
