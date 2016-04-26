@@ -9,29 +9,36 @@
     </ion-nav-bar>
     <ion-content class="has-header">
         <ion-list>
+            <input ng-hide="true" ng-model="myInfo.id"/>
             <ion-item class="item-input">
                 <span class="input-label">姓名</span>
-                <input type="text"  ng-model="myInfo.name" ng-required="true"  placeholder="请输入姓名">
+                <input type="text"  ng-model="myInfo.username" ng-required="true"  placeholder="请输入姓名">
             </ion-item>
             <!---这里为隐藏提示--->
-            <ion-item class="item-input" ng-show="myValid.name">
+            <ion-item class="item-input" ng-show="myValid.username">
                 <span class="input-label"></span>
-                <div class="error assertive" ng-show="myValid.name">姓名不能为空</div>
+                <div class="error assertive" ng-show="myValid.username">姓名不能为空</div>
             </ion-item>
 
             <ion-item class="item-input">
                 <span class="input-label">电话</span>
-                <input type="text" ng-model="myInfo.phone" ng-required="true" placeholder="请输入电话">
+                <input type="text" ng-model="myInfo.tel" ng-required="true" placeholder="请输入电话">
             </ion-item>
             <!---这里为隐藏提示--->
-            <ion-item class="item-input" ng-show="myValid.phone">
+            <ion-item class="item-input" ng-show="myValid.tel">
                 <span class="input-label"></span>
-                <div class="error assertive" ng-show="myValid.phone">电话不能为空</div>
+                <div class="error assertive" ng-show="myValid.tel">电话不能为空</div>
             </ion-item>
 
             <ion-item class="item-input">
                 <span class="input-label">地址</span>
-                <input type="text" ng-model="myInfo.addr" placeholder="请输入地址">
+                <input type="text" ng-model="myInfo.address" placeholder="请输入地址">
+            </ion-item>
+
+            <!---这里为隐藏提示--->
+            <ion-item class="item-input" ng-show="myValid.address">
+                <span class="input-label"></span>
+                <div class="error assertive" ng-show="myValid.address">电话不能为空</div>
             </ion-item>
         </ion-list>
     </ion-content>

@@ -5,6 +5,7 @@ var rootPath = 'ordermanage/';
 var adminLoginUrl=host+rootPath+'weixin/adminUser/login';
 //管理员是否登陆
 var isAdminLoginUrl=host+rootPath+'weixin/adminUser/islogin';
+
 //获取订单
 var orderTableUrl=host+rootPath+'weixin/weixinOrder/findALlByUser';
 //管理员获取未完成订单
@@ -34,6 +35,9 @@ var deleteAdminUserUrl=host+rootPath+'weixin/adminUser/delete';
 var getEmployByIdUrl=host+rootPath+'weixin/adminUser/findById';
 //更新员工信息
 var updateEmployUrl=host+rootPath+'weixin/adminUser/update';
+
+//获取个人信息
+var getMyInfoUrl=host+rootPath+'weixin/userInfo/myInfo';
 
 //获取配件信息
 var getPartsInfoListUrl=host+rootPath+'weixin/parts/partsInfo/list';

@@ -1,6 +1,6 @@
 angular.module('myApp.controllers', ['ngResource'])
 
-    //订单
+//管理员订单管理
 .controller('AdminOrderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService','$ionicPopup',
     function($scope,Order,$location,$ionicSideMenuDelegate,webService,$ionicPopup) {
 
@@ -135,11 +135,6 @@ angular.module('myApp.controllers', ['ngResource'])
             $scope.showDate.tipShow=false;
             $scope.showDate.selectShow=true;
         };
-
-
-
-
-
     }])
 
 
@@ -393,7 +388,71 @@ angular.module('myApp.controllers', ['ngResource'])
             });
         }
     }])
-    .controller('cusController',function($scope,$location,$stateParams,$state,$ionicPopup,Order, webService){
+    //我的信息
+    .controller('myInfoController',function($scope,$location,$stateParams,$state,$ionicPopup,Order, webService){
+        //跳转到主页
+        $scope.home=function(){
+            $location.path('/tab');
+        };
+        //保存及校检修改客户信息
+        $scope.myInfo={};
+
+        //获取我的信息
+        webService.do(getMyInfoUrl, {})
+            .success(function (data) {
+                console.log(data);
+                 $scope.myInfo.id=data.id;
+                 $scope.myInfo.username=data.username;
+                 $scope.myInfo.tel=data.tel;
+                 $scope.myInfo.address=data.address;
+            }).error(function (data, status) {
+                alert("获取数据失败!");
+           });
+
+        $scope.myValid={
+            username:false,
+            tel:false,
+            address:false
+        };
+        $scope.save=function(){
+            $scope.myValid.username=!angular.isString($scope.myInfo.username);
+            $scope.myValid.tel=!angular.isString($scope.myInfo.tel);
+            $scope.myValid.address=!angular.isString($scope.myInfo.address);
+            if(angular.isString($scope.myInfo.username)&&angular.isString($scope.myInfo.tel)&&angular.isString($scope.myInfo.address)){
+
+                var alertPopup ;
+                //保存
+                webService.do(saveCustmerByAdminUrl, {
+                    id: $scope.myInfo.id,
+                    username:$scope.myInfo.username,
+                    tel:$scope.myInfo.tel,
+                    address:$scope.myInfo.address
+                }) .success(function (data) {
+                    console.log(data);
+                    if(data.code){
+                        alertPopup = $ionicPopup.alert({
+                            title: '保存成功',
+                            template: '您的信息保存成功！'
+                        });
+                        $state.go('tab');
+                    }else{
+                        alertPopup = $ionicPopup.alert({
+                            title: '保存失败',
+                            template: data.msg
+                        });
+                    }
+                }).error(function (data, status) {
+                    alertPopup = $ionicPopup.alert({
+                        title: '保存失败',
+                        template: '数据连接错误！'
+                    });
+                });
+            }
+        }
+
+    })
+    //客户管理
+        .controller('cusController',function($scope,$location,$stateParams,$state,$ionicPopup,Order, webService){
         //跳转到主页
         $scope.home=function(){
             $location.path('/tab');

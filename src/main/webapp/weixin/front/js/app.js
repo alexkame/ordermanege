@@ -36,17 +36,17 @@ angular.module('myApp', ['ionic','myApp.controllers','myApp.services'])
                 controller:"orderController"
             })
             //客户订单页，目前作废
-            .state('order', {
-                url: '/order',
-                templateUrl:"templates/order.html",
-                controller:"orderController"
-               /* views:{
-                    "tab.order":{
-                        templateUrl:"templates/order.html",
-                        controller:"orderController1"
-                    }
-                }*/
-            })
+            //.state('order', {
+            //    url: '/order',
+            //    templateUrl:"templates/order.html",
+            //    controller:"orderController"
+            //   /* views:{
+            //        "tab.order":{
+            //            templateUrl:"templates/order.html",
+            //            controller:"orderController1"
+            //        }
+            //    }*/
+            //})
             //订单新增
             .state('orderAdd',{
                 url:'/orderAdd',
@@ -95,9 +95,9 @@ angular.module('myApp', ['ionic','myApp.controllers','myApp.services'])
             controller: 'cusController'
             })
             .state('myInfo', {
-                url: '/myInfo/:customerID',
+                url: '/myInfo',
                 templateUrl: 'templates/myInfo.html',
-                controller: 'cusController'
+                controller: 'myInfoController'
             })
             .state('admin/customerDetail', {
                 url: '/admin/customerDetail/:customerID',
