@@ -260,7 +260,7 @@ angular.module('myApp.controllers', ['ngResource'])
         }
     })
     //新增订单
-    .controller('orderAddController',function($scope,$location,$ionicModal,$anchorScroll,Order){
+    .controller('orderAddController',function($scope,$location,$ionicModal,$anchorScroll,$ionicPopup,$state ,Order,webService){
      //   console.log($scope);
         //跳转到订单管理
         $scope.orderPage=function(){
@@ -296,23 +296,27 @@ angular.module('myApp.controllers', ['ngResource'])
             if(value=='color'){
                 $scope.myColor=!false
             }
-            if(value=='fh'){
+            if(value=='thickness'){
                 $scope.myFH=!false
             }
         };
         $scope.addItem=function(){
-            console.log(angular.isString($scope.itemdata.nColor))
-            if(!angular.isString($scope.itemdata.nColor)){
+            console.log(angular.isString($scope.itemdata.color))
+            if(!angular.isString($scope.itemdata.color)){
                 console.log("aaa");
                $location.hash("aaa");
                 $anchorScroll();
             }
-            else if(!angular.isString($scope.itemdata.nTH)){
+            else if(!angular.isString($scope.itemdata.thickness)){
                 $location.hash("bbb");
                 $anchorScroll();
             }
             else{
-                $scope.items.push($scope.itemdata);
+                $scope.itemdatas={};
+                $scope.itemdatas=$scope.itemdata;
+                $scope.itemdatas.pieceLength=($scope.itemdata.nodeNum*0.219).toFixed(3);
+                $scope.itemdatas.totalSquare=($scope.itemdata.nodeNum*0.219*$scope.itemdata.tableNum*1.05).toFixed(3);
+                $scope.items.push($scope.itemdatas);
                 $scope.modal.hide();
             }
 
@@ -323,14 +327,27 @@ angular.module('myApp.controllers', ['ngResource'])
             animation:"slide-in-up"
         }).then(function(modal){
             $scope.modal2=modal;
-            $scope.getFitting=Order.getFitting();
+
+            //获取配件列表信息
+            //$scope.getFitting=Order.getFitting();
+            webService.do(getPartsInfoListUrl, {})
+                .success(function (data) {
+                    console.log(data);
+                    //获取配件列表信息
+                    $scope.getFitting=data;
+                }).error(function (data, status) {
+                alertPopup = $ionicPopup.alert({
+                    title: '数据连接失败',
+                    template: '数据连接失败'
+                });
+            });
+
             $scope.myFit;
         });
         //显示配件模板
         $scope.showFitting=function(){
             $scope.modal2.show();
             $scope.fitdata={};
-
         };
         //隐藏配件模板
         $scope.closeFitting=function(){
@@ -345,10 +362,35 @@ angular.module('myApp.controllers', ['ngResource'])
             $scope.fits.push( $scope.fitdata);
             $scope.modal2.hide();
         };
+
         //新增订单
         $scope.addOrder=function(){
+            console.log('提交订单');
 
-            $location.path('/tab');
+            //保存订单信息
+            webService.do(saveOrderUrl, {
+                fits:$scope.fits,
+                items:$scope.items
+            }) .success(function (data) {
+                console.log(data);
+                if(data.code){
+                    alertPopup = $ionicPopup.alert({
+                        title: '保存成功',
+                        template: '您的信息保存成功！'
+                    });
+                    $state.go('tab');
+                }else{
+                    alertPopup = $ionicPopup.alert({
+                        title: '保存失败',
+                        template: data.msg
+                    });
+                }
+            }).error(function (data, status) {
+                alertPopup = $ionicPopup.alert({
+                    title: '保存失败',
+                    template: '数据连接错误！'
+                });
+            });
         }
     })
     //管理员模块
@@ -524,7 +566,7 @@ angular.module('myApp.controllers', ['ngResource'])
                    });
             }
         }
-        //删除配件信息
+        //删除客户信息
         $scope.remove=function(obj){
             console.log("这里执行删除操作");
             var alertPopup;

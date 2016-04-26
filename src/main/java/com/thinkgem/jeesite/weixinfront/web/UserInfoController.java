@@ -39,9 +39,12 @@ public class UserInfoController extends BaseController{
 	@ResponseBody
 	public WeixinUserInfo myInfo(HttpServletRequest request,HttpServletResponse response) {
 		response.setHeader("Access-Control-Allow-Origin", "*");
-//		WeixinUserInfo weixinUserinfo=(WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
-		WeixinUserInfo oldweixinUserinfo=weixinUserInfoService.findByOpenid("oKYHCuE53KOOm2w5c32eg3_StJbA");
-		return oldweixinUserinfo;
+		WeixinUserInfo weixinUserInfo = (WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
+		WeixinUserInfo userInfo = null;
+		if (weixinUserInfo != null) {
+			userInfo = weixinUserInfoService.findByOpenid(weixinUserInfo.getOpenid());
+		}
+		return userInfo;
 	}
 
 }

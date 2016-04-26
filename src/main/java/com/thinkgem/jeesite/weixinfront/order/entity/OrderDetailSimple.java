@@ -13,11 +13,11 @@ import com.thinkgem.jeesite.weixinfront.parts.entity.PartsInfo;
  * @author janson
  * @version 2016-04-25
  */
-public class OrderDetail extends DataEntity<OrderDetail> {
+public class OrderDetailSimple extends DataEntity<OrderDetailSimple> {
 	
 	private static final long serialVersionUID = 1L;
 	private Ordertable orderId;		// 订单ID 父类
-	private PartsInfo partsInfoId;		// 配件ID
+	private PartsInfo myFit;		// 配件ID
 	private Long num;		// 数量
 	private Long type;		// 类型(1:配件,2:瓦片)
 	private String nodeNum;		// 节数
@@ -27,15 +27,15 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 	private String pieceLength;		// 每片长度(米)
 	private String totalSquare;		// 总平方
 	
-	public OrderDetail() {
+	public OrderDetailSimple() {
 		super();
 	}
 
-	public OrderDetail(String id){
+	public OrderDetailSimple(String id){
 		super(id);
 	}
 
-	public OrderDetail(Ordertable orderId){
+	public OrderDetailSimple(Ordertable orderId){
 		this.orderId = orderId;
 	}
 
@@ -47,13 +47,13 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 	public void setOrderId(Ordertable orderId) {
 		this.orderId = orderId;
 	}
-	
-	public PartsInfo getPartsInfoId() {
-		return partsInfoId;
+
+	public PartsInfo getMyFit() {
+		return myFit;
 	}
 
-	public void setPartsInfoId(PartsInfo partsInfoId) {
-		this.partsInfoId = partsInfoId;
+	public void setMyFit(PartsInfo myFit) {
+		this.myFit = myFit;
 	}
 
 	public Long getNum() {

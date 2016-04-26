@@ -15,6 +15,9 @@ var doneOrderUrl=host+rootPath+'weixin/weixinOrder/admin/doneOrder';
 //根据ID删除订单
 var deleteOrderByIdUrl=host+rootPath+'weixin/weixinOrder/admin/delete';
 
+//保存订单信息
+var saveOrderUrl=host+rootPath+'weixin/weixinOrder/save';
+
 //获取客户信息
 var getCustmerUrl=host+rootPath+'weixin/weixinCustomer/admin/findALl';
 
@@ -49,6 +52,8 @@ var deletePartsInfoUrl=host+rootPath+'weixin/parts/partsInfo/delete';
 var getPartsInfoByIdUrl=host+rootPath+'weixin/parts/partsInfo/findById';
 //更新配件信息
 var updatePartsInfoUrl=host+rootPath+'weixin/parts/partsInfo/update';
+
+
 
 function getWebRootPath() {
     var webroot = document.location.href;

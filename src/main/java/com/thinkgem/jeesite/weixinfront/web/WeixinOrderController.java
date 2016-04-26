@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.weixin.system.entity.WeixinUserInfo;
 import com.thinkgem.jeesite.weixinfront.order.entity.Ordertable;
+import com.thinkgem.jeesite.weixinfront.order.entity.orderDetailSave;
 import com.thinkgem.jeesite.weixinfront.order.service.OrdertableService;
 import com.thinkgem.jeesite.weixinfront.util.Util;
 
@@ -76,6 +76,29 @@ public class WeixinOrderController extends BaseController {
 			result.put("code", true);
 		} catch (Exception e) {
 			logger.error("weixinOrder delete error : {}",e.getMessage());
+			result.put("code", false);
+			result.put("message", "系统出错");
+		}
+		return result;
+	}
+	
+	/**
+	 * 保存订单
+	 */
+	@RequestMapping(value = "save")
+	@ResponseBody
+	public Map<String, Object> save(String params, HttpServletRequest request, HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		Map<String, Object> result=new HashMap<String, Object>();
+		try {
+			String params_log = Util.aesDecrypt(params);
+			orderDetailSave orderDetailSave=(orderDetailSave) JsonMapper.fromJsonString(params_log,
+					orderDetailSave.class);
+			//System.out.println(JsonMapper.toJsonString(orderDetailSave));
+			ordertableService.saveOrder(orderDetailSave,request);
+			result.put("code", true);
+		} catch (Exception e) {
+			logger.error("weixinOrder save error : {}",e.getMessage());
 			result.put("code", false);
 			result.put("message", "系统出错");
 		}
