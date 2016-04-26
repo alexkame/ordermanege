@@ -14,11 +14,14 @@
 		a.thickness AS "thickness",
 		a.piece_length AS "pieceLength",
 		a.total_square AS "totalSquare",
-		b.name AS "orderId.name"
+		c.name as "partsInfoId.name",
+		c.picture as "partsInfoId.picture",
+		c.spec as "partsInfoId.spec"
 	</sql>
 	
 	<sql id="orderDetailJoins">
 		LEFT JOIN ordertable b ON b.id = a.order_id
+		LEFT JOIN parts_info c ON c.id = a.parts_info_id
 	</sql>
     
 	<select id="get" resultType="OrderDetail">
@@ -120,5 +123,13 @@
 			</otherwise>
 		</choose>
 	</update>
+	
+	<select id="getOrderTotal" resultType="OrderDetail">
+		SELECT 
+			<include refid="orderDetailColumns"/>
+		FROM order_detail a
+		<include refid="orderDetailJoins"/>
+		WHERE DATE(b.create_time) = DATE(NOW())
+	</select>
 	
 </mapper>
