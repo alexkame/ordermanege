@@ -1,5 +1,4 @@
 angular.module('myApp.controllers', ['ngResource'])
-
 //管理员订单管理
 .controller('AdminOrderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService','$ionicPopup',
     function($scope,Order,$location,$ionicSideMenuDelegate,webService,$ionicPopup) {
@@ -168,9 +167,6 @@ angular.module('myApp.controllers', ['ngResource'])
     //订单
   .controller('orderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService','$ionicPopup','$stateParams',
       function($scope,Order,$location,$ionicSideMenuDelegate,webService,$stateParams,$ionicPopup) {
-
-
-         console.log($location);
 
       webService.do(orderTableUrl, {})
           .success(function (data) {

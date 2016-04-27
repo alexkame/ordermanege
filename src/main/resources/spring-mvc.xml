@@ -99,9 +99,10 @@
 		</mvc:interceptor>
 		<!-- 微信拦截器 -->
 		<mvc:interceptor>
-			<mvc:mapping path="${weixinPath}/**" />
+			<mvc:mapping path="${weixinPath}/weixinIndex/**" />
 			<mvc:exclude-mapping path="${weixinPath}/weixin"/>
 			<mvc:exclude-mapping path="${weixinPath}/weixinIndex/oAuth"/>
+			<mvc:exclude-mapping path="${weixinPath}/weixinIndex/login"/>
 			<bean class="com.thinkgem.jeesite.weixinfront.interceptor.WeixinInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

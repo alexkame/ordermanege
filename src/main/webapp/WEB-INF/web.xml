@@ -5,6 +5,7 @@
 	version="2.5">
 
 	<display-name>JeeSite</display-name>
+	
 
 	<!-- Context ConfigLocation -->
 	<context-param>
@@ -17,6 +18,8 @@
 	<listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>  
 	</listener>
+	
+	
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

@@ -70,9 +70,10 @@ public class OrdertableService extends CrudService<OrdertableDao, Ordertable> {
 	}
 
 	public List<Ordertable> findALlByUser(HttpServletRequest request) throws Exception {
-		String weixinUserinfoString=(String) request.getSession().getAttribute("weixinUserinfoString");
-		weixinUserinfoString = AESSessionUtil.aesDecrypt(weixinUserinfoString);
-		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) JsonMapper.fromJsonString(weixinUserinfoString, WeixinUserInfo.class);
+//		String weixinUserinfoString=(String) request.getSession().getAttribute("weixinUserinfoString");
+//		weixinUserinfoString = AESSessionUtil.aesDecrypt(weixinUserinfoString);
+//		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) JsonMapper.fromJsonString(weixinUserinfoString, WeixinUserInfo.class);
+		WeixinUserInfo weixinUserInfo= (WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
 		return dao.findALlByUser(weixinUserInfo);
 	}
 
@@ -88,9 +89,10 @@ public class OrdertableService extends CrudService<OrdertableDao, Ordertable> {
 			totalSquare += Double.parseDouble(detailSimple.getTotalSquare());
 		}
 
-		String weixinUserinfoString=(String) request.getSession().getAttribute("weixinUserinfoString");
-		weixinUserinfoString = AESSessionUtil.aesDecrypt(weixinUserinfoString);
-		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) JsonMapper.fromJsonString(weixinUserinfoString, WeixinUserInfo.class);
+//		String weixinUserinfoString=(String) request.getSession().getAttribute("weixinUserinfoString");
+//		weixinUserinfoString = AESSessionUtil.aesDecrypt(weixinUserinfoString);
+//		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) JsonMapper.fromJsonString(weixinUserinfoString, WeixinUserInfo.class);
+		WeixinUserInfo weixinUserInfo= (WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
 		WeixinUserInfo userInfo = null;
 		if (weixinUserInfo != null) {
 			userInfo = weixinUserInfoService.findByOpenid(weixinUserInfo.getOpenid());
