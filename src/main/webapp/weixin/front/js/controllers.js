@@ -166,8 +166,11 @@ angular.module('myApp.controllers', ['ngResource'])
 
 
     //订单
-  .controller('orderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService','$ionicPopup',
-      function($scope,Order,$location,$ionicSideMenuDelegate,webService,$ionicPopup) {
+  .controller('orderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService','$ionicPopup','$stateParams',
+      function($scope,Order,$location,$ionicSideMenuDelegate,webService,$stateParams,$ionicPopup) {
+
+
+         console.log($location);
 
       webService.do(orderTableUrl, {})
           .success(function (data) {
