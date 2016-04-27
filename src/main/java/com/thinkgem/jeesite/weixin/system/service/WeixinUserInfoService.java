@@ -47,5 +47,9 @@ public class WeixinUserInfoService extends CrudService<WeixinUserInfoDao, Weixin
 	public WeixinUserInfo findByOpenid(String openid) {
 		return dao.findByOpenid(openid);
 	}
+
+	public WeixinUserInfo isFull(String openid) {
+		return dao.findIsFull(openid);
+	}
 	
 }

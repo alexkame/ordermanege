@@ -3,18 +3,22 @@ package com.thinkgem.jeesite.weixinfront.web;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.weixin.config.WeixinGlobal;
 import com.thinkgem.jeesite.weixin.pojo.WeixinOauth2Token;
 import com.thinkgem.jeesite.weixin.system.entity.WeixinUserInfo;
 import com.thinkgem.jeesite.weixin.system.service.WeixinUserInfoService;
+import com.thinkgem.jeesite.weixin.util.AESSessionUtil;
 import com.thinkgem.jeesite.weixin.util.AdvancedUtil;
+import com.thinkgem.jeesite.weixinfront.util.AESUtil;
 
 /**
  * 微信首页
@@ -31,12 +35,15 @@ public class WeixinIndexController extends BaseController {
 
 	/**
 	 * 微信首页
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "index")
-	public String index(HttpServletRequest request) {
+	public String index(HttpServletRequest request) throws Exception {
 		System.out.println("WeixinIndexController.index()");
 		
-		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
+		String weixinUserinfoString=(String) request.getSession().getAttribute("weixinUserinfoString");
+		weixinUserinfoString = AESSessionUtil.aesDecrypt(weixinUserinfoString);
+		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) JsonMapper.fromJsonString(weixinUserinfoString, WeixinUserInfo.class);
 		if(weixinUserInfo!=null){
 			WeixinUserInfo oldWeixinUserInfo=weixinUserInfoService.findByOpenid(weixinUserInfo.getOpenid());
 			Date now=new Date();
@@ -59,7 +66,7 @@ public class WeixinIndexController extends BaseController {
 	 */
 	@RequestMapping(value = "oAuth")
 	public String oAuth(HttpServletRequest request, String code) {
-
+		String weixinUserinfoString = "";
 		try {
 			logger.info("WeixinIndexController oAuth code-->{}", code);
 			// 用户同意授权
@@ -77,7 +84,10 @@ public class WeixinIndexController extends BaseController {
 				WeixinUserInfo weixinUserinfo = AdvancedUtil.getWeixinUserinfo(accessToken, openId);
 
 				// 添加session
-				request.getSession().setAttribute("weixinUserInfo", weixinUserinfo);
+				//request.getSession().setAttribute("weixinUserInfo", weixinUserinfo);
+				weixinUserinfoString=JsonMapper.toJsonString(weixinUserinfo);
+				weixinUserinfoString = AESSessionUtil.aesEncrypt(weixinUserinfoString);
+				request.getSession().setAttribute("weixinUserinfoString",weixinUserinfoString);
 
 				logger.error("WeixinIndexController oAuth openId-->{}", openId);
 			}

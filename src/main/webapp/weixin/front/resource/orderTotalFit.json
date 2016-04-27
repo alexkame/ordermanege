@@ -1,5 +1,5 @@
 [
-  {"fitID":1,"name":"正脊瓦","num":"3","spec":"宽1050mm*限长960mm","imgUrl":"img/a.jpg"},
-  {"fitID":2,"name":"正脊瓦封头","num":"1","spec":"长300mm宽90mm高220mm","imgUrl":"img/c.jpg"},
-  {"fitID":3,"name":"三通","num":"3","spec":"300*240*240mm","imgUrl":"img/d.jpg"}
+  {"fitID":1,"name":"正脊瓦","num":"3","spec":"宽1050mm*限长960mm","imgUrl":"img/1.jpg"},
+  {"fitID":2,"name":"正脊瓦封头","num":"1","spec":"长300mm宽90mm高220mm","imgUrl":"img/3.jpg"},
+  {"fitID":3,"name":"三通","num":"3","spec":"300*240*240mm","imgUrl":"img/4.jpg"}
 ]

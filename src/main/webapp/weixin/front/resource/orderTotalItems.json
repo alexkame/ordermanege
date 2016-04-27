@@ -1,6 +1,6 @@
 [
-  {"itemPitch":6,"itemPlate":190,"itemColor":"a","itemTH":1},
-  {"itemPitch":6,"itemPlate":501,"itemColor":"c","itemTH":2},
-  {"itemPitch":10,"itemPlate":229,"itemColor":"b","itemTH":1},
-  {"itemPitch":10,"itemPlate":209,"itemColor":"d","itemTH":1}
+  {"itemPitch":6,"itemPlate":190,"itemColor":"1","itemTH":1},
+  {"itemPitch":6,"itemPlate":501,"itemColor":"2","itemTH":2},
+  {"itemPitch":10,"itemPlate":229,"itemColor":"3","itemTH":1},
+  {"itemPitch":10,"itemPlate":209,"itemColor":"4","itemTH":1}
 ]

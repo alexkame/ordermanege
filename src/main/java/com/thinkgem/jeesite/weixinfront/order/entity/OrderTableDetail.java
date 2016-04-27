@@ -29,6 +29,7 @@ public class OrderTableDetail extends DataEntity<OrderTableDetail> {
 	private String statusStr;
 	private String totalSquare;		// 总平方
 	private Date deliveryTime;		// 发货时间
+	private String reason;		// 退货理由
 	List<OrderDetail> items;
 	List<OrderDetail> fits;
 	
@@ -120,6 +121,14 @@ public class OrderTableDetail extends DataEntity<OrderTableDetail> {
 
 	public void setStatusStr(String statusStr) {
 		this.statusStr = statusStr;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
 	}	
 	
 }

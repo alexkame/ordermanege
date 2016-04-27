@@ -177,4 +177,16 @@
 		WHERE a.openid = #{openid}
 	</select>
 	
+	
+	<select id="findIsFull" resultType="WeixinUserInfo">
+		SELECT 
+			<include refid="weixinUserInfoColumns"/>
+		FROM weixin_user_info a
+		<include refid="weixinUserInfoJoins"/>
+		WHERE a.openid = #{openid} 
+		and (a.user_name is not null and a.user_name != '')
+		and (a.tel is not null and a.tel != '')
+		and (a.address is not null and a.address != '')
+	</select>
+	
 </mapper>

@@ -1,5 +1,7 @@
-var host = 'http://127.0.0.1:8080/';
-var rootPath = 'ordermanage/';
+//var host = 'http://127.0.0.1:8080/';
+//var rootPath = 'ordermanage/';
+var host = 'http://jansonweixin.ngrok.cc/';
+var rootPath ='ordermanage/';
 
 //管理员登陆
 var adminLoginUrl=host+rootPath+'weixin/adminUser/login';
@@ -14,6 +16,12 @@ var undoneOrderUrl=host+rootPath+'weixin/weixinOrder/admin/undoneOrder';
 var doneOrderUrl=host+rootPath+'weixin/weixinOrder/admin/doneOrder';
 //根据ID删除订单
 var deleteOrderByIdUrl=host+rootPath+'weixin/weixinOrder/admin/delete';
+//根据ID作废订单
+var cancelOrderByIdUrl=host+rootPath+'weixin/weixinOrder/admin/cancel';
+//根据ID作废订单
+var deliverOrderByIdUrl=host+rootPath+'weixin/weixinOrder/admin/deliver';
+//获取根据时间所有订单明细
+var getOrderByBeginAndEndUrl=host+rootPath+'weixin/weixinOrder/admin/getOrderByBeginAndEnd';
 
 //保存订单信息
 var saveOrderUrl=host+rootPath+'weixin/weixinOrder/save';
@@ -43,6 +51,8 @@ var updateEmployUrl=host+rootPath+'weixin/adminUser/update';
 
 //获取个人信息
 var getMyInfoUrl=host+rootPath+'weixin/userInfo/myInfo';
+//判断个人信息是否填满
+var getMyInfoisFullUrl=host+rootPath+'weixin/userInfo/isFull';
 
 //获取配件信息
 var getPartsInfoListUrl=host+rootPath+'weixin/parts/partsInfo/list';
@@ -65,3 +75,22 @@ function getWebRootPath() {
     var rootpath = "/" + webroot;
     return rootpath;
 }
+
+Date.prototype.Format = function(fmt)
+{ //author: meizz
+    var o = {
+        "M+" : this.getMonth()+1,                 //月份
+        "d+" : this.getDate(),                    //日
+        "h+" : this.getHours(),                   //小时
+        "m+" : this.getMinutes(),                 //分
+        "s+" : this.getSeconds(),                 //秒
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度
+        "S"  : this.getMilliseconds()             //毫秒
+    };
+    if(/(y+)/.test(fmt))
+        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+    for(var k in o)
+        if(new RegExp("("+ k +")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+    return fmt;
+};

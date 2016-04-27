@@ -3,8 +3,11 @@
  */
 package com.thinkgem.jeesite.weixinfront.order.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,10 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.weixin.system.entity.WeixinUserInfo;
 import com.thinkgem.jeesite.weixin.system.service.WeixinUserInfoService;
+import com.thinkgem.jeesite.weixin.util.AESSessionUtil;
 import com.thinkgem.jeesite.weixinfront.order.dao.OrdertableDao;
 import com.thinkgem.jeesite.weixinfront.order.entity.OrderDetail;
 import com.thinkgem.jeesite.weixinfront.order.entity.OrderDetailSimple;
@@ -64,8 +69,10 @@ public class OrdertableService extends CrudService<OrdertableDao, Ordertable> {
 		return dao.findAdminUndoneOrder();
 	}
 
-	public List<Ordertable> findALlByUser(HttpServletRequest request) {
-		WeixinUserInfo weixinUserInfo = (WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
+	public List<Ordertable> findALlByUser(HttpServletRequest request) throws Exception {
+		String weixinUserinfoString=(String) request.getSession().getAttribute("weixinUserinfoString");
+		weixinUserinfoString = AESSessionUtil.aesDecrypt(weixinUserinfoString);
+		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) JsonMapper.fromJsonString(weixinUserinfoString, WeixinUserInfo.class);
 		return dao.findALlByUser(weixinUserInfo);
 	}
 
@@ -74,14 +81,16 @@ public class OrdertableService extends CrudService<OrdertableDao, Ordertable> {
 	}
 	
 	@Transactional(readOnly = false)
-	public void saveOrder(OrderDetailSave orderDetailSave, HttpServletRequest request) {
+	public void saveOrder(OrderDetailSave orderDetailSave, HttpServletRequest request) throws Exception {
 
 		double totalSquare = 0;
 		for (OrderDetailSimple detailSimple : orderDetailSave.getItems()) {
 			totalSquare += Double.parseDouble(detailSimple.getTotalSquare());
 		}
 
-		WeixinUserInfo weixinUserInfo = (WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
+		String weixinUserinfoString=(String) request.getSession().getAttribute("weixinUserinfoString");
+		weixinUserinfoString = AESSessionUtil.aesDecrypt(weixinUserinfoString);
+		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) JsonMapper.fromJsonString(weixinUserinfoString, WeixinUserInfo.class);
 		WeixinUserInfo userInfo = null;
 		if (weixinUserInfo != null) {
 			userInfo = weixinUserInfoService.findByOpenid(weixinUserInfo.getOpenid());
@@ -121,5 +130,23 @@ public class OrdertableService extends CrudService<OrdertableDao, Ordertable> {
 
 	public OrderTableDetail findOrderTableDetailById(String id) {
 		return dao.findOrderTableDetailById(id);
+	}
+
+	public Map<String,Object> getOrderByBeginAndEnd(Map<String, String> datemap) {
+		Map<String,Object> result=new HashMap<String, Object>();
+		List<OrderTableDetail> tableDetails=dao.getOrderByBeginAndEnd(datemap);
+		List<OrderDetail> items=new ArrayList<OrderDetail>();
+		List<OrderDetail> fits=new ArrayList<OrderDetail>();
+		for(OrderTableDetail tableDetail:tableDetails){
+			for(OrderDetail detail:tableDetail.getFits()){
+				fits.add(detail);
+			}
+			for(OrderDetail detail:tableDetail.getItems()){
+				items.add(detail);
+			}
+		}
+		result.put("fits", fits);
+		result.put("items", items);
+		return result;
 	}
 }

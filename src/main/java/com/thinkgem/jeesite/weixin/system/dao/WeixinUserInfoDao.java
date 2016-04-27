@@ -16,5 +16,7 @@ import com.thinkgem.jeesite.weixin.system.entity.WeixinUserInfo;
 public interface WeixinUserInfoDao extends CrudDao<WeixinUserInfo> {
 
 	WeixinUserInfo findByOpenid(String openid);
+
+	WeixinUserInfo findIsFull(String openid);
 	
 }

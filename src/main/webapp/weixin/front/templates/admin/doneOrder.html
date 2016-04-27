@@ -54,23 +54,23 @@
             <!------内容区域------>
             <ion-item class="item item-divider">瓦片</ion-item>
             <ion-item class="item-avatar-left" ng-repeat="item in doneOrderItemTotal | filter:search2 " type="item-text-wrap" href="#">
-                <img src={{"img/"+item.itemColor+".jpg"}} >
-                <h2>{{item.itemPitch+"节"+item.itemPlate+"片"}}
-                    <span class="item-note">{{(item.itemPitch*0.219).toFixed(3)}}米</span>
+                <img src={{"img/"+item.color+".jpg"}} >
+                <h2>{{item.nodeNum+"节"+item.tableNum+"片"}}
+                    <span class="item-note">{{(item.nodeNum*0.219).toFixed(3)}}米</span>
                 </h2>
-                <p>  <span ng-if=item.itemTH==1>2.5mm</span>
-                    <span ng-if=item.itemTH==2>3.0mm</span>
-                    <span class="item-note">{{(item.itemPitch*0.219*item.itemPlate*1.05).toFixed(3)}}平方米</span>
+                <p>  <span ng-if=item.thickness==1>2.5mm</span>
+                    <span ng-if=item.thickness==2>3.0mm</span>
+                    <span class="item-note">{{(item.nodeNum*0.219*item.tableNum*1.05).toFixed(3)}}平方米</span>
                 </p>
             </ion-item>
 
             <ion-item class="item item-divider">配件</ion-item>
             <ion-item class="item-avatar-left" ng-repeat="fit in doneOrderFitTotal | filter:search2" type="item-text-wrap" href="#">
-                <img src={{fit.imgUrl}} >
-                <h2>{{fit.name}}
+                <img src={{fit.partsInfoId.picture}} >
+                <h2>{{fit.partsInfoId.name}}
                     <span class="item-note">{{fit.num}}</span>
                 </h2>
-                <p class="">{{fit.spec}}</p>
+                <p class="">{{fit.partsInfoId.spec}}</p>
             </ion-item>
         </ion-list>
 

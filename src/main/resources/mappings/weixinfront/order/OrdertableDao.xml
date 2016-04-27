@@ -10,6 +10,7 @@
         <result column="statusStr" property="statusStr" />
         <result column="totalSquare" property="totalSquare" />
         <result column="delivery_time" property="deliveryTime" />
+        <result column="reason" property="reason" />
         <result column="weixinUserInfoId.id" property="weixinUserInfoId.id" />
         <result column="weixinUserInfoId.nickname" property="weixinUserInfoId.nickname" />
         <result column="weixinUserInfoId.username" property="weixinUserInfoId.username" />
@@ -52,6 +53,7 @@
 		AS "statusStr",
 		a.total_square AS "totalSquare",
 		a.delivery_time AS "deliveryTime",
+		a.reason AS "reason",
 		b.nickname AS "weixinUserInfoId.nickname",
 		b.user_name AS "weixinUserInfoId.username",
 		b.tel AS "weixinUserInfoId.tel",
@@ -98,6 +100,7 @@
 		AS "statusStr",
 		a.total_square AS "totalSquare",
 		a.delivery_time AS "deliveryTime",
+		a.reason AS "reason",
 		b.nickname AS "weixinUserInfoId.nickname",
 		b.user_name AS "weixinUserInfoId.username",
 		b.tel AS "weixinUserInfoId.tel",
@@ -176,7 +179,8 @@
 			create_time,
 			status,
 			total_square,
-			delivery_time
+			delivery_time,
+			reason
 		) VALUES (
 			#{id},
 			#{weixinUserInfoId.id},
@@ -184,7 +188,8 @@
 			#{createTime},
 			#{status},
 			#{totalSquare},
-			#{deliveryTime}
+			#{deliveryTime},
+			#{reason}
 		)
 	</insert>
 	
@@ -195,7 +200,8 @@
 			create_time = #{createTime},
 			status = #{status},
 			total_square = #{totalSquare},
-			delivery_time = #{deliveryTime}
+			delivery_time = #{deliveryTime},
+			reason = #{reason}
 		WHERE id = #{id}
 	</update>
 	
@@ -244,6 +250,16 @@
 		<include refid="ordertableJoins"/>
 		<include refid="ordertabledetailJoins"/>
 		WHERE a.id=#{id}
+	</select>
+	
+	<select id="getOrderByBeginAndEnd" resultMap="OrderTableDetailResult" parameterType="map">
+		SELECT 
+			<include refid="ordertabledetailColumns"/>
+		FROM ordertable a
+		<include refid="ordertableJoins"/>
+		<include refid="ordertabledetailJoins"/>
+		WHERE a.status=2
+	    and date_format(create_time,'%Y-%m-%d') between #{beginDate} and #{endDate}
 	</select>
 	
 </mapper>

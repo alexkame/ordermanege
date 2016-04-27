@@ -82,10 +82,41 @@ angular.module('myApp.controllers', ['ngResource'])
             bDate:new Date(),
             eDate:new Date()
         };
-        //获取所有订单瓦片统计
-        $scope.doneOrderItemTotal=Order.getDoneOrderTotalItems($scope.selectDate.bDate,$scope.selectDate.eDate);
-        //获取所有订单配件统计
-        $scope.doneOrderFitTotal=Order.getDoneOrderTotalFits($scope.selectDate.bDate,$scope.selectDate.eDate);
+
+        $scope.queryList=function(beginDate,endDate){
+
+            if(beginDate==null&&endDate==null){
+                 beginDate=new Date(new Date()).Format("yyyy-MM-dd");
+                 endDate=new Date(new Date()).Format("yyyy-MM-dd");
+            }else{
+                 beginDate=new Date(beginDate).Format("yyyy-MM-dd");
+                 endDate=new Date(endDate).Format("yyyy-MM-dd");
+            }
+
+            //获取根据时间所有订单明细
+            webService.do(getOrderByBeginAndEndUrl, {
+                    beginDate:beginDate,
+                    endDate:endDate
+            }).success(function (data) {
+                    //获取所有订单瓦片统计
+                    $scope.doneOrderItemTotal=data.items;
+                    //获取所有订单配件统计
+                    $scope.doneOrderFitTotal=data.fits;
+
+             }).error(function (data, status) {
+                alert("获取数据失败!");
+            });
+
+
+        }
+
+        $scope.queryList();
+
+        ////获取所有订单瓦片统计
+        //$scope.doneOrderItemTotal=Order.getDoneOrderTotalItems($scope.selectDate.bDate,$scope.selectDate.eDate);
+        ////获取所有订单配件统计
+        //$scope.doneOrderFitTotal=Order.getDoneOrderTotalFits($scope.selectDate.bDate,$scope.selectDate.eDate);
+
         $scope.selectResult=function(inum){
             //初始化隐藏日期选择框
             $scope.showDate.tipShow=true;
@@ -123,12 +154,8 @@ angular.module('myApp.controllers', ['ngResource'])
                 $scope.select3Color_bg="";
                 $scope.select4Color_bg="button-outline";
                 $scope.showDate.selectShow=false;
-                console.log($scope.selectDate.eDate)
             }
-            //获取所有订单瓦片统计
-            $scope.doneOrderItemTotal=Order.getDoneOrderTotalItems($scope.selectDate.bDate,$scope.selectDate.eDate);
-            //获取所有订单配件统计
-            $scope.doneOrderFitTotal=Order.getDoneOrderTotalFits($scope.selectDate.bDate,$scope.selectDate.eDate);
+            $scope.queryList($scope.selectDate.bDate,$scope.selectDate.eDate);
         };
         //显示自定义选择界面
         $scope.selectDate=function(){
@@ -139,8 +166,8 @@ angular.module('myApp.controllers', ['ngResource'])
 
 
     //订单
-  .controller('orderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService',
-      function($scope,Order,$location,$ionicSideMenuDelegate,webService) {
+  .controller('orderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService','$ionicPopup',
+      function($scope,Order,$location,$ionicSideMenuDelegate,webService,$ionicPopup) {
 
       webService.do(orderTableUrl, {})
           .success(function (data) {
@@ -180,7 +207,25 @@ angular.module('myApp.controllers', ['ngResource'])
       };
       //跳转到订单新增界面
       $scope.add=function(){
-        $location.path('/orderAdd');
+          //信息有没有完善
+          var alertPopup;
+          webService.do(getMyInfoisFullUrl, {
+          }) .success(function (data) {
+              console.log(data);
+              if(data.code){
+                  $location.path('/orderAdd');
+              }else{
+                  alertPopup = $ionicPopup.alert({
+                      title: '请完善信息',
+                      template: data.message
+                  });
+              }
+          }).error(function (data, status) {
+              alertPopup = $ionicPopup.alert({
+                  title: '请完善信息',
+                  template: '数据连接错误！'
+              });
+          });
       };
       $scope.leftMenu=function(){
           $ionicSideMenuDelegate.toggleLeft();
@@ -202,17 +247,14 @@ angular.module('myApp.controllers', ['ngResource'])
 
  }])
     //订单明细
-    .controller('orderDetailController', function($scope,$location, $stateParams,$ionicModal,$state, Order,webService) {
+    .controller('orderDetailController', function($scope,$location, $stateParams,$ionicModal,$state, $ionicPopup,Order,webService) {
+
+        var alertPopup;
 
         var orderID=$stateParams.orderID;
         console.log(orderID);
 
         //获取订单明细数据
-        $scope.detail=Order.getDetail();
-
-        console.log(Order.getDetail());
-        //判断管理员是否登录
-
         webService.do(getorderTableByIdUrl,
             {id:orderID})
             .success(function (data) {
@@ -226,6 +268,21 @@ angular.module('myApp.controllers', ['ngResource'])
         $scope.orderPage=function(){
             $state.go('tab');
         };
+
+
+        //添加框隐藏
+        $scope.$on('modal.hide', function() {
+            //刷新订单明细数据
+            webService.do(getorderTableByIdUrl,
+                {id:orderID})
+                .success(function (data) {
+                    console.log(data)
+                    $scope.detailData=data;
+                }).error(function (data, status) {
+                alert("数据连接失败");
+            });
+        });
+
         //调用发货对话框
         $ionicModal.fromTemplateUrl("templates/orderProcess_deliver.html",{
             scope:$scope,
@@ -250,7 +307,34 @@ angular.module('myApp.controllers', ['ngResource'])
             console.log("发货成功"+$scope.deliver.deliverDate);
             console.log($scope.detailData.id);
 
-            $scope.modal.hide();
+           var date=new Date($scope.deliver.deliverDate).Format("yyyy-MM-dd hh:mm:ss");
+            console.log(date);
+
+            webService.do(deliverOrderByIdUrl, {
+                id:$scope.detailData.id,
+                deliveryTime:date
+            }) .success(function (data) {
+                console.log(data);
+                if(data.code){
+                    alertPopup = $ionicPopup.alert({
+                        title: '发货成功',
+                        template: '您的信息发货成功！'
+                    });
+                    $scope.detailData.statusStr='已发货';
+                    $scope.detailData.deliveryTime=date;
+                    $scope.modal.hide();
+                }else{
+                    alertPopup = $ionicPopup.alert({
+                        title: '发货失败',
+                        template: data.msg
+                    });
+                }
+            }).error(function (data, status) {
+                alertPopup = $ionicPopup.alert({
+                    title: '发货失败',
+                    template: '数据连接错误！'
+                });
+            });
         }
 
         //调用作废对话框
@@ -271,11 +355,35 @@ angular.module('myApp.controllers', ['ngResource'])
         };
         //订单作废，修改订单状态
         $scope.cancelOrder=function(){
+            var reason=$scope.cancelObj.cancelReason;
+            var id=$scope.detailData.id;
+            console.log("作废成功"+reason);
+            console.log(id);
 
-            console.log("作废成功"+$scope.cancelObj.cancelReason);
-
-            console.log($scope.detailData.id);
-            $scope.modal2.hide();
+            webService.do(cancelOrderByIdUrl, {
+                id:id,
+                reason:reason
+            }) .success(function (data) {
+                console.log(data);
+                if(data.code){
+                    alertPopup = $ionicPopup.alert({
+                        title: '作废成功',
+                        template: '您的信息作废成功！'
+                    });
+                    $scope.detailData.statusStr='已作废';
+                    $scope.modal2.hide();
+                }else{
+                    alertPopup = $ionicPopup.alert({
+                        title: '作废失败',
+                        template: data.msg
+                    });
+                }
+            }).error(function (data, status) {
+                alertPopup = $ionicPopup.alert({
+                    title: '作废失败',
+                    template: '数据连接错误！'
+                });
+            });
         }
     })
     //新增订单

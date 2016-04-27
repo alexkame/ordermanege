@@ -32,10 +32,11 @@ public class WeixinOrderController extends BaseController {
 
 	/**
 	 * 微信首页订单
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "findALlByUser")
 	@ResponseBody
-	public List<Ordertable> findALlByUser(HttpServletRequest request,HttpServletResponse response){
+	public List<Ordertable> findALlByUser(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		//System.out.println(JsonMapper.toJsonString(ordertableService.findALlByUser(request)));
 		return ordertableService.findALlByUser(request);
@@ -59,6 +60,17 @@ public class WeixinOrderController extends BaseController {
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		return ordertableService.findAdmindoneOrder();
 	}
+	/**
+	 *获取根据时间所有订单明细
+	 */
+	@RequestMapping(value = "admin/getOrderByBeginAndEnd")
+	@ResponseBody
+	public Map<String,Object> getOrderByBeginAndEnd(String params,HttpServletResponse response){
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		String params_log = Util.aesDecrypt(params);
+		Map<String,String> datemap=(Map<String, String>) JsonMapper.fromJsonString(params_log, Map.class);
+		return ordertableService.getOrderByBeginAndEnd(datemap);
+	}
 	
 	
 	/**
@@ -77,6 +89,54 @@ public class WeixinOrderController extends BaseController {
 			result.put("code", true);
 		} catch (Exception e) {
 			logger.error("weixinOrder delete error : {}",e.getMessage());
+			result.put("code", false);
+			result.put("message", "系统出错");
+		}
+		return result;
+	}
+	/**
+	 * 根据订单ID作废
+	 */
+	@RequestMapping(value = "admin/cancel")
+	@ResponseBody
+	public Map<String, Object> cancel(String params, HttpServletRequest request, HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		Map<String, Object> result=new HashMap<String, Object>();
+		try {
+			String params_log = Util.aesDecrypt(params);
+			Ordertable ordertable = (Ordertable) JsonMapper.fromJsonString(params_log,
+					Ordertable.class);
+			Ordertable oldordertable=ordertableService.get(ordertable);
+			oldordertable.setStatus(3L);
+			oldordertable.setReason(ordertable.getReason());
+			ordertableService.save(oldordertable);
+			result.put("code", true);
+		} catch (Exception e) {
+			logger.error("weixinOrder cancel error : {}",e.getMessage());
+			result.put("code", false);
+			result.put("message", "系统出错");
+		}
+		return result;
+	}
+	/**
+	 * 根据订单ID发货
+	 */
+	@RequestMapping(value = "admin/deliver")
+	@ResponseBody
+	public Map<String, Object> deliver(String params, HttpServletRequest request, HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		Map<String, Object> result=new HashMap<String, Object>();
+		try {
+			String params_log = Util.aesDecrypt(params);
+			Ordertable ordertable = (Ordertable) JsonMapper.fromJsonString(params_log,
+					Ordertable.class);
+			Ordertable oldordertable=ordertableService.get(ordertable);
+			oldordertable.setStatus(2L);
+			oldordertable.setDeliveryTime(ordertable.getDeliveryTime());
+			ordertableService.save(oldordertable);
+			result.put("code", true);
+		} catch (Exception e) {
+			logger.error("weixinOrder cancel error : {}",e.getMessage());
 			result.put("code", false);
 			result.put("message", "系统出错");
 		}

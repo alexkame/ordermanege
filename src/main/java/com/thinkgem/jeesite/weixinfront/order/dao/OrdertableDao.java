@@ -4,6 +4,7 @@
 package com.thinkgem.jeesite.weixinfront.order.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
@@ -26,5 +27,7 @@ public interface OrdertableDao extends CrudDao<Ordertable> {
 	List<Ordertable> findAdmindoneOrder();
 
 	OrderTableDetail findOrderTableDetailById(String id);
+
+	List<OrderTableDetail> getOrderByBeginAndEnd(Map<String, String> datemap);
 	
 }

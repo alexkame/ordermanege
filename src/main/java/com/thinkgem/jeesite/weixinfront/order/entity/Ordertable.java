@@ -28,6 +28,7 @@ public class Ordertable extends DataEntity<Ordertable> {
 	private String statusStr;
 	private String totalSquare;		// 总平方
 	private Date deliveryTime;		// 发货时间
+	private String reason;   //作废理由
 	
 	public Ordertable() {
 		super();
@@ -101,6 +102,15 @@ public class Ordertable extends DataEntity<Ordertable> {
 
 	public void setStatusStr(String statusStr) {
 		this.statusStr = statusStr;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
 	}	
+	
 	
 }
