@@ -31,6 +31,7 @@ angular.module('myApp', ['ionic','myApp.controllers','myApp.services'])
             .state('tab', {
                 url: '/tab',
                 // abstract:'true',
+                cache:false,
                 templateUrl: "templates/tabs.html",
                 controller:"orderController"
             })
@@ -49,40 +50,47 @@ angular.module('myApp', ['ionic','myApp.controllers','myApp.services'])
             //订单新增
             .state('orderAdd',{
                 url:'/orderAdd',
+                cache:false,
                 templateUrl:"templates/orderAdd.html",
                 controller:"orderAddController"
             })
             .state('orderDetail', {
                 url: '/orderDetail/:orderID',
+                cache:false,
                 templateUrl: 'templates/orderDetail.html',
                 controller: 'orderDetailController'
             })
             //管理员登录
             .state('adminLogin', {
                 url: '/admin/adminLogin',
+                cache:false,
                 templateUrl: 'templates/admin/adminLogin.html',
                 controller: 'adminController'
             })
             //管理列表
             .state('adminList', {
                 url: '/admin/adminList',
+                cache:false,
                 templateUrl: 'templates/admin/adminList.html',
                 controller: 'adminController'
             })
             //未完成订单列表
             .state('undoneOrder', {
                 url: '/admin/undoneOrder',
+                cache:false,
                 templateUrl: 'templates/admin/undoneOrder.html',
                 controller: 'AdminOrderController'
             })
             //已完成订单列表
             .state('doneOrder', {
                 url: '/admin/doneOrder',
+                cache:false,
                 templateUrl: 'templates/admin/doneOrder.html',
                 controller: 'AdminOrderController'
             })
             .state('orderProcess', {
                 url: '/orderProcess/:orderID',
+                cache:false,
                 templateUrl: 'templates/orderProcess.html',
                 controller: 'orderDetailController'
             })
@@ -90,16 +98,19 @@ angular.module('myApp', ['ionic','myApp.controllers','myApp.services'])
             //客户信息管理
             .state('admin/customer', {
             url: '/admin/customer',
+            cache:false,
             templateUrl: 'templates/admin/customer.html',
             controller: 'cusController'
             })
             .state('myInfo', {
                 url: '/myInfo',
+                cache:false,
                 templateUrl: 'templates/myInfo.html',
                 controller: 'myInfoController'
             })
             .state('admin/customerDetail', {
                 url: '/admin/customerDetail/:customerID',
+                cache:false,
                 templateUrl: 'templates/admin/customerDetail.html',
                 controller: 'cusController'
             })
@@ -107,12 +118,14 @@ angular.module('myApp', ['ionic','myApp.controllers','myApp.services'])
             //员工信息管理
             .state('admin/employ', {
                 url: '/admin/employ',
+                cache:false,
                 templateUrl: 'templates/admin/employ.html',
                 controller: 'employController'
             })
             //员工信息详情
             .state('admin/employDetail', {
                 url: '/admin/employDetail/:employID',
+                cache:false,
                 templateUrl: 'templates/admin/employDetail.html',
                 controller: 'employDetailController'
             })
@@ -120,11 +133,13 @@ angular.module('myApp', ['ionic','myApp.controllers','myApp.services'])
             //配件管理
             .state('admin/fitting', {
                 url: '/admin/fitting',
+                cache:false,
                 templateUrl: 'templates/admin/fitting.html',
                 controller: 'fittingController'
             })
             .state('admin/fittingDetail', {
                 url: '/admin/fittingDetail/:fittingID',
+                cache:false,
                 templateUrl: 'templates/admin/fittingDetail.html',
                 controller: 'fittingDetailController'
             })

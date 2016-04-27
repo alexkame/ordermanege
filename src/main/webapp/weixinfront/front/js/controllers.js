@@ -165,8 +165,8 @@ angular.module('myApp.controllers', ['ngResource'])
 
 
     //订单
-  .controller('orderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService','$ionicPopup','$stateParams',
-      function($scope,Order,$location,$ionicSideMenuDelegate,webService,$stateParams,$ionicPopup) {
+  .controller('orderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService','$ionicPopup','$stateParams','$state',
+      function($scope,Order,$location,$ionicSideMenuDelegate,webService,$stateParams,$ionicPopup,$state) {
 
       webService.do(orderTableUrl, {})
           .success(function (data) {
@@ -212,18 +212,12 @@ angular.module('myApp.controllers', ['ngResource'])
           }) .success(function (data) {
               console.log(data);
               if(data.code){
-                  $location.path('/orderAdd');
+                  $state.go('orderAdd');
               }else{
-                  alertPopup = $ionicPopup.alert({
-                      title: '请完善信息',
-                      template: data.message
-                  });
+                  alert('请完善信息');
               }
           }).error(function (data, status) {
-              alertPopup = $ionicPopup.alert({
-                  title: '请完善信息',
-                  template: '数据连接错误！'
-              });
+              alert('数据连接错误！');
           });
       };
       $scope.leftMenu=function(){

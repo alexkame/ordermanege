@@ -35,7 +35,7 @@ public class WeixinInterceptor extends BaseService implements HandlerInterceptor
 		logger.info("微信地址拦截 model : {}", request.getMethod());
 		
 		WeixinUserInfo weixinUserInfo= (WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
-		/*if(weixinUserInfo==null){
+		if(weixinUserInfo==null){
 
 			logger.info("还没登录，被拦截！");
 			String urlbegin = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
@@ -47,7 +47,7 @@ public class WeixinInterceptor extends BaseService implements HandlerInterceptor
 			System.out.println(urlbegin+urlcontent+urlend);
 			response.sendRedirect(urlbegin + urlcontent + urlend);
 			return false;
-		}*/
+		}
 		return true;
 	}
 

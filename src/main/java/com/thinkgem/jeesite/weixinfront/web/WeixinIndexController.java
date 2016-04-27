@@ -54,16 +54,13 @@ public class WeixinIndexController extends BaseController {
 			Date now=new Date();
 			if(oldWeixinUserInfo==null){
 				weixinUserInfo.setLastLoginTime(now);
-				weixinUserInfo.setIsNewRecord(true);
 				weixinUserInfoService.save(weixinUserInfo);
-				//request.getSession().setAttribute("weixinUserInfo", weixinUserInfo);
 			}else{
 				oldWeixinUserInfo.setLastLoginTime(now);
 				weixinUserInfoService.save(oldWeixinUserInfo);
-				//request.getSession().setAttribute("weixinUserInfo", oldWeixinUserInfo);
 			}
 		}
-		return "redirect:/weixin/front/index.html";
+		return "redirect:/weixinfront/front/index.html?weixinUserinfoString=12414324234dsds";
 	}
 
 	/**
@@ -99,18 +96,5 @@ public class WeixinIndexController extends BaseController {
 			logger.error("WeixinIndexController oAuth error-->{}", e.getMessage());
 		}
 		return "redirect:" + Global.getWeixinPath() + "/weixinIndex/index";
-	}
-
-	
-	/**
-	 *登录
-	 */
-	@RequestMapping(value = "login")
-	@ResponseBody
-	public Map<String,Object> login(String params,HttpServletResponse response){
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		String params_log = Util.aesDecrypt(params);
-		Map<String,String> datemap=(Map<String, String>) JsonMapper.fromJsonString(params_log, Map.class);
-		return null;
 	}
 }

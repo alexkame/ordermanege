@@ -74,7 +74,11 @@ public class OrdertableService extends CrudService<OrdertableDao, Ordertable> {
 //		weixinUserinfoString = AESSessionUtil.aesDecrypt(weixinUserinfoString);
 //		WeixinUserInfo weixinUserInfo=(WeixinUserInfo) JsonMapper.fromJsonString(weixinUserinfoString, WeixinUserInfo.class);
 		WeixinUserInfo weixinUserInfo= (WeixinUserInfo) request.getSession().getAttribute("weixinUserInfo");
-		return dao.findALlByUser(weixinUserInfo);
+		WeixinUserInfo userInfo = null;
+		if (weixinUserInfo != null) {
+			userInfo = weixinUserInfoService.findByOpenid(weixinUserInfo.getOpenid());
+		}
+		return dao.findALlByUser(userInfo);
 	}
 
 	public List<Ordertable> findAdmindoneOrder() {
