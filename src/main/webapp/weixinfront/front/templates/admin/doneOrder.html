@@ -13,7 +13,7 @@
         <ion-list name="list1" ng-show="showList.list1">
             <div class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
-                <input type="text" ng-model="search" placeholder="搜索姓名或手机号">
+                <input type="text" ng-model="search" placeholder="搜索姓名">
             </div>
 
             <ion-item class="item-remove-animate item-icon-right" ng-repeat="orderdata in doneOrderD | filter:search | orderBy:weixinUserInfoId.nickname" type="item-text-wrap" href="#/orderDetail/{{orderdata.id}}">

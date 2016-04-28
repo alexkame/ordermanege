@@ -6,10 +6,10 @@
     <ion-content>
         <form name="myForm" ng-submit="addFitting()">
             <ion-list>
-                <ion-item class="item item-thumbnail-left item-icon-right " ng-click="">
-                    <img src="../img/cover.jpg" >
-                    <p2></p2>
-                    <i class="icon ion-ios-arrow-right"></i>
+                <ion-item class="item item-thumbnail-left item-icon-right">
+                    <img ng-ser="{{headerpic}}" />
+                    <button type="button" onclick="picFile.click()" translate >fileUp</button>
+                    <input type="file" id="picFile" ng-hide="true" onchange="angular.element(this).scope.fileUp(this)"/>
                 </ion-item>
                 <ion-item class="item-input">
                     <span class="input-label">配件名称</span>

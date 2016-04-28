@@ -998,15 +998,40 @@ angular.module('myApp.controllers', ['ngResource'])
             $scope.modal.hide();
         };
 
+        $scope.fileUp=function(val){
+            console.log('111');
+            var file=val.files[0];
+            if(file==null){
+                return;
+            }
+            if(!/image\/\w+/.test(file.type)){
+                alert("请确保文件为图片类型");
+                return false;
+            }
+            var reader=new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload=function(e){
+                var img=this.result;
+                $timeout(function(){
+                    console.log(img);
+                    $scope.headerpic=img;
+
+                });
+            }
+        }
+
+
         //新增配件
         $scope.addFitting=function(){
             //这里执行添加
             console.log("执行添加")
             var name=$scope.Fitting.name;
             var spec=$scope.Fitting.spec;
+            var picture=$scope.Fitting.picture;
             //保存配件信息
             webService.do(savePartsInfoUrl, {
                 name:name,
+                picture:picture,
                 spec:spec
             }) .success(function (data) {
                 console.log(data);
