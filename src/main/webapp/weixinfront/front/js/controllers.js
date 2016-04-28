@@ -613,26 +613,14 @@ angular.module('myApp.controllers', ['ngResource'])
         }
 
     })
-    //客户管理
-        .controller('cusController',function($scope,$location,$stateParams,$state,$ionicPopup,Order, webService){
-        //跳转到主页
-        $scope.home=function(){
-            $location.path('/tab');
-        };
-        //获取客户列表信息
-        //$scope.customerList=Order.getCustmer();getCustmerUrl
-        webService.do(getCustmerUrl, {})
-            .success(function (data) {
-                $scope.customerList=data;
-            }).error(function (data, status) {
-                alert("获取数据失败!");
-           });
-
+    //客户详情管理
+    .controller('cusDetailController',function($scope,$location,$stateParams,$state,$ionicPopup,Order, webService){
         //保存及校检修改客户信息
         $scope.myInfo={};
 
         //根据ID获取客户信息
         var customerID=$stateParams.customerID;
+        console.log(customerID);
         //获取客户列表信息
         webService.do(getCustmerByIdUrl, {id:customerID})
             .success(function (data) {
@@ -641,10 +629,9 @@ angular.module('myApp.controllers', ['ngResource'])
                 $scope.myInfo.name=data.username;
                 $scope.myInfo.phone=data.tel;
                 $scope.myInfo.addr=data.address;
-
             }).error(function (data, status) {
                 alert("获取数据失败!");
-           });
+            });
 
         $scope.myValid={
             name:false,
@@ -665,27 +652,45 @@ angular.module('myApp.controllers', ['ngResource'])
                     tel:$scope.myInfo.phone,
                     address:$scope.myInfo.addr
                 }) .success(function (data) {
-                        console.log(data);
-                        if(data.code){
-                            alertPopup = $ionicPopup.alert({
-                                title: '保存成功',
-                                template: '您的信息保存成功！'
-                            });
-                            $state.go('admin/customer');
-                        }else{
-                            alertPopup = $ionicPopup.alert({
-                                title: '保存失败',
-                                template: data.msg
-                            });
-                        }
-                    }).error(function (data, status) {
+                    console.log(data);
+                    if(data.code){
+                        alertPopup = $ionicPopup.alert({
+                            title: '保存成功',
+                            template: '您的信息保存成功！'
+                        });
+                        $state.go('admin/customer');
+                    }else{
                         alertPopup = $ionicPopup.alert({
                             title: '保存失败',
-                            template: '数据连接错误！'
+                            template: data.msg
                         });
-                   });
+                    }
+                }).error(function (data, status) {
+                    alertPopup = $ionicPopup.alert({
+                        title: '保存失败',
+                        template: '数据连接错误！'
+                    });
+                });
             }
         }
+    })
+
+    //客户管理
+     .controller('cusController',function($scope,$location,$stateParams,$state,$ionicPopup,Order, webService){
+        //跳转到主页
+        $scope.home=function(){
+            $location.path('/tab');
+        };
+        //获取客户列表信息
+        //$scope.customerList=Order.getCustmer();getCustmerUrl
+        webService.do(getCustmerUrl, {})
+            .success(function (data) {
+                $scope.customerList=data;
+            }).error(function (data, status) {
+                alert("获取数据失败!");
+           });
+
+
         //删除客户信息
         $scope.remove=function(obj){
             console.log("这里执行删除操作");

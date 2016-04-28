@@ -102,17 +102,17 @@ angular.module('myApp', ['ionic','myApp.controllers','myApp.services'])
             templateUrl: 'templates/admin/customer.html',
             controller: 'cusController'
             })
+            .state('admin/customerDetail', {
+                url: '/admin/customerDetail/:customerID',
+                cache:false,
+                templateUrl: 'templates/admin/customerDetail.html',
+                controller: 'cusDetailController'
+            })
             .state('myInfo', {
                 url: '/myInfo',
                 cache:false,
                 templateUrl: 'templates/myInfo.html',
                 controller: 'myInfoController'
-            })
-            .state('admin/customerDetail', {
-                url: '/admin/customerDetail/:customerID',
-                cache:false,
-                templateUrl: 'templates/admin/customerDetail.html',
-                controller: 'cusController'
             })
 
             //员工信息管理
