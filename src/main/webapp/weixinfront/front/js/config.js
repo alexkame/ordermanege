@@ -66,6 +66,10 @@ var deletePartsInfoUrl=host+rootPath+'weixin/parts/partsInfo/delete';
 var getPartsInfoByIdUrl=host+rootPath+'weixin/parts/partsInfo/findById';
 //更新配件信息
 var updatePartsInfoUrl=host+rootPath+'weixin/parts/partsInfo/update';
+//七牛云文件上传获取token
+var getQiniuTokenUrl=host+rootPath+'qiNiuController/getQiNiuUploadToken';
+//七牛地址
+var qiniuUrl="http://7xtjrb.com1.z0.glb.clouddn.com/";
 
 
 
@@ -95,12 +99,4 @@ Date.prototype.Format = function(fmt)
         if(new RegExp("("+ k +")").test(fmt))
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
     return fmt;
-};
-GetQueryString=function GetQueryString(name)
-{
-    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-    var r = window.location.search.substr(1).match(reg);
-    if(r!=null)
-        return  unescape(r[2]);
-    return null;
 };

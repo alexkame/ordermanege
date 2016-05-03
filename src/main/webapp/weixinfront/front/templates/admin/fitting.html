@@ -15,7 +15,7 @@
 
         <ion-list>
             <ion-item class="item item-avatar-left item-icon-right" ng-repeat="fitting in fittingList | filter:search"  href="#/admin/fittingDetail/{{fitting.id}}">
-                <img src={{fitting.img}}>
+                <img ng-src={{fitting.picture}}>
                 <h2>{{fitting.name}}</h2>
                 <p>{{fitting.spec}}</p>
                 <i class="icon ion-chevron-right icon-accessory"></i>

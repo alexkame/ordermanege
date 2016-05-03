@@ -7,9 +7,15 @@
         <form name="myForm" ng-submit="addFitting()">
             <ion-list>
                 <ion-item class="item item-thumbnail-left item-icon-right">
-                    <img ng-ser="{{headerpic}}" />
-                    <button type="button" onclick="picFile.click()" translate >fileUp</button>
-                    <input type="file" id="picFile" ng-hide="true" onchange="angular.element(this).scope.fileUp(this)"/>
+                    <img src="{{Fitting.picture}}"/>
+                    <div ng-file-select="onFileSelect($files)" title="select file" onclick="this.value = null" class="btn btn-upload">
+                        图片上传
+                    </div>
+                    <!--<ol>-->
+                        <!--<li ng-repeat="(k,v) in selectFiles">-->
+                            <!--{{v.file.name}} - {{v.progress.p}}% <button ng-click="abort(k)">x</button>-->
+                        <!--</li>-->
+                    <!--</ol>-->
                 </ion-item>
                 <ion-item class="item-input">
                     <span class="input-label">配件名称</span>

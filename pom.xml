@@ -654,6 +654,13 @@
 		    <classifier>jdk15</classifier>    
 		</dependency>
 		
+		<!-- 七牛 -->
+		<dependency> 
+			<groupId>com.qiniu</groupId>
+			<artifactId>qiniu-java-sdk</artifactId>
+			<version>7.0.8</version>
+		</dependency>
+		
 		<!-- 自定义jar依赖包
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>

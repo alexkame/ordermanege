@@ -24,20 +24,6 @@ angular.module('myApp.services', ['ngResource'])
     });
   }
 }])
-.directive('showImage', [function() {
-    return {
-        restrict: 'A',
-        scope: {
-            url: '='
-        },
-        link: function (sceop, element, attrs) {
-            var img = new Image();
-            var imgSrc = scope.url;
-            img.src = imgSrc;
-            $(element).append(img);
-        }
-    }
-}])
 .factory('Order', function($rootScope,$resource,$http,webService) {
 
   //获取客户订单列表数据

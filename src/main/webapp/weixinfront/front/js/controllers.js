@@ -1,4 +1,4 @@
-angular.module('myApp.controllers', ['ngResource'])
+angular.module('myApp.controllers', ['ngResource','angularQFileUpload', 'LocalStorageModule'])
 //管理员订单管理
 .controller('AdminOrderController',['$scope','Order','$location','$ionicSideMenuDelegate','webService','$ionicPopup',
     function($scope,Order,$location,$ionicSideMenuDelegate,webService,$ionicPopup) {
@@ -892,7 +892,7 @@ angular.module('myApp.controllers', ['ngResource'])
             });
         }
     })
-    .controller('fittingDetailController',function($scope,$location,$ionicModal,$ionicPopup,$stateParams,$state,Order,webService) {
+    .controller('fittingDetailController',function($scope,$location,$ionicModal,$ionicPopup,$stateParams,$state,Order,webService, $log, $qupload) {
         var alertPopup;
         //保存及校检修改配件信息
         $scope.Fitting={};
@@ -907,9 +907,60 @@ angular.module('myApp.controllers', ['ngResource'])
                 $scope.Fitting.id=data.id;
                 $scope.Fitting.name=data.name;
                 $scope.Fitting.spec=data.spec;
+                $scope.Fitting.picture=data.picture;
             }).error(function (data, status) {
                 return null;
             });
+
+        var qiniutoken;
+        //获取配件列表信息
+        webService.do(getQiniuTokenUrl, {})
+            .success(function (data) {
+                console.log(data);
+                qiniutoken=data.uptoken;
+            }).error(function (data, status) {
+            alert("获取七牛token失败！");
+        });
+
+
+        //七牛云文件上传
+        $scope.selectFiles = [];
+
+        var start = function (index) {
+            $scope.selectFiles[index].progress = {
+                p: 0
+            };
+            $scope.selectFiles[index].upload = $qupload.upload({
+                key: (new Date()).getTime()+".jpg",
+                file: $scope.selectFiles[index].file,
+                token:qiniutoken
+            });
+            $scope.selectFiles[index].upload.then(function (response) {
+                $log.info(response);
+                console.log(response);
+                $scope.Fitting.picture=qiniuUrl+response.key;
+            }, function (response) {
+                $log.info(response);
+                console.log(response);
+            }, function (evt) {
+                $scope.selectFiles[index].progress.p = Math.floor(100 * evt.loaded / evt.totalSize);
+            });
+        };
+
+        $scope.abort = function (index) {
+            $scope.selectFiles[index].upload.abort();
+            $scope.selectFiles.splice(index, 1);
+        };
+
+        $scope.onFileSelect = function ($files) {
+            var offsetx = $scope.selectFiles.length;
+            for (var i = 0; i < $files.length; i++) {
+                $scope.selectFiles[i + offsetx] = {
+                    file: $files[i]
+                };
+                start(i + offsetx);
+            }
+        };
 
 
         //保存修改配件信息
@@ -918,7 +969,8 @@ angular.module('myApp.controllers', ['ngResource'])
             webService.do(updatePartsInfoUrl, {
                 id: $scope.Fitting.id,
                 name:$scope.Fitting.name,
-                spec:$scope.Fitting.spec
+                spec:$scope.Fitting.spec,
+                picture:$scope.Fitting.picture,
             }) .success(function (data) {
                 if(data.code) {
                     alertPopup = $ionicPopup.alert({
@@ -926,7 +978,7 @@ angular.module('myApp.controllers', ['ngResource'])
                         template: '您的信息保存成功！'
                     });
                     alertPopup.then(function (res) {
-                        console.log('写入保存内容' + $scope.employ);
+                        console.log('写入保存内容' + $scope.picture);
                     });
                     $state.go('admin/fitting');
                 }else{
@@ -944,7 +996,7 @@ angular.module('myApp.controllers', ['ngResource'])
         }
 
     })
-    .controller('fittingController',function($scope,$location,$ionicModal,$ionicPopup,Order,webService){
+    .controller('fittingController',function($scope,$location,$ionicModal,$ionicPopup,Order,webService, $log, $qupload){
         //保存及校检修改配件
         $scope.Fitting={};
 
@@ -998,28 +1050,56 @@ angular.module('myApp.controllers', ['ngResource'])
             $scope.modal.hide();
         };
 
-        $scope.fileUp=function(val){
-            console.log('111');
-            var file=val.files[0];
-            if(file==null){
-                return;
-            }
-            if(!/image\/\w+/.test(file.type)){
-                alert("请确保文件为图片类型");
-                return false;
-            }
-            var reader=new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload=function(e){
-                var img=this.result;
-                $timeout(function(){
-                    console.log(img);
-                    $scope.headerpic=img;
 
-                });
-            }
-        }
+        var qiniutoken;
+        //获取配件列表信息
+        webService.do(getQiniuTokenUrl, {})
+            .success(function (data) {
+                console.log(data);
+                qiniutoken=data.uptoken;
+            }).error(function (data, status) {
+            alert("获取七牛token失败！");
+        });
 
+
+        //七牛云文件上传
+        $scope.selectFiles = [];
+
+        var start = function (index) {
+            $scope.selectFiles[index].progress = {
+                p: 0
+            };
+            $scope.selectFiles[index].upload = $qupload.upload({
+                key: (new Date()).getTime()+".jpg",
+                file: $scope.selectFiles[index].file,
+                token:qiniutoken
+            });
+            $scope.selectFiles[index].upload.then(function (response) {
+                $log.info(response);
+                console.log(response);
+                $scope.Fitting.picture=qiniuUrl+response.key;
+            }, function (response) {
+                $log.info(response);
+                console.log(response);
+            }, function (evt) {
+                $scope.selectFiles[index].progress.p = Math.floor(100 * evt.loaded / evt.totalSize);
+            });
+        };
+
+        $scope.abort = function (index) {
+            $scope.selectFiles[index].upload.abort();
+            $scope.selectFiles.splice(index, 1);
+        };
+
+        $scope.onFileSelect = function ($files) {
+            var offsetx = $scope.selectFiles.length;
+            for (var i = 0; i < $files.length; i++) {
+                $scope.selectFiles[i + offsetx] = {
+                    file: $files[i]
+                };
+                start(i + offsetx);
+            }
+        };
 
         //新增配件
         $scope.addFitting=function(){

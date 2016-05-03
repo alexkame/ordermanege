@@ -129,6 +129,7 @@ public class WeixinPartsInfoController extends BaseController {
 			PartsInfo oldPartsInfo = get(partsInfo.getId());
 			oldPartsInfo.setName(partsInfo.getName());
 			oldPartsInfo.setSpec(partsInfo.getSpec());
+			oldPartsInfo.setPicture(partsInfo.getPicture());
 			partsInfoService.save(oldPartsInfo);
 			result.put("code", true);
 		} catch (Exception e) {
@@ -139,28 +140,28 @@ public class WeixinPartsInfoController extends BaseController {
 		return result;
 	}
 
-	@RequestMapping(value = { "upload" })
-	@ResponseBody
-	public Map<String, Object> upload(HttpServletRequest request, HttpServletResponse response, MultipartFile file)
-			throws IllegalStateException, IOException {
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		Map<String, Object> result = new HashMap<String, Object>();
-		try {
-			String filePath = request.getSession().getServletContext().getRealPath("/");
-			String path= "/upload/"+System.currentTimeMillis()+ file.getOriginalFilename();
-			String pathurl=Global.getSystemUrl()+path;
-			File saveDir = new File(filePath,path);
-			if (!saveDir.getParentFile().exists())
-				saveDir.getParentFile().mkdirs();
-			// 转存文件
-			file.transferTo(saveDir);
-			result.put("code", true);
-			result.put("message", pathurl);
-		} catch (Exception e) {
-			result.put("code", false);
-			result.put("message", "系统出错");
-		}
-		return result;
-	}
+//	@RequestMapping(value = { "upload" })
+//	@ResponseBody
+//	public Map<String, Object> upload(HttpServletRequest request, HttpServletResponse response, MultipartFile file)
+//			throws IllegalStateException, IOException {
+//		response.setHeader("Access-Control-Allow-Origin", "*");
+//		Map<String, Object> result = new HashMap<String, Object>();
+//		try {
+//			String filePath = request.getSession().getServletContext().getRealPath("/");
+//			String path= "/upload/"+System.currentTimeMillis()+ file.getOriginalFilename();
+//			String pathurl=Global.getSystemUrl()+path;
+//			File saveDir = new File(filePath,path);
+//			if (!saveDir.getParentFile().exists())
+//				saveDir.getParentFile().mkdirs();
+//			// 转存文件
+//			file.transferTo(saveDir);
+//			result.put("code", true);
+//			result.put("message", pathurl);
+//		} catch (Exception e) {
+//			result.put("code", false);
+//			result.put("message", "系统出错");
+//		}
+//		return result;
+//	}
 
 }

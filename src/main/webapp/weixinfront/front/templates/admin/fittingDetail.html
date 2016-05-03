@@ -11,10 +11,11 @@
         <ion-list>
             <input ng-hide="true" ng-model="Fitting.id" />
             <ion-item class="item item-thumbnail-left item-icon-right " ng-click="">
-                <img src="cover.jpg" >
-                <span class="input-label">图片</span>
+                <img ng-src="{{Fitting.picture}}" >
+                <div ng-file-select="onFileSelect($files)" title="select file" onclick="this.value = null" class="btn btn-upload">
+                    图片上传
+                </div>
                 <i class="icon ion-ios-arrow-right"></i>
-
             </ion-item>
             <ion-item class="item-input">
                 <span class="input-label">配件名称</span>
