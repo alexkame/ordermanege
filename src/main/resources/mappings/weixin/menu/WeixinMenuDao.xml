@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.weixin.menu.dao.WeixinMenuDao">
+    
+	<sql id="weixinMenuColumns">
+		a.id AS "id",
+		a.parent_id AS "parent.id",
+		a.parent_ids AS "parentIds",
+		a.name AS "name",
+		a.url AS "url",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="weixinMenuJoins">
+	</sql>
+    
+	<select id="get" resultType="WeixinMenu">
+		SELECT 
+			<include refid="weixinMenuColumns"/>
+		FROM weixin_menu a
+		<include refid="weixinMenuJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="WeixinMenu">
+		SELECT 
+			<include refid="weixinMenuColumns"/>
+		FROM weixin_menu a
+		<include refid="weixinMenuJoins"/>
+		<where>
+			
+			<if test="parent != null and parent.id != null and parent.id != ''">
+				AND a.parent_id = #{parent.id}
+			</if>
+			<if test="parentIds != null and parentIds != ''">
+				AND a.parent_ids LIKE 
+					<if test="dbName == 'oracle'">'%'||#{parentIds}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{parentIds}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{parentIds},'%')</if>
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="url != null and url != ''">
+				AND a.url LIKE 
+					<if test="dbName == 'oracle'">'%'||#{url}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{url}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{url},'%')</if>
+			</if>
+		</where>
+	</select>
+	
+	<select id="findAllList" resultType="WeixinMenu">
+		SELECT 
+			<include refid="weixinMenuColumns"/>
+		FROM weixin_menu a
+		<include refid="weixinMenuJoins"/>
+		<where>
+			
+		</where>
+	</select>
+	
+	<select id="findByParentIdsLike" resultType="WeixinMenu">
+		SELECT
+			a.id,
+			a.parent_id AS "parent.id",
+			a.parent_ids
+		FROM weixin_menu a
+		<include refid="weixinMenuJoins"/>
+		<where>
+			
+			AND a.parent_ids LIKE #{parentIds}
+		</where>
+	</select>
+	
+		
+	<select id="findParent" resultType="WeixinMenu">
+		SELECT 
+			<include refid="weixinMenuColumns"/>
+		FROM weixin_menu a
+		<include refid="weixinMenuJoins"/>
+		<where>
+			a.parent_id = '0'
+		</where>
+	</select>
+	
+	
+	<select id="findChildrentByParent" resultType="WeixinMenu">
+		SELECT 
+			<include refid="weixinMenuColumns"/>
+		FROM weixin_menu a
+		<include refid="weixinMenuJoins"/>
+		<where>
+			<if test="id != null and id != ''">
+				AND a.parent_id = #{id}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO weixin_menu(
+			id,
+			parent_id,
+			parent_ids,
+			name,
+			url,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{parent.id},
+			#{parentIds},
+			#{name},
+			#{url},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE weixin_menu SET 	
+			parent_id = #{parent.id},
+			parent_ids = #{parentIds},
+			name = #{name},
+			url = #{url},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateParentIds">
+		UPDATE weixin_menu SET 
+			parent_id = #{parent.id}, 
+			parent_ids = #{parentIds}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM weixin_menu
+		WHERE id = #{id} OR parent_ids LIKE '%,'||#{id}||',%'
+	</update>
+	
+</mapper>

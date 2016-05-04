@@ -83,7 +83,7 @@
 					${weixinUserInfo.city}
 				</td>
 				<td>
-				    <img src="${weixinUserInfo.headimgurl}" width="150px" height="150px"/>
+				    <img src="${weixinUserInfo.headimgurl}" width="90px" height="90px"/>
 				</td>
 				<td>
 					${weixinUserInfo.username}
