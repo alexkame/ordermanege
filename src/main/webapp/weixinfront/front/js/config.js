@@ -2,7 +2,7 @@
 //var rootPath = 'ordermanage/';
 //var host = 'http://jansonweixin.ngrok.cc/';
 //var rootPath ='ordermanage/';
-var host = 'http://www.xmdream.com.cn/';
+var host = 'http://jc.xmdream.com.cn/';
 var rootPath ='ordermanage/';
 
 //管理员登陆
